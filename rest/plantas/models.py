@@ -15,6 +15,18 @@ class Familia(models.Model):
     def __str__(self,):
         return self.nombre_popular if self.nombre_popular else self.nombre_cientifico
 
+class Tipo(models.Model):
+    nombre = models.CharField(max_length=200, null=False, choices=[
+        ('FR','Fruta'),
+        ('FL','Flor'),
+        ('HO','Hoja'),
+        ('RA','Raiz'),
+    ])
+
+
+    def __str__(self,):
+        return self.nombre
+
 
 class Planta(models.Model):
     nombre_cientifico = models.CharField(max_length=200, null=True)
@@ -22,7 +34,7 @@ class Planta(models.Model):
     variedad = models.CharField(max_length=200, null=True)
     familia = models.ForeignKey(Familia, on_delete=models.SET_NULL, null=True,
                                 related_name='plantas')
-
+    tipo = models.ForeignKey(Tipo, on_delete=models.SET_NULL, null=True, related_name='fichas')
 
     def __str__(self,):
         return self.nombre_popular if self.nombre_popular else self.nombre_cientifico
@@ -86,23 +98,11 @@ class Sustrato(models.Model):
         return self.tierra
 
 
-class Tipo(models.Model):
-    nombre = models.CharField(max_length=200, null=False, choices=[
-        ('FR','Fruta'),
-        ('FL','Flor'),
-        ('HO','Hoja'),
-        ('RA','Raiz'),
-    ])
-
-
-    def __str__(self,):
-        return self.nombre
-
 class Ficha(models.Model):
     planta = models.ForeignKey(Planta, on_delete=models.SET_NULL, null=True, related_name='fichas')
-
+    
     volumen_mazeta_ltr = models.DecimalField(null=False, max_digits=5, decimal_places=2)
-    profundidad = models.DecimalField(null=False, max_digits=5, decimal_places=2)
+    profundidad_cm = models.DecimalField(null=False, max_digits=5, decimal_places=2)
     tamano = models.CharField(max_length=200, null=False, choices=[
         ('S','Chico'),
         ('M','Mediano'),
@@ -121,7 +121,7 @@ class Ficha(models.Model):
         ('1xD','Una vez por día'),
         ('2xD','Dos veces por día'),
     ])
-    tiempo_cultivo_dias = models.IntegerField(null=False) # semanas
+    tiempo_cultivo_semanas = models.IntegerField(null=False) # semanas
     tutorado = models.BooleanField(default=False)
     
     epoca_semillero = models.ForeignKey(Epoca, on_delete=models.SET_NULL, null=True, related_name='fichas_semillero')
