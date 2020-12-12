@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.response import Response
 
-# Create your views here.
+from plantas import models,serializer
+
+class PlantaViewSet(viewsets.ModelViewSet):
+    queryset = models.Planta.objects.all()
+    serializer_class = serializer.PlantaSerializer
+
