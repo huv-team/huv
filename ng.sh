@@ -1,0 +1,1 @@
+docker run -it --rm --user 1000 -p 4300:4200 -p 49153:49153 -v $(pwd)/front:/home/app -w /home/app angular:9 /bin/bash
