@@ -8,12 +8,13 @@ MESES = [('ENE', 'Enero'), ('FEB', 'Febrero'), ('MAR', 'Marzo'),
 
 
 class Familia(models.Model):
-    nombre_popular = models.CharField(max_length=200, null=True)
     nombre_cientifico = models.CharField(max_length=200, null=False)
-
+    nombre_popular = models.CharField(max_length=200, null=False)
+    
 
     def __str__(self,):
         return self.nombre_popular if self.nombre_popular else self.nombre_cientifico
+
 
 class Tipo(models.Model):
     nombre = models.CharField(max_length=200, null=False, choices=[
