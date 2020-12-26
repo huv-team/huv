@@ -1,4 +1,8 @@
-<div class="d-flex justify-content-start align-items-center border-bottom my-2">
-    <app-logo (click)="navigate2('')"></app-logo>
-    <a class="btn btn-link" (click)="navigate2('/plantas')">Plantas</a>
+<div class="row justify-content-between border-bottom px-5 my-2">
+    <div class="col-1 p-2">
+        <app-logo (click)="navigate2('')"></app-logo>
+    </div>
+    <div class="col-11 d-flex justify-content-start align-items-center">
+        <a class="btn btn-link" (click)="navigate2('/plantas')"><h2>Plantas</h2></a>
+    </div>
 </div>
