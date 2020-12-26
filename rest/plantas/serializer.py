@@ -14,8 +14,8 @@ class TipoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PlantaSerializer(serializers.ModelSerializer):
-    #familia = FamiliaSerializer()
-    #tipo = TipoSerializer()
+    familia = FamiliaSerializer()
+    tipo = TipoSerializer()
     class Meta:
         model = models.Planta
         fields = '__all__'
