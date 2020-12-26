@@ -1,23 +1,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { ComponentsModule } from "src/app/components/components.module";
 
 import { BienvenidaComponent } from './bienvenida/bienvenida.component';
 import { PlantasComponent } from './plantas/plantas.component';
+import { PlanificadorComponent } from './planificador/planificador.component';
 
 const routes: Routes = [
   {path: '', component: BienvenidaComponent},
   {path: 'plantas', component: PlantasComponent},
+  {path: 'planificador', component: PlanificadorComponent},
 ]
 
 @NgModule({
-  declarations: [BienvenidaComponent, PlantasComponent],
+  declarations: [BienvenidaComponent, PlantasComponent, PlanificadorComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     ComponentsModule,
+    ReactiveFormsModule,
+    FormsModule,
   ]
 })
 export class PagesModule { }
