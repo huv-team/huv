@@ -1,4 +1,21 @@
-<div class="d-flex justify-content-start align-items-center border-bottom my-2">
-    <app-logo (click)="navigate2('')"></app-logo>
-    <a class="btn btn-link" (click)="navigate2('/plantas')">Plantas</a>
-</div>
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand px-4" (click)="navigate2('')" style="max-width: 10%;">
+            <app-logo></app-logo>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex justify-content-between align-items-center" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active h3" (click)="navigate2('/plantas')">Plantas</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Planta" aria-label="Search">
+                <button class="btn btn-outline-success ml-1" type="submit">Buscar</button>
+            </form>
+        </div>
+    </div>
+  </nav>
