@@ -14,7 +14,7 @@ export class PlantasService {
     private http:HttpClient,
   ) { }
 
-  get_plantas_list():Observable<any>{
-    return this.http.get<any>(urls.plantas_list, options);
+  get_plantas_list(query:string=''):Observable<any>{
+    return this.http.get<any>(urls.plantas_list + '?' + query, options);
   }
 }
