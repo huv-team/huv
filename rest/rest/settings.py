@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': get_env_value('DJANGO_MYSQL_DATABASE'),
         'USER': get_env_value('DJANGO_MYSQL_USER'),
         'PASSWORD': get_env_value('DJANGO_MYSQL_PASSWORD'),
-        'HOST':'db',
+        'HOST': 'db',
         'PORT': 3306
     }
 }
