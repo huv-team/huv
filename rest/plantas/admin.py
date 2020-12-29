@@ -53,10 +53,9 @@ class PlantaAdmin(admin.ModelAdmin):
     ordering = ['nombre_popular', 'variedad']
     inlines = [InteraccionInline, FichaInline]
 
-
     # def sortable_str(self, obj):
     #     return obj.__str__()
-    # 
+    #
     # sortable_str.short_description = 'Planta'
     # sortable_str.admin_order_field = '__str__'
 
