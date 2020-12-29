@@ -29,23 +29,25 @@ class Tipo(models.Model):
     ])
 
     def __str__(self,):
-        return self.nombre
+        return self.get_nombre_display()
 
 
 class Planta(models.Model):
-    nombre_cientifico = models.CharField(max_length=200, null=True, blank=True)
     nombre_popular = models.CharField(max_length=200, null=True, blank=True)
+    nombre_cientifico = models.CharField(max_length=200, null=True, blank=True)
     variedad = models.CharField(max_length=200, null=True, blank=True)
     familia = models.ForeignKey(Familia, on_delete=models.SET_NULL, null=True,
-                                related_name='plantas')
+                                blank=True, related_name='plantas')
     tipo = models.ForeignKey(Tipo, on_delete=models.SET_NULL, null=True,
                              related_name='fichas')
 
     def __str__(self,):
         return get_name(self)
 
+    __str__.admin_order_field = '__str__'
 
-class Rotaciones(models.Model):
+
+class Rotacion(models.Model):
     anterior = models.ForeignKey(Familia, on_delete=models.SET_NULL, null=True,
                                  related_name='anterior')
     actual = models.ForeignKey(Familia, on_delete=models.SET_NULL, null=True,
@@ -58,35 +60,45 @@ class Rotaciones(models.Model):
 
 
 class Epoca(models.Model):
-    tipo = models.CharField(max_length=200, null=True, default='SI', 
+    tipo = models.CharField(max_length=200, null=True, blank=True,
                             choices=[('SE', 'Semillero'), ('SI', 'Siembra'),
                                      ('TR', 'Trasplante'), ('CO', 'Cosecha')])
     desde = models.CharField(max_length=200, null=True, blank=True,
                              default='ENE', choices=MESES)
-    hasta = models.CharField(max_length=200, null=True, blank=True, 
+    hasta = models.CharField(max_length=200, null=True, blank=True,
                              default='DIC', choices=MESES)
 
     def __str__(self,):
-        return '{} de {} a {}'.format(self.tipo, self.desde, self.hasta)
+        return '{} de {} a {}'.format(self.get_tipo_display(),
+                                      self.desde, self.hasta)
 
 
-class Fuente(models.Model):
+class Autor(models.Model):
     autor = models.CharField(max_length=200, null=True)
-    cita = models.TextField(null=False)
-    url = models.TextField(null=True)  # posibilidad de no agregar
 
     def __str__(self,):
         return self.autor if self.autor else 'None'
 
 
+class Fuente(models.Model):
+    primer_autor = models.ForeignKey(Autor, on_delete=models.SET_NULL,
+                                     null=True, related_name='primer_autor')
+    otros_autores = models.ManyToManyField(Autor, blank=True)
+    cita = models.TextField(null=False, blank=True)
+    url = models.TextField(null=True, blank=True)
+
+    def __str__(self,):
+        return self.primer_autor.autor if self.primer_autor else 'None'
+
+
 class Tip(models.Model):
-    descripcion = models.CharField(max_length=200, null=True, blank=True)
+    titulo = models.CharField(max_length=200, null=True, blank=True)
     contenido = models.TextField(null=True, blank=True)
     fuente = models.ForeignKey(Fuente, on_delete=models.SET_NULL, null=True,
                                related_name='citada_en_tips')
 
     def __str__(self,):
-        return self.descripcion if self.descripcion else 'None'
+        return self.titulo if self.titulo else 'None'
 
 
 class Sustrato(models.Model):
@@ -113,10 +125,15 @@ class Ficha(models.Model):
                                          decimal_places=0)
     distancia_cm = models.DecimalField(null=True, blank=True, max_digits=5,
                                        decimal_places=0)
-    temperatura = models.DecimalField(null=True, blank=True, max_digits=5,
-                                      decimal_places=0) # tiene que ser un rango
-    horas_sol = models.DecimalField(null=True, blank=True, max_digits=5,
-                                    decimal_places=0) # rango
+    temperatura_min = models.DecimalField(null=True, blank=True, max_digits=5,
+                                          decimal_places=0)
+    temperatura_max = models.DecimalField(null=True, blank=True, max_digits=5,
+                                          decimal_places=0)
+    horas_sol_min = models.DecimalField(null=True, blank=True, max_digits=5,
+                                        decimal_places=0)
+    horas_sol_max = models.DecimalField(null=True, blank=True, max_digits=5,
+                                        decimal_places=0)
+    sombra = models.BooleanField(default=False)
     tutorado = models.BooleanField(default=False)
     riego = models.CharField(max_length=200, null=True, blank=True, choices=[
         ('c15D', 'Cada 15 días'),
@@ -139,7 +156,8 @@ class Ficha(models.Model):
     epoca_cosecha = models.ForeignKey(Epoca, on_delete=models.SET_NULL,
                                       null=True, blank=True,
                                       related_name='fichas_cosecha')
-    sustrato = models.ManyToManyField(Sustrato, blank=True)
+    sustrato = models.ManyToManyField(Sustrato, blank=True,
+                                      related_name='Sutrato')
     tips = models.ManyToManyField(Tip, blank=True)
     fuentes = models.ManyToManyField(Fuente, blank=True)
 
@@ -147,7 +165,7 @@ class Ficha(models.Model):
         return get_name(self.planta)
 
 
-class Interacciones(models.Model):
+class Interaccion(models.Model):
     target = models.ForeignKey(Planta, on_delete=models.SET_NULL, null=True,
                                related_name='interaciones')
     # tipo = models.CharField(max_length=200, null=False, choices=[
