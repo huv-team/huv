@@ -133,7 +133,7 @@ class Ficha(models.Model):
                                         decimal_places=0)
     horas_sol_max = models.DecimalField(null=True, blank=True, max_digits=5,
                                         decimal_places=0)
-    sombra = models.BooleanField(default=False)
+    soporta_sombra = models.BooleanField(default=False)
     tutorado = models.BooleanField(default=False)
     riego = models.CharField(max_length=200, null=True, blank=True, choices=[
         ('c15D', 'Cada 15 días'),
