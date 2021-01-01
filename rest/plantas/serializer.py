@@ -20,7 +20,13 @@ class TipoSerializer(serializers.ModelSerializer):
 class PlantaSerializer(serializers.ModelSerializer):
     familia = FamiliaSerializer()
     tipo = TipoSerializer()
+    fichas = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = models.Planta
         fields = '__all__'
+
+class FichaSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = models.Ficha
+            fields = '__all__'
