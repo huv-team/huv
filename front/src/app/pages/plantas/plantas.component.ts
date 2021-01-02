@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from "@angular/forms";
 
 import { PlantasService } from "src/app/services/plantas.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plantas',
@@ -15,6 +16,7 @@ export class PlantasComponent implements OnInit {
   
   constructor(
     private plantasSrv:PlantasService,
+    private router:Router,
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +47,10 @@ export class PlantasComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  navigate2ficha(pk:number) {
+    this.router.navigate(['ficha'], { queryParams: { pk:pk } });
   }
 
 }

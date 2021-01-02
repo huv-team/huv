@@ -8,15 +8,19 @@ import { ComponentsModule } from "src/app/components/components.module";
 import { BienvenidaComponent } from './bienvenida/bienvenida.component';
 import { PlantasComponent } from './plantas/plantas.component';
 import { PlanificadorComponent } from './planificador/planificador.component';
+import { FichaComponent } from './ficha/ficha.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {path: '', component: BienvenidaComponent},
   {path: 'plantas', component: PlantasComponent},
   {path: 'planificador', component: PlanificadorComponent},
+  {path: 'ficha', component: FichaComponent},
+  {path: '404', component: NotFoundComponent},
 ]
 
 @NgModule({
-  declarations: [BienvenidaComponent, PlantasComponent, PlanificadorComponent],
+  declarations: [BienvenidaComponent, PlantasComponent, PlanificadorComponent, FichaComponent, NotFoundComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
