@@ -168,15 +168,12 @@ class Ficha(models.Model):
 class Interaccion(models.Model):
     target = models.ForeignKey(Planta, on_delete=models.SET_NULL, null=True,
                                related_name='interaciones')
-    # tipo = models.CharField(max_length=200, null=False, choices=[
-    #     ('B', 'Benéfica'),
-    #     ('P', 'Perjudicial'),
-    # ])
-    # actores = models.ManyToManyField(Planta, blank=True)
-    benefica = models.ManyToManyField(Planta, blank=True,
-                                      related_name='Benéfica')
-    perjudicial = models.ManyToManyField(Planta, blank=True,
-                                         related_name='Perjudicial')
+    tipo = models.CharField(max_length=200, null=False, choices=[
+         ('B', 'Benéfica'),
+         ('P', 'Perjudicial'),
+     ])
+    actores = models.ManyToManyField(Planta, blank=True)
+    descripcion = models.TextField(null=True, blank=True)
 
     def __str__(self,):
         return get_name(self.target)
