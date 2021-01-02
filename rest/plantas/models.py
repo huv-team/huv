@@ -79,11 +79,15 @@ class Autor(models.Model):
     def __str__(self,):
         return self.autor if self.autor else 'None'
 
+class AutorOrden(models.Model):
+    autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
+    fuente = models.ForeignKey('Fuente', on_delete=models.CASCADE)
+    orden = models.IntegerField(default=1)
+    class Meta:
+        ordering = ('orden', )
 
 class Fuente(models.Model):
-    primer_autor = models.ForeignKey(Autor, on_delete=models.SET_NULL,
-                                     null=True, related_name='primer_autor')
-    otros_autores = models.ManyToManyField(Autor, blank=True)
+    autores = models.ManyToManyField(Autor, blank=True, through=AutorOrden, through_fields=('fuente', 'autor'))
     cita = models.TextField(null=False, blank=True)
     url = models.TextField(null=True, blank=True)
 
