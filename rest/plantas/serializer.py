@@ -27,6 +27,7 @@ class PlantaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FichaSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = models.Ficha
-            fields = '__all__'
+    planta = PlantaSerializer()
+    class Meta:
+        model = models.Ficha
+        fields = '__all__'
