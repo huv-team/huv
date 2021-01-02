@@ -22,7 +22,7 @@ class Familia(models.Model):
 
 class Tipo(models.Model):
     nombre = models.CharField(max_length=200, null=True, blank=True, choices=[
-        ('FR', 'Fruta'),
+        ('FR', 'Fruto'),
         ('FL', 'Flor'),
         ('HO', 'Hoja'),
         ('RA', 'Raiz'),
