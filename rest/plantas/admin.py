@@ -36,9 +36,9 @@ class PlantaInline(admin.TabularInline):
 
 
 class AutorInline(admin.TabularInline):
-    model = models.Autor
-    extra = 1
-    can_delete = False
+    model = models.Fuente.autores.through
+    extra = 3
+    can_delete = True
 
 
 class PlantaAdmin(admin.ModelAdmin):
@@ -73,9 +73,11 @@ class TipAdmin(admin.ModelAdmin):
 
 
 class FuenteAdmin(admin.ModelAdmin):
-    search_fields = ['primer_autor']
+    search_fields = ['autores']
     list_display = ('__str__', 'cita', 'url')
-    autocomplete_fields = ['primer_autor', 'otros_autores']
+    autocomplete_fields = ['autores']
+
+    inlines = (AutorInline,)
 
 
 class FichaAdmin(admin.ModelAdmin):
