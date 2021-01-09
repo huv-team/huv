@@ -63,9 +63,11 @@ class Epoca(models.Model):
     tipo = models.CharField(max_length=200, null=True, blank=True,
                             choices=[('SE', 'Semillero'), ('SI', 'Siembra'),
                                      ('TR', 'Trasplante'), ('CO', 'Cosecha')])
-    desde = models.CharField(max_length=200, null=True, blank=True,
+    desde_dia = models.IntegerField(null=True, blank=True)
+    desde_mes = models.CharField(max_length=200, null=True, blank=True,
                              default='ENE', choices=MESES)
-    hasta = models.CharField(max_length=200, null=True, blank=True,
+    hasta_dia = models.IntegerField(null=True, blank=True)
+    hasta_mes = models.CharField(max_length=200, null=True, blank=True,
                              default='DIC', choices=MESES)
 
     def __str__(self,):
@@ -148,18 +150,10 @@ class Ficha(models.Model):
         ('2xD', 'Dos veces por día'),
     ])
     tiempo_cultivo_semanas = models.IntegerField(null=True, blank=True)
-    epoca_semillero = models.ForeignKey(Epoca, on_delete=models.SET_NULL,
+    epocas = models.ForeignKey(Epoca, on_delete=models.SET_NULL,
                                         null=True, blank=True,
-                                        related_name='fichas_semillero')
-    epoca_siembra = models.ForeignKey(Epoca, on_delete=models.SET_NULL,
-                                      null=True, blank=True,
-                                      related_name='fichas_siembra')
-    epoca_trasplante = models.ForeignKey(Epoca, on_delete=models.SET_NULL,
-                                         null=True, blank=True,
-                                         related_name='fichas_trasplante')
-    epoca_cosecha = models.ForeignKey(Epoca, on_delete=models.SET_NULL,
-                                      null=True, blank=True,
-                                      related_name='fichas_cosecha')
+                                        related_name='asignada_en')
+    
     sustrato = models.ManyToManyField(Sustrato, blank=True,
                                       related_name='Sutrato')
     tips = models.ManyToManyField(Tip, blank=True)
