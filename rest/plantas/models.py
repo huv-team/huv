@@ -166,7 +166,7 @@ class Sustrato(models.Model):
 
 class Ficha(models.Model):
     planta = models.OneToOneField(Planta, on_delete=models.SET_NULL, null=True,
-                                  related_name='fichas')
+                                  related_name='ficha')
     tamano = models.CharField(max_length=200, null=True, blank=True,
                               choices=[('S', 'Chico'),
                                        ('M', 'Mediano'),
