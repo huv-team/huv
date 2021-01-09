@@ -6,6 +6,10 @@ MESES = [('ENE', 'Enero'), ('FEB', 'Febrero'), ('MAR', 'Marzo'),
          ('JUL', 'Julio'), ('AGO', 'Agosto'), ('SEP', 'Septiembre'),
          ('OCT', 'Octubre'), ('NOV', 'Noviembre'), ('DIC', 'Diciembre')]
 
+REFS = [('LI', 'Libro'), ('RE', 'Revista'), ('PE', 'Periódico'),
+        ('PW', 'Pagina web'), ('DI', 'Diccionario'), ('RS', 'Red social'),
+        ('WP', 'Wikipedia'), ('PP', 'Power point')]
+
 
 def get_name(self,):
     return self.nombre_popular if self.nombre_popular\
@@ -22,7 +26,7 @@ class Familia(models.Model):
 
 class Tipo(models.Model):
     nombre = models.CharField(max_length=200, null=True, blank=True, choices=[
-        ('FR', 'Fruta'),
+        ('FR', 'Fruto'),
         ('FL', 'Flor'),
         ('HO', 'Hoja'),
         ('RA', 'Raiz'),
@@ -76,25 +80,68 @@ class Epoca(models.Model):
 
 
 class Autor(models.Model):
-    autor = models.CharField(max_length=200, null=True)
+    primer_nombre = models.CharField(max_length=20, null=True)
+    segundo_nombre = models.CharField(max_length=20, null=True, blank=True)
+    apellido = models.CharField(max_length=20, null=True)
 
     def __str__(self,):
-        return self.autor if self.autor else 'None'
+        return self.apellido if self.apellido else 'None'
+
 
 class AutorOrden(models.Model):
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
     fuente = models.ForeignKey('Fuente', on_delete=models.CASCADE)
     orden = models.IntegerField(default=1)
+
     class Meta:
         ordering = ('orden', )
 
+
 class Fuente(models.Model):
-    autores = models.ManyToManyField(Autor, blank=True, through=AutorOrden, through_fields=('fuente', 'autor'))
-    cita = models.TextField(null=False, blank=True)
-    url = models.TextField(null=True, blank=True)
+    tipo = models.CharField(default='LI', max_length=20, choices=REFS)
+    autores = models.ManyToManyField(Autor, blank=True, through=AutorOrden,
+                                     through_fields=('fuente', 'autor'))
+    anio = models.TextField(null=True, blank=True)
+    titulo = models.TextField(null=True, blank=True)
+    capitulo = models.TextField(null=True, blank=True)
+    editorial = models.TextField(null=True, blank=True)
+    edicion = models.IntegerField(null=True, blank=True)
+    volumen = models.IntegerField(null=True, blank=True)
+    pag_inicio = models.IntegerField(null=True, blank=True)
+    pag_fin = models.IntegerField(null=True, blank=True)
+    url = models.URLField(null=True, blank=True)
+    numero = models.IntegerField(null=True, blank=True)
+    nombre_pag = models.TextField(null=True, blank=True)
+    articulo = models.TextField(null=True, blank=True)
+    acceso = models.DateField(null=True, blank=True)
+    contenido = models.TextField(null=True, blank=True)
+    tipo_cont = models.TextField(null=True, blank=True)  # Foto, video, etc
+    usuario = models.TextField(null=True, blank=True)
+    red_social = models.CharField(max_length=10, null=True, blank=True,
+                                  choices=[('YT', 'Youtube'),
+                                           ('TW', 'Twitter'),
+                                           ('IN', 'Instagram'),
+                                           ('FB', 'Facebook')])
+    otros = models.TextField(null=True, blank=True)
+
+    #def get_fields(self, request, obj=None):
+    #    if getattr(obj, 'tipo') == 'LI':
+    #        out = ('tipo', 'autores', 'anio', 'titulo', 'editorial', 'edicion',
+    #               'volumen', 'pag_inicio', 'pag_final', 'url')
+    #    elif obj == 'RE':
+    #        out = ('tipo', 'autores', 'anio', 'articulo', 'titulo', 'volumen',
+    #               'numero', 'pag_inicio', 'pag_final', 'url')
+    #    elif obj == 'PW':
+    #        out = ('tipo', 'autores', 'acceso', 'titulo', 'nombre_pag', 'url')
+    #    elif obj == 'RS':
+    #        out = ('tipo', 'autores', 'usuario', 'acceso', 'contenido', 'url')
+    #    else:
+    #        out = ()
+    #    return out
 
     def __str__(self,):
-        return self.primer_autor.autor if self.primer_autor else 'None'
+        return self.autores.filter(autororden__orden=1)[0].apellido\
+            if self.autores.all() else 'None'
 
 
 class Tip(models.Model):
@@ -118,8 +165,8 @@ class Sustrato(models.Model):
 
 
 class Ficha(models.Model):
-    planta = models.ForeignKey(Planta, on_delete=models.SET_NULL, null=True,
-                               related_name='fichas')
+    planta = models.OneToOneField(Planta, on_delete=models.SET_NULL, null=True,
+                                  related_name='fichas')
     tamano = models.CharField(max_length=200, null=True, blank=True,
                               choices=[('S', 'Chico'),
                                        ('M', 'Mediano'),
@@ -166,15 +213,12 @@ class Ficha(models.Model):
 class Interaccion(models.Model):
     target = models.ForeignKey(Planta, on_delete=models.SET_NULL, null=True,
                                related_name='interaciones')
-    # tipo = models.CharField(max_length=200, null=False, choices=[
-    #     ('B', 'Benéfica'),
-    #     ('P', 'Perjudicial'),
-    # ])
-    # actores = models.ManyToManyField(Planta, blank=True)
-    benefica = models.ManyToManyField(Planta, blank=True,
-                                      related_name='Benéfica')
-    perjudicial = models.ManyToManyField(Planta, blank=True,
-                                         related_name='Perjudicial')
+    tipo = models.CharField(max_length=10, default='B', choices=[
+         ('B', 'Benéfica'),
+         ('P', 'Perjudicial'),
+     ])
+    actor = models.ManyToManyField(Planta)
+    relacion = models.TextField(max_length=15, null=True, blank=True)
 
     def __str__(self,):
         return get_name(self.target)
