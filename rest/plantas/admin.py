@@ -8,8 +8,7 @@ FSFICHA = [(None, {'fields': [('planta')]}),
                                      'soporta_sombra'),
                                     ('temperatura_min', 'temperatura_max',
                                      'tutorado'), ('riego', 'sustrato')]}),
-           ('Cultivo', {'fields': [('epoca_semillero', 'epoca_siembra'),
-                                   ('epoca_trasplante', 'epoca_cosecha'),
+           ('Cultivo', {'fields': [('epocas'),
                         'tiempo_cultivo_semanas']}),
            (None, {'fields': [('tips', 'fuentes')]})]
 

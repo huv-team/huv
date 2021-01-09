@@ -15,6 +15,8 @@ def get_name(self,):
     return self.nombre_popular if self.nombre_popular\
                                else self.nombre_cientifico
 
+def get_fecha(self,):
+    return '{}/{}'.format(self.desde_, self.hasta)
 
 class Familia(models.Model):
     nombre_cientifico = models.CharField(max_length=200, null=True, blank=True)
@@ -69,14 +71,14 @@ class Epoca(models.Model):
                                      ('TR', 'Trasplante'), ('CO', 'Cosecha')])
     desde_dia = models.IntegerField(null=True, blank=True)
     desde_mes = models.CharField(max_length=200, null=True, blank=True,
-                             default='ENE', choices=MESES)
+                                 default='ENE', choices=MESES)
     hasta_dia = models.IntegerField(null=True, blank=True)
     hasta_mes = models.CharField(max_length=200, null=True, blank=True,
-                             default='DIC', choices=MESES)
+                                 default='DIC', choices=MESES)
 
     def __str__(self,):
-        return '{} de {} a {}'.format(self.get_tipo_display(),
-                                      self.desde, self.hasta)
+        return '{} del {} a {}'.format(self.get_tipo_display(),
+                                      self.desde_mes, self.hasta_mes)
 
 
 class Autor(models.Model):
@@ -197,10 +199,8 @@ class Ficha(models.Model):
         ('2xD', 'Dos veces por día'),
     ])
     tiempo_cultivo_semanas = models.IntegerField(null=True, blank=True)
-    epocas = models.ForeignKey(Epoca, on_delete=models.SET_NULL,
-                                        null=True, blank=True,
-                                        related_name='asignada_en')
-    
+    epocas = models.ManyToManyField(Epoca, null=True, blank=True,
+                                    related_name='epocas')
     sustrato = models.ManyToManyField(Sustrato, blank=True,
                                       related_name='Sutrato')
     tips = models.ManyToManyField(Tip, blank=True)
