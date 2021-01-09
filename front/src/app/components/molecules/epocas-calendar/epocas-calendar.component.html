@@ -1,9 +1,24 @@
-<div class="d-flex">
-    <span class="w-25 mr-3 h5"><strong>Meses</strong></span>
-    <div class="flex-grow-1 d-flex justify-content-sm-between align-items-center">
-        <div class="flex-fill mx-1 text-center" *ngFor="let mes of meses">{{mes}}</div>
-    </div>
+<h5>Epocas</h5>
+<div class="border rounded px-2">
+    <table class="table table-responsive-md table-borderless table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Meses</th>
+                <th class="text-center" scope="col" *ngFor="let mes of meses">{{mes}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let d of data; let i=index">
+                <th scope="row">{{d.title | titlecase}}</th>
+                <ng-container *ngFor="let mes of meses; let j=index">
+                    <ng-container *ngIf="isSelected(i,j) else NOT">
+                        <td class="{{'bg-' + d.color}}"></td>
+                    </ng-container>
+                    <ng-template #NOT>
+                        <td></td>
+                    </ng-template>
+                </ng-container>
+            </tr>
+        </tbody>
+    </table>
 </div>
-<app-calendar-tiles title="S" [selected]="[1,2]"></app-calendar-tiles>
-<app-calendar-tiles title="T" [selected]="[4,5]"></app-calendar-tiles>
-<app-calendar-tiles title="C" [selected]="[7,8]"></app-calendar-tiles>

@@ -40,7 +40,6 @@ export class PlantasComponent implements OnInit {
     const query = 'nombre=' + this.plantasQueryForm.value.nombre
     this.plantasSrv.get_plantas_list(query).subscribe(
       res => {
-        console.log(res.length)
         this.plantasList = res;
       },
       err => {
