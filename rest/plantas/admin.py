@@ -18,7 +18,7 @@ class InteraccionInline(admin.TabularInline):
     model = models.Interaccion
     extra = 0
     can_delete = True
-    autocomplete_fields = ['target', 'actor']
+    autocomplete_fields = ['actor']
 
 
 class FichaInline(admin.StackedInline):
