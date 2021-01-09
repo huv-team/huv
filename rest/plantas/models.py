@@ -115,7 +115,7 @@ class Fuente(models.Model):
     contenido = models.TextField(null=True, blank=True)
     tipo_cont = models.TextField(null=True, blank=True)  # Foto, video, etc
     usuario = models.TextField(null=True, blank=True)
-    red_social = models.CharField(max_length=200, null=True, blank=True,
+    red_social = models.CharField(max_length=10, null=True, blank=True,
                                   choices=[('YT', 'Youtube'),
                                            ('TW', 'Twitter'),
                                            ('IN', 'Instagram'),
@@ -219,12 +219,12 @@ class Ficha(models.Model):
 class Interaccion(models.Model):
     target = models.ForeignKey(Planta, on_delete=models.SET_NULL, null=True,
                                related_name='interaciones')
-    tipo = models.CharField(max_length=200, default='B', choices=[
+    tipo = models.CharField(max_length=10, default='B', choices=[
          ('B', 'Benéfica'),
          ('P', 'Perjudicial'),
      ])
     actor = models.ManyToManyField(Planta)
-    descripcion = models.TextField(null=True, blank=True)
+    relacion = models.TextField(max_length=15, null=True, blank=True)
 
     def __str__(self,):
         return get_name(self.target)
