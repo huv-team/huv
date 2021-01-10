@@ -96,12 +96,22 @@ class Epoca(models.Model):
 
 
 class Autor(models.Model):
-    primer_nombre = models.CharField(max_length=20, null=True)
-    segundo_nombre = models.CharField(max_length=20, null=True, blank=True)
-    apellido = models.CharField(max_length=20, null=True)
+    primer_nombre = models.CharField(max_length=200, null=True)
+    segundo_nombre = models.CharField(max_length=200, null=True, blank=True)
+    apellido = models.CharField(max_length=200, null=True)
 
-    def __str__(self,):
-        return self.apellido if self.apellido else 'None'
+    def get_nombre(self, ):
+        nombre = ''
+        if self.segundo_nombre:
+            nombre = '{}, {} {}.'.format(self.apellido, self.primer_nombre,
+                                         self.segundo_nombre[0])
+        else:
+            nombre = '{}, {}'.format(self.apellido, self.primer_nombre)
+
+        return nombre
+
+    def __str__(self, ):
+        return self.get_nombre()
 
 
 class AutorOrden(models.Model):
@@ -114,7 +124,8 @@ class AutorOrden(models.Model):
 
 
 class Fuente(models.Model):
-    tipo = models.CharField(max_length=20, null=True, blank=True, choices=REFS)
+    tipo = models.CharField(max_length=20, default=None, null=True, 
+                            blank=True, choices=REFS)
     autores = models.ManyToManyField(Autor, blank=True, through=AutorOrden,
                                      through_fields=('fuente', 'autor'))
     anio = models.TextField(null=True, blank=True)
@@ -143,9 +154,8 @@ class Fuente(models.Model):
     def get_tipo(self, ):
         return self.get_tipo_display()
 
-
     def __str__(self,):
-        return self.autores.filter(autororden__orden=1)[0].apellido\
+        return self.autores.filter(autororden__orden=1)[0].get_nombre()\
             if self.autores.all() else 'None'
 
 

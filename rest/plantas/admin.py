@@ -86,25 +86,27 @@ class AutorAdmin(admin.ModelAdmin):
 class FuenteAdmin(admin.ModelAdmin):
     search_fields = ['autores__primer_nombre', 'autores__segundo_nombre',
                      'autores__apellido']
-    list_display = ('__str__', 'tipo', 'titulo', 'url')
+    list_display = ('__str__', 'tipo', 'titulo', 'anio', 'acceso', 'url')
     #autocomplete_fields = ['tipo']
 
     def get_fields(self, request, obj=None):
 
         field_name = 'tipo'
-        obj = models.Fuente.objects.first()
-        field_value = getattr(obj, field_name)
+        if obj is not None:
+            field_value = getattr(obj, field_name)
+        else:
+            field_value = None
 
         if field_value == 'LI':
             out = ('tipo', 'anio', 'titulo', 'editorial', 'edicion',
-                   'volumen', 'pag_inicio', 'pag_fin', 'url')
+                   'volumen', 'pag_inicio', 'pag_fin', 'url', 'otros')
         elif field_value == 'RE':
             out = ('tipo', 'anio', 'articulo', 'titulo', 'volumen',
-                   'numero', 'pag_inicio', 'pag_fin', 'url')
+                   'numero', 'pag_inicio', 'pag_fin', 'url', 'otros')
         elif field_value == 'PW':
-            out = ('tipo', 'acceso', 'titulo', 'nombre_pag', 'url')
+            out = ('tipo', 'acceso', 'titulo', 'nombre_pag', 'url', 'otros')
         elif field_value == 'RS':
-            out = ('tipo', 'usuario', 'acceso', 'contenido', 'url')
+            out = ('tipo', 'usuario', 'acceso', 'contenido', 'url', 'otros')
         else:
             out = ('tipo', )
         return out
