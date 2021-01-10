@@ -8,9 +8,10 @@ FSFICHA = [(None, {'fields': [('planta')]}),
                                      'soporta_sombra'),
                                     ('temperatura_min', 'temperatura_max',
                                      'tutorado'), ('riego', 'sustrato')]}),
-           ('Cultivo', {'fields': [('epocas'),
-                        'tiempo_cultivo_semanas']}),
+           ('Cultivo', {'fields': [('epocas', 'tiempo_cultivo_semanas'), ]}),
            (None, {'fields': [('tips', 'fuentes')]})]
+
+# INLINES #####################################################################
 
 
 class InteraccionInline(admin.TabularInline):
@@ -25,7 +26,7 @@ class FichaInline(admin.StackedInline):
     extra = 0
     fieldsets = FSFICHA
     can_delete = False
-    autocomplete_fields = ['sustrato', 'tips', 'fuentes']
+    autocomplete_fields = ['epocas', 'sustrato', 'tips', 'fuentes']
 
 
 class PlantaInline(admin.TabularInline):
@@ -38,6 +39,8 @@ class AutorInline(admin.TabularInline):
     model = models.Fuente.autores.through
     extra = 3
     can_delete = True
+
+# ADMINS ######################################################################
 
 
 class PlantaAdmin(admin.ModelAdmin):
@@ -59,22 +62,31 @@ class PlantaAdmin(admin.ModelAdmin):
     # sortable_str.admin_order_field = '__str__'
 
 
-class SustratoAdmin(admin.ModelAdmin):
-    search_fields = ['tierra']
+class FamiliaAdmin(admin.ModelAdmin):
+    pass
+
+
+class RotacionAdmin(admin.ModelAdmin):
+    pass
+
+
+class EpocaAdmin(admin.ModelAdmin):
+    search_fields = ['titulo']
+
+
+class AutorOrdenAdmin(admin.ModelAdmin):
+    pass
 
 
 class AutorAdmin(admin.ModelAdmin):
     search_fields = ['autor']
 
 
-class TipAdmin(admin.ModelAdmin):
-    search_fields = ['titulo']
-
-
 class FuenteAdmin(admin.ModelAdmin):
-    search_fields = ['autores']
+    search_fields = ['autores__primer_nombre', 'autores__segundo_nombre',
+                     'autores__apellido']
     list_display = ('__str__', 'tipo', 'titulo', 'url')
-    autocomplete_fields = ['autores']
+    #autocomplete_fields = ['tipo']
 
     def get_fields(self, request, obj=None):
 
@@ -94,25 +106,39 @@ class FuenteAdmin(admin.ModelAdmin):
     inlines = (AutorInline,)
 
 
+class TipAdmin(admin.ModelAdmin):
+    search_fields = ['titulo']
+
+
+class SustratoAdmin(admin.ModelAdmin):
+    search_fields = ['tierra']
+
+
+class TipoAdmin(admin.ModelAdmin):
+    pass
+
+
 class FichaAdmin(admin.ModelAdmin):
     fieldsets = FSFICHA
     list_display = ('__str__', 'tamano')
-    autocomplete_fields = ['sustrato', 'tips', 'fuentes']
+    search_fields = ['planta__nombre_popular', 'planta__nombre_cientifico',
+                     'planta__variedad']
+    autocomplete_fields = ['epocas', 'sustrato', 'tips', 'fuentes']
 
 
 class InteraccionAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['target', 'actor']
+    autocomplete_fields = ['actor']
 
 
 admin.site.register(models.Planta, PlantaAdmin)
-admin.site.register(models.Familia)
-admin.site.register(models.Rotacion)
-admin.site.register(models.Epoca)
-admin.site.register(models.AutorOrden)
+admin.site.register(models.Familia, FamiliaAdmin)
+admin.site.register(models.Rotacion, RotacionAdmin)
+admin.site.register(models.Epoca, EpocaAdmin)
+admin.site.register(models.AutorOrden, AutorOrdenAdmin)
 admin.site.register(models.Autor, AutorAdmin)
 admin.site.register(models.Fuente, FuenteAdmin)
 admin.site.register(models.Tip, TipAdmin)
 admin.site.register(models.Sustrato, SustratoAdmin)
-admin.site.register(models.Tipo)
+admin.site.register(models.Tipo, TipoAdmin)
 admin.site.register(models.Ficha, FichaAdmin)
 admin.site.register(models.Interaccion, InteraccionAdmin)

@@ -15,8 +15,14 @@ def get_name(self,):
     return self.nombre_popular if self.nombre_popular\
                                else self.nombre_cientifico
 
-def get_fecha(self,):
-    return '{}/{}'.format(self.desde_, self.hasta)
+
+def get_fecha(dia=None, mes=None):
+    if dia is None:
+        fecha = '{}'.format(mes)
+    else:
+        fecha = '{}/{}'.format(dia, mes)
+    return fecha
+
 
 class Familia(models.Model):
     nombre_cientifico = models.CharField(max_length=200, null=True, blank=True)
@@ -50,7 +56,7 @@ class Planta(models.Model):
     def __str__(self,):
         return get_name(self)
 
-    __str__.admin_order_field = '__str__'
+    #__str__.admin_order_field = '__str__'
 
 
 class Rotacion(models.Model):
@@ -76,9 +82,15 @@ class Epoca(models.Model):
     hasta_mes = models.CharField(max_length=200, null=True, blank=True,
                                  default='DIC', choices=MESES)
 
+    def get_titulo(self,):
+        return '{} de {} al {}'.format(self.get_tipo_display(),
+                                       get_fecha(self.desde_dia,
+                                                 self.desde_mes),
+                                       get_fecha(self.hasta_dia,
+                                                 self.hasta_mes))
+
     def __str__(self,):
-        return '{} del {} a {}'.format(self.get_tipo_display(),
-                                      self.desde_mes, self.hasta_mes)
+        return self.get_titulo()
 
 
 class Autor(models.Model):
@@ -199,8 +211,7 @@ class Ficha(models.Model):
         ('2xD', 'Dos veces por día'),
     ])
     tiempo_cultivo_semanas = models.IntegerField(null=True, blank=True)
-    epocas = models.ManyToManyField(Epoca, null=True, blank=True,
-                                    related_name='epocas')
+    epocas = models.ManyToManyField(Epoca, blank=True, related_name='epocas')
     sustrato = models.ManyToManyField(Sustrato, blank=True,
                                       related_name='Sutrato')
     tips = models.ManyToManyField(Tip, blank=True)
