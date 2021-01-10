@@ -1,10 +1,10 @@
 from django.db import models
 
 
-MESES = [(1, 'Enero'), (2, 'Febrero'), (3, 'Marzo'),
-         (4, 'Abril'), (5, 'Mayo'), (6, 'Junio'),
-         (7, 'Julio'), (8, 'Agosto'), (9, 'Septiembre'),
-         (10, 'Octubre'), (11, 'Noviembre'), (12, 'Diciembre')]
+MESES = [('1', 'Enero'), ('2', 'Febrero'), ('3', 'Marzo'),
+         ('4', 'Abril'), ('5', 'Mayo'), ('6', 'Junio'),
+         ('7', 'Julio'), ('8', 'Agosto'), ('9', 'Septiembre'),
+         ('10', 'Octubre'), ('11', 'Noviembre'), ('12', 'Diciembre')]
 
 REFS = [('LI', 'Libro'), ('RE', 'Revista'), ('PE', 'Periódico'),
         ('PW', 'Pagina web'), ('DI', 'Diccionario'), ('RS', 'Red social'),
@@ -77,10 +77,10 @@ class Epoca(models.Model):
                                      ('TR', 'Trasplante'), ('CO', 'Cosecha')])
     desde_dia = models.IntegerField(null=True, blank=True)
     desde_mes = models.CharField(max_length=200, null=True, blank=True,
-                                 default='ENE', choices=MESES)
+                                 default=MESES[0][0], choices=MESES)
     hasta_dia = models.IntegerField(null=True, blank=True)
     hasta_mes = models.CharField(max_length=200, null=True, blank=True,
-                                 default='DIC', choices=MESES)
+                                 default=MESES[-1][0], choices=MESES)
 
     def get_titulo(self,):
         return '{} de {} al {}'.format(self.get_tipo_display(),
