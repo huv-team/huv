@@ -18,7 +18,8 @@ class InteraccionInline(admin.TabularInline):
     model = models.Interaccion
     extra = 0
     can_delete = True
-    autocomplete_fields = ['actor']
+    search_fields = ['actor__familia', ]
+    filter_horizontal = ('actor', )
 
 
 class FichaInline(admin.StackedInline):
@@ -53,7 +54,7 @@ class PlantaAdmin(admin.ModelAdmin):
     list_filter = ['tipo', 'familia']
     search_fields = ['nombre_popular', 'nombre_cientifico']
     ordering = ['nombre_popular', 'variedad']
-    inlines = [InteraccionInline, FichaInline]
+    inlines = [FichaInline, InteraccionInline]
 
     # def sortable_str(self, obj):
     #     return obj.__str__()
@@ -90,19 +91,24 @@ class FuenteAdmin(admin.ModelAdmin):
 
     def get_fields(self, request, obj=None):
 
-        if models.Fuente._meta.fields[1].name == 'Libro':
-            out = ('tipo', 'autores', 'anio', 'titulo', 'editorial', 'edicion',
-                   'volumen', 'pag_inicio', 'pag_final', 'url')
-        elif obj == 'RE':
-            out = ('tipo', 'autores', 'anio', 'articulo', 'titulo', 'volumen',
-                   'numero', 'pag_inicio', 'pag_final', 'url')
-        elif obj == 'PW':
-            out = ('tipo', 'autores', 'acceso', 'titulo', 'nombre_pag', 'url')
-        elif obj == 'RS':
-            out = ('tipo', 'autores', 'usuario', 'acceso', 'contenido', 'url')
+        field_name = 'tipo'
+        obj = models.Fuente.objects.first()
+        field_value = getattr(obj, field_name)
+
+        if field_value == 'LI':
+            out = ('tipo', 'anio', 'titulo', 'editorial', 'edicion',
+                   'volumen', 'pag_inicio', 'pag_fin', 'url')
+        elif field_value == 'RE':
+            out = ('tipo', 'anio', 'articulo', 'titulo', 'volumen',
+                   'numero', 'pag_inicio', 'pag_fin', 'url')
+        elif field_value == 'PW':
+            out = ('tipo', 'acceso', 'titulo', 'nombre_pag', 'url')
+        elif field_value == 'RS':
+            out = ('tipo', 'usuario', 'acceso', 'contenido', 'url')
         else:
-            out = (models.Fuente._meta.fields[1].name, )
+            out = ('tipo', )
         return out
+
     inlines = (AutorInline,)
 
 
@@ -127,7 +133,7 @@ class FichaAdmin(admin.ModelAdmin):
 
 
 class InteraccionAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['actor']
+    filter_horizontal = ('actor',)
 
 
 admin.site.register(models.Planta, PlantaAdmin)

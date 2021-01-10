@@ -114,7 +114,7 @@ class AutorOrden(models.Model):
 
 
 class Fuente(models.Model):
-    tipo = models.CharField(default='LI', max_length=20, choices=REFS)
+    tipo = models.CharField(max_length=20, null=True, blank=True, choices=REFS)
     autores = models.ManyToManyField(Autor, blank=True, through=AutorOrden,
                                      through_fields=('fuente', 'autor'))
     anio = models.TextField(null=True, blank=True)
@@ -127,7 +127,7 @@ class Fuente(models.Model):
     pag_fin = models.IntegerField(null=True, blank=True)
     url = models.URLField(null=True, blank=True)
     numero = models.IntegerField(null=True, blank=True)
-    nombre_pag = models.TextField(null=True, blank=True)
+    nombre_pag = models.TextField(max_length=20, null=True, blank=True)
     articulo = models.TextField(null=True, blank=True)
     acceso = models.DateField(null=True, blank=True)
     contenido = models.TextField(null=True, blank=True)
@@ -140,20 +140,9 @@ class Fuente(models.Model):
                                            ('FB', 'Facebook')])
     otros = models.TextField(null=True, blank=True)
 
-    #def get_fields(self, request, obj=None):
-    #    if getattr(obj, 'tipo') == 'LI':
-    #        out = ('tipo', 'autores', 'anio', 'titulo', 'editorial', 'edicion',
-    #               'volumen', 'pag_inicio', 'pag_final', 'url')
-    #    elif obj == 'RE':
-    #        out = ('tipo', 'autores', 'anio', 'articulo', 'titulo', 'volumen',
-    #               'numero', 'pag_inicio', 'pag_final', 'url')
-    #    elif obj == 'PW':
-    #        out = ('tipo', 'autores', 'acceso', 'titulo', 'nombre_pag', 'url')
-    #    elif obj == 'RS':
-    #        out = ('tipo', 'autores', 'usuario', 'acceso', 'contenido', 'url')
-    #    else:
-    #        out = ()
-    #    return out
+    def get_tipo(self, ):
+        return self.get_tipo_display()
+
 
     def __str__(self,):
         return self.autores.filter(autororden__orden=1)[0].apellido\
