@@ -1,10 +1,10 @@
 from django.db import models
 
 
-MESES = [('ENE', 'Enero'), ('FEB', 'Febrero'), ('MAR', 'Marzo'),
-         ('ABR', 'Abril'), ('MAY', 'Mayo'), ('JUN', 'Junio'),
-         ('JUL', 'Julio'), ('AGO', 'Agosto'), ('SEP', 'Septiembre'),
-         ('OCT', 'Octubre'), ('NOV', 'Noviembre'), ('DIC', 'Diciembre')]
+MESES = [(1, 'Enero'), (2, 'Febrero'), (3, 'Marzo'),
+         (4, 'Abril'), (5, 'Mayo'), (6, 'Junio'),
+         (7, 'Julio'), (8, 'Agosto'), (9, 'Septiembre'),
+         (10, 'Octubre'), (11, 'Noviembre'), (12, 'Diciembre')]
 
 REFS = [('LI', 'Libro'), ('RE', 'Revista'), ('PE', 'Periódico'),
         ('PW', 'Pagina web'), ('DI', 'Diccionario'), ('RS', 'Red social'),
@@ -180,7 +180,7 @@ class Sustrato(models.Model):
 
 class Ficha(models.Model):
     planta = models.OneToOneField(Planta, on_delete=models.SET_NULL, null=True,
-                                  related_name='fichas')
+                                  related_name='ficha')
     tamano = models.CharField(max_length=200, null=True, blank=True,
                               choices=[('S', 'Chico'),
                                        ('M', 'Mediano'),
