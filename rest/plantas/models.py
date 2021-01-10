@@ -17,8 +17,10 @@ def get_name(self,):
 
 
 def get_fecha(dia=None, mes=None):
-    if dia is None:
-        fecha = '{}'.format(mes)
+    if mes is None:
+        fecha = None
+    elif dia is None:
+        fecha = '{}'.format(MESES[int(mes)-1][1])
     else:
         fecha = '{}/{}'.format(dia, mes)
     return fecha
@@ -76,17 +78,17 @@ class Epoca(models.Model):
                             choices=[('SE', 'Semillero'), ('SI', 'Siembra'),
                                      ('TR', 'Trasplante'), ('CO', 'Cosecha')])
     desde_dia = models.IntegerField(null=True, blank=True)
-    desde_mes = models.CharField(max_length=200, null=True, blank=True,
-                                 default=MESES[0][0], choices=MESES)
+    desde_mes = models.CharField(max_length=200, default=MESES[0][0],
+                                 choices=MESES)
     hasta_dia = models.IntegerField(null=True, blank=True)
-    hasta_mes = models.CharField(max_length=200, null=True, blank=True,
-                                 default=MESES[-1][0], choices=MESES)
+    hasta_mes = models.CharField(max_length=200, default=MESES[-1][0],
+                                 choices=MESES)
 
     def get_titulo(self,):
-        return '{} de {} al {}'.format(self.get_tipo_display(),
-                                       get_fecha(self.desde_dia,
+        return '{} de {} a {}'.format(self.get_tipo_display(),
+                                      get_fecha(self.desde_dia,
                                                  self.desde_mes),
-                                       get_fecha(self.hasta_dia,
+                                      get_fecha(self.hasta_dia,
                                                  self.hasta_mes))
 
     def __str__(self,):
