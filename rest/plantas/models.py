@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.db.models import Q
 
 MESES = [('1', 'Enero'), ('2', 'Febrero'), ('3', 'Marzo'),
          ('4', 'Abril'), ('5', 'Mayo'), ('6', 'Junio'),
@@ -9,6 +9,18 @@ MESES = [('1', 'Enero'), ('2', 'Febrero'), ('3', 'Marzo'),
 REFS = [('LI', 'Libro'), ('RE', 'Revista'), ('PE', 'Periódico'),
         ('PW', 'Pagina web'), ('DI', 'Diccionario'), ('RS', 'Red social'),
         ('WP', 'Wikipedia'), ('PP', 'Power point')]
+
+
+class IntegerRangeField(models.IntegerField):
+    def __init__(self, verbose_name=None, name=None, min_value=None,
+                 max_value=None, **kwargs):
+        self.min_value, self.max_value = min_value, max_value
+        models.IntegerField.__init__(self, verbose_name, name, **kwargs)
+
+    def formfield(self, **kwargs):
+        defaults = {'min_value': self.min_value, 'max_value': self.max_value}
+        defaults.update(kwargs)
+        return super(IntegerRangeField, self).formfield(**defaults)
 
 
 def get_name(self,):
@@ -74,22 +86,49 @@ class Rotacion(models.Model):
 
 
 class Epoca(models.Model):
-    tipo = models.CharField(max_length=200, null=True, blank=True,
-                            choices=[('SE', 'Semillero'), ('SI', 'Siembra'),
+    tipo = models.CharField(max_length=20, null=True, blank=True,
+                            choices=[('AL', 'Almácigo'), ('SI', 'Siembra'),
                                      ('TR', 'Trasplante'), ('CO', 'Cosecha')])
-    desde_dia = models.IntegerField(null=True, blank=True)
-    desde_mes = models.CharField(max_length=200, default=MESES[0][0],
+    desde_dia = IntegerRangeField(null=True, blank=True,
+                                  min_value=1, max_value=31)
+    desde_mes = models.CharField(max_length=20, default=MESES[0][0],
                                  choices=MESES)
-    hasta_dia = models.IntegerField(null=True, blank=True)
-    hasta_mes = models.CharField(max_length=200, default=MESES[-1][0],
+    hasta_dia = IntegerRangeField(null=True, blank=True,
+                                  min_value=1, max_value=31)
+    hasta_mes = models.CharField(max_length=20, null=True, blank=True,
                                  choices=MESES)
 
     def get_titulo(self,):
         return '{} de {} a {}'.format(self.get_tipo_display(),
                                       get_fecha(self.desde_dia,
-                                                 self.desde_mes),
+                                                self.desde_mes),
                                       get_fecha(self.hasta_dia,
-                                                 self.hasta_mes))
+                                                self.hasta_mes))
+
+    class Meta:
+        app_label = 'plantas'
+        constraints = [
+            models.UniqueConstraint(fields=['tipo', 'desde_dia', 'desde_mes',
+                                            'hasta_dia', 'hasta_mes'],
+                                    name='unique days and months'),
+            models.UniqueConstraint(fields=['tipo', 'desde_dia', 'desde_mes',
+                                            'hasta_mes'],
+                                    name='unique desde_dia and months',
+                                    condition=Q(hasta_dia__isnull=True)),
+            models.UniqueConstraint(fields=['tipo', 'desde_dia', 'desde_mes',
+                                            'hasta_mes'],
+                                    name='unique hasta_dia and months',
+                                    condition=(Q(desde_dia__isnull=True))),
+            models.UniqueConstraint(fields=['tipo', 'desde_mes', 'hasta_mes'],
+                                    name='unique months',
+                                    condition=(Q(desde_dia__isnull=True)
+                                               & Q(hasta_dia__isnull=True))),
+            models.UniqueConstraint(fields=['tipo', 'desde_mes', 'hasta_mes'],
+                                    name='unique desde_mes',
+                                    condition=(Q(desde_dia__isnull=True)
+                                               & Q(hasta_dia__isnull=True)
+                                               & Q(hasta_mes__isnull=True))),
+                      ]
 
     def __str__(self,):
         return self.get_titulo()
@@ -138,7 +177,7 @@ class Fuente(models.Model):
     pag_fin = models.IntegerField(null=True, blank=True)
     url = models.URLField(null=True, blank=True)
     numero = models.IntegerField(null=True, blank=True)
-    nombre_pag = models.TextField(max_length=20, null=True, blank=True)
+    nombre_pag = models.TextField(max_length=200, null=True, blank=True)
     articulo = models.TextField(null=True, blank=True)
     acceso = models.DateField(null=True, blank=True)
     contenido = models.TextField(null=True, blank=True)
@@ -187,21 +226,15 @@ class Ficha(models.Model):
                                        ('M', 'Mediano'),
                                        ('L', 'Grande'),
                                        ('XL', 'Extra Grande')])
-    volumen_maceta_ltr = models.DecimalField(null=True, max_digits=5,
-                                             blank=True, decimal_places=0)
-    profundidad_cm = models.DecimalField(null=True, blank=True, max_digits=5,
-                                         decimal_places=0)
-    distancia_cm = models.DecimalField(null=True, blank=True, max_digits=5,
-                                       decimal_places=0)
-    temperatura_min = models.DecimalField(null=True, blank=True, max_digits=5,
-                                          decimal_places=0)
-    temperatura_max = models.DecimalField(null=True, blank=True, max_digits=5,
-                                          decimal_places=0)
-    horas_sol_min = models.DecimalField(null=True, blank=True, max_digits=5,
-                                        decimal_places=0)
-    horas_sol_max = models.DecimalField(null=True, blank=True, max_digits=5,
-                                        decimal_places=0)
-    soporta_sombra = models.BooleanField(default=False)
+    volumen_maceta_ltr = IntegerRangeField(null=True, blank=True, min_value=1)
+    profundidad_cm = IntegerRangeField(null=True, blank=True, min_value=1)
+    distancia_min_cm = IntegerRangeField(null=True, blank=True, min_value=1)
+    distancia_max_cm = IntegerRangeField(null=True, blank=True, min_value=1)
+    temperatura_min = IntegerRangeField(null=True, blank=True, min_value=1)
+    temperatura_max = IntegerRangeField(null=True, blank=True, min_value=1)
+    horas_sol_min = IntegerRangeField(null=True, blank=True, min_value=1)
+    horas_sol_max = IntegerRangeField(null=True, blank=True, min_value=1)
+    tolera_sombra = models.BooleanField(default=False)
     tutorado = models.BooleanField(default=False)
     riego = models.CharField(max_length=200, null=True, blank=True, choices=[
         ('c15D', 'Cada 15 días'),
@@ -211,10 +244,16 @@ class Ficha(models.Model):
         ('1xD', 'Una vez por día'),
         ('2xD', 'Dos veces por día'),
     ])
-    tiempo_cultivo_semanas = models.IntegerField(null=True, blank=True)
+    tiempo_cultivo_min_dias = IntegerRangeField(null=True, blank=True,
+                                                min_value=1)
+    tiempo_cultivo_max_dias = IntegerRangeField(null=True, blank=True,
+                                                min_value=1)
     epocas = models.ManyToManyField(Epoca, blank=True, related_name='epocas')
     sustrato = models.ManyToManyField(Sustrato, blank=True,
                                       related_name='Sutrato')
+    fecundacion = models.CharField(max_length=20, null=True, blank=True, 
+                                   choices=[('AU', 'Autofecundación'),
+                                            ('CR', 'cruzada')])
     tips = models.ManyToManyField(Tip, blank=True)
     fuentes = models.ManyToManyField(Fuente, blank=True)
 

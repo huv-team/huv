@@ -3,13 +3,16 @@ from plantas import models
 
 FSFICHA = [(None, {'fields': [('planta')]}),
            ('Dimensión', {'fields': [('tamano', 'volumen_maceta_ltr'),
-                          ('profundidad_cm', 'distancia_cm')]}),
+                          ('profundidad_cm', 'distancia_min_cm',
+                           'distancia_max_cm')]}),
            ('Cuidados', {'fields': [('horas_sol_min', 'horas_sol_max',
-                                     'soporta_sombra'),
+                                     'tolera_sombra'),
                                     ('temperatura_min', 'temperatura_max',
                                      'tutorado'), ('riego', 'sustrato')]}),
-           ('Cultivo', {'fields': [('epocas', 'tiempo_cultivo_semanas'), ]}),
-           (None, {'fields': [('tips', 'fuentes')]})]
+           ('Cultivo', {'fields': [('epocas', 'tiempo_cultivo_min_dias',
+                                    'tiempo_cultivo_max_dias'),
+                                   ('fecundacion', 'tips')]}),
+           ('Referencias', {'fields': [('fuentes')]})]
 
 # INLINES #####################################################################
 
@@ -24,7 +27,7 @@ class InteraccionInline(admin.TabularInline):
 
 class FichaInline(admin.StackedInline):
     model = models.Ficha
-    extra = 0
+    extra = 1
     fieldsets = FSFICHA
     can_delete = False
     autocomplete_fields = ['epocas', 'sustrato', 'tips', 'fuentes']
@@ -72,7 +75,7 @@ class RotacionAdmin(admin.ModelAdmin):
 
 
 class EpocaAdmin(admin.ModelAdmin):
-    search_fields = ['titulo']
+    search_fields = ['tipo']
 
 
 class AutorOrdenAdmin(admin.ModelAdmin):
@@ -116,6 +119,7 @@ class FuenteAdmin(admin.ModelAdmin):
 
 class TipAdmin(admin.ModelAdmin):
     search_fields = ['titulo']
+    list_display = ('__str__', 'contenido', 'fuente')
 
 
 class SustratoAdmin(admin.ModelAdmin):
