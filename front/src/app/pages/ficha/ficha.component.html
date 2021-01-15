@@ -1,8 +1,7 @@
-<div class="container mb-5">
+<div class="container mb-5" *ngIf="ficha">
     <div class="row">
         <div class="col-md-12">
             <app-epocas-calendar [epocas]="ficha.epocas"></app-epocas-calendar>
         </div>
     </div>
 </div>
-<pre>{{ficha?.epocas|json}}</pre>
