@@ -7,18 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CalendarTilesComponent implements OnInit {
 
-  @Input() title:string;
-  @Input() selected:number[];
-  
-  meses:string[] = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+  @Input() tipo:string;
   
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  isSelected(idx:number){
-    return this.selected.findIndex( el => el === idx+1) > -1;
   }
 
 }
