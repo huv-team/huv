@@ -1,6 +1,19 @@
-<div class="d-flex mx-auto">
-    <icon-siembra class="mx-auto" *ngIf="tipo === 'SI'"></icon-siembra>
-    <icon-almacigo class="mx-auto" *ngIf="tipo === 'AL'"></icon-almacigo>
-    <icon-trasplante class="mx-auto" *ngIf="tipo === 'TR'"></icon-trasplante>
-    <icon-cosecha class="mx-auto" *ngIf="tipo === 'CO'"></icon-cosecha>
+<div class="d-flex" id="tile-container">
+    <ng-container [ngSwitch]="tipo">
+        <ng-container *ngSwitchCase="'SI'">
+            <icon-siembra class="mx-auto"></icon-siembra>
+        </ng-container>
+        <ng-container *ngSwitchCase="'AL'">
+            <icon-almacigo class="mx-auto"></icon-almacigo>
+        </ng-container>
+        <ng-container *ngSwitchCase="'TR'">
+            <icon-trasplante class="mx-auto"></icon-trasplante>
+        </ng-container>
+        <ng-container *ngSwitchCase="'CO'">
+            <icon-cosecha class="mx-auto"></icon-cosecha>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            {{tipo}}
+        </ng-container>
+    </ng-container>
 </div>
