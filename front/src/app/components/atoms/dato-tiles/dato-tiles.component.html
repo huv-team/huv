@@ -1,0 +1,19 @@
+<div class="rounded-circle border p-2 d-flex" id="tile-container">
+    <ng-container [ngSwitch]="tipo">
+        <ng-container *ngSwitchCase="'MA'">
+            <icon-maceta class="mx-auto"></icon-maceta>
+        </ng-container>
+        <ng-container *ngSwitchCase="'SO'">
+            <icon-sol class="mx-auto"></icon-sol>
+        </ng-container>
+        <ng-container *ngSwitchCase="'RI'">
+            <icon-riego class="mx-auto"></icon-riego>
+        </ng-container>
+        <ng-container *ngSwitchCase="'CU'">
+            <icon-calendario class="mx-auto"></icon-calendario>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            {{tipo}}
+        </ng-container>
+    </ng-container>
+</div>
