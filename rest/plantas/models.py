@@ -29,9 +29,7 @@ def get_name(self,):
 
 
 def get_fecha(dia=None, mes=None):
-    if mes is None:
-        fecha = None
-    elif dia is None:
+    if dia is 0:
         fecha = '{}'.format(MESES[int(mes)-1][1])
     else:
         fecha = '{}/{}'.format(dia, mes)
@@ -81,25 +79,31 @@ class Rotacion(models.Model):
     posterior = models.ForeignKey(Familia, on_delete=models.SET_NULL,
                                   null=True, related_name='posterior')
 
+    class Meta:
+        verbose_name = "Rotación"
+        verbose_name_plural = "Rotaciones"
+
     def __str__(self,):
         return get_name(self.actual)
 
 
 class Epoca(models.Model):
-    tipo = models.CharField(max_length=20, null=True, blank=True,
+    tipo = models.CharField(max_length=20, default='AL',
                             choices=[('AL', 'Almácigo'), ('SI', 'Siembra'),
                                      ('TR', 'Trasplante'), ('CO', 'Cosecha')])
-    desde_dia = IntegerRangeField(null=True, blank=True,
-                                  min_value=1, max_value=31)
+    desde_dia = IntegerRangeField(default=0,
+                                  min_value=0, max_value=31)
     desde_mes = models.CharField(max_length=20, default=MESES[0][0],
                                  choices=MESES)
-    hasta_dia = IntegerRangeField(null=True, blank=True,
-                                  min_value=1, max_value=31)
-    hasta_mes = models.CharField(max_length=20, null=True, blank=True,
+    hasta_dia = IntegerRangeField(default=0,
+                                  min_value=0, max_value=31)
+    hasta_mes = models.CharField(max_length=20, default=MESES[-1][0],
                                  choices=MESES)
+    # id_str = models.CharField(max_length=30)
 
-    def get_titulo(self,):
-        return '{} de {} a {}'.format(self.get_tipo_display(),
+    @property
+    def titulo(self,):
+        return '{}: {} - {}'.format(self.get_tipo_display(),
                                       get_fecha(self.desde_dia,
                                                 self.desde_mes),
                                       get_fecha(self.hasta_dia,
@@ -111,27 +115,10 @@ class Epoca(models.Model):
             models.UniqueConstraint(fields=['tipo', 'desde_dia', 'desde_mes',
                                             'hasta_dia', 'hasta_mes'],
                                     name='unique days and months'),
-            models.UniqueConstraint(fields=['tipo', 'desde_dia', 'desde_mes',
-                                            'hasta_mes'],
-                                    name='unique desde_dia and months',
-                                    condition=Q(hasta_dia__isnull=True)),
-            models.UniqueConstraint(fields=['tipo', 'desde_dia', 'desde_mes',
-                                            'hasta_mes'],
-                                    name='unique hasta_dia and months',
-                                    condition=(Q(desde_dia__isnull=True))),
-            models.UniqueConstraint(fields=['tipo', 'desde_mes', 'hasta_mes'],
-                                    name='unique months',
-                                    condition=(Q(desde_dia__isnull=True)
-                                               & Q(hasta_dia__isnull=True))),
-            models.UniqueConstraint(fields=['tipo', 'desde_mes', 'hasta_mes'],
-                                    name='unique desde_mes',
-                                    condition=(Q(desde_dia__isnull=True)
-                                               & Q(hasta_dia__isnull=True)
-                                               & Q(hasta_mes__isnull=True))),
                       ]
 
     def __str__(self,):
-        return self.get_titulo()
+        return self.titulo
 
 
 class Autor(models.Model):
@@ -149,6 +136,10 @@ class Autor(models.Model):
 
         return nombre
 
+    class Meta:
+        verbose_name = "Autor"
+        verbose_name_plural = "Autores"
+
     def __str__(self, ):
         return self.get_nombre()
 
@@ -159,6 +150,8 @@ class AutorOrden(models.Model):
     orden = models.IntegerField(default=1)
 
     class Meta:
+        verbose_name = "Autor orden"
+        verbose_name_plural = "Autor ordenes"
         ordering = ('orden', )
 
 
@@ -270,6 +263,10 @@ class Interaccion(models.Model):
      ])
     actor = models.ManyToManyField(Planta)
     relacion = models.TextField(max_length=15, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Interacción"
+        verbose_name_plural = "Interacciones"
 
     def __str__(self,):
         return get_name(self.target)
