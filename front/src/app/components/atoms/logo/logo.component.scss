@@ -1,3 +1,5 @@
+@import "src/custom-color.scss";
+
 @-webkit-keyframes dash {
     0% {
         stroke-dashoffset: 25.367654800415039px;
@@ -57,4 +59,8 @@
 .svg-animated {
   -webkit-animation: dash 2s linear 0s infinite;
           animation: dash 2s linear 0s infinite;
+}
+
+.base-path {
+    stroke: $body-bg;
 }
