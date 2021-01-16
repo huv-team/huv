@@ -1,24 +1,39 @@
-<h5>Epocas</h5>
-<div class="border rounded px-2">
-    <table class="table table-responsive-md table-borderless table-sm">
-        <thead>
-            <tr>
-                <th scope="col">Meses</th>
-                <th class="text-center" scope="col" *ngFor="let mes of meses">{{mes}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let d of data; let i=index">
-                <th scope="row">{{d.title | titlecase}}</th>
-                <ng-container *ngFor="let mes of meses; let j=index">
-                    <ng-container *ngIf="isSelected(i,j) else NOT">
-                        <td class="{{'bg-' + d.color}}"></td>
+<div class="card border-0 bg-transparent">
+    <div class="card-body">
+        <h5 class="card-title">Calendario de épocas | <i><small>en meses</small></i></h5>
+        <table class="table table-responsive-md table-borderless table-sm">
+            <thead>
+                <tr class="border-bottom border-top">
+                    <th class="text-center text-primary" scope="col" *ngFor="let mes of meses">{{mes}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let d of data; let i=index">
+                    <ng-container *ngFor="let mes of meses; let j=index">
+                        <td>
+                            <app-calendar-tiles [tipo]="d.title" *ngIf="isSelected(i,j)"></app-calendar-tiles>
+                        </td>
                     </ng-container>
-                    <ng-template #NOT>
-                        <td></td>
-                    </ng-template>
-                </ng-container>
-            </tr>
-        </tbody>
-    </table>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-md-flex justify-content-md-between p-2 mt-3 border rounded">
+            <div class="d-flex align-items-center">
+                <span class="mx-2">Siembra</span>
+                <app-calendar-tiles tipo="SI"></app-calendar-tiles>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="mx-2">Almácigo</span>
+                <app-calendar-tiles tipo="AL"></app-calendar-tiles>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="mx-2">Trasplante</span>
+                <app-calendar-tiles tipo="TR"></app-calendar-tiles>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="mx-2">Cosecha</span>
+                <app-calendar-tiles tipo="CO"></app-calendar-tiles>
+            </div>
+        </div>
+    </div>
 </div>

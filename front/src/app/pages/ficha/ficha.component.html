@@ -1,8 +1,23 @@
-<div class="container mb-5">
+<div class="container mb-5" *ngIf="ficha">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 mb-3">
+            <app-planta-card [data]="ficha.planta"></app-planta-card>
+        </div>
+        <div class="col-md-12 mb-3">
             <app-epocas-calendar [epocas]="ficha.epocas"></app-epocas-calendar>
         </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="MA" title="Volume" subtitle="ltr." [value]="ficha.volumen_maceta_ltr"></app-dato-card>
+        </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="MA" title="Profundidad" subtitle="cm." [value]="ficha.profundidad_cm"></app-dato-card>
+        </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="SO" title="Mínimo" subtitle="hs." [value]="ficha.horas_sol_min"></app-dato-card>
+        </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="SO" title="Máximo" subtitle="hs." [value]="ficha.horas_sol_max"></app-dato-card>
+        </div>
     </div>
+    <pre>{{ficha|json}}</pre>
 </div>
-<pre>{{ficha?.epocas|json}}</pre>

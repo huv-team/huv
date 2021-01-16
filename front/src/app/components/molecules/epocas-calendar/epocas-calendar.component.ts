@@ -27,12 +27,12 @@ export class EpocasCalendarComponent implements OnInit {
   @Input() epocas:Epoca[] = [];
 
   data:Data[] = [];
+  tipos:Set<string> = new Set<string>(['SI','AL','TR','CO']);
   
   constructor() { }
 
   ngOnInit(): void {
-    const tipos:Set<string> = new Set<string>(this.epocas.map( epoca => epoca.tipo ));
-    tipos.forEach( tipo => {
+    this.tipos.forEach( tipo => {
       let meses:Set<number> = new Set<number>();
       this.epocas.filter( epoca => epoca.tipo === tipo ).forEach( epoca => {
         for (let i:number = epoca.desde_mes; i <= epoca.hasta_mes; i++) { meses.add(i) }

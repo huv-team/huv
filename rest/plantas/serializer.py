@@ -26,7 +26,8 @@ class PlantaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class EpocaSerializer(serializers.ModelSerializer):
-    tipo = serializers.CharField(source='get_tipo_display')
+    desde_mes = serializers.IntegerField()
+    hasta_mes = serializers.IntegerField()
     class Meta:
         model = models.Epoca
         fields = '__all__'
