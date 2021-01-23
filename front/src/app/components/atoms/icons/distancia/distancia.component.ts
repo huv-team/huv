@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-distancia',
+  selector: 'icon-distancia',
   templateUrl: './distancia.component.html',
   styleUrls: ['./distancia.component.scss']
 })

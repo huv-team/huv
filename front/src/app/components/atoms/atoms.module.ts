@@ -21,11 +21,13 @@ import { DistanciaComponent } from './icons/distancia/distancia.component';
 import { SombraComponent } from './icons/sombra/sombra.component';
 import { TemperaturaComponent } from './icons/temperatura/temperatura.component';
 import { FecundacionComponent } from './icons/fecundacion/fecundacion.component';
+import { TutorComponent } from './icons/tutor/tutor.component';
+import { TamanoComponent } from './icons/tamano/tamano.component';
 
 
 
 @NgModule({
-  declarations: [LogoComponent, UserTileComponent, CalendarTilesComponent, TrasplanteComponent, AlmacigoComponent, CosechaComponent, SiembraComponent, FlorComponent, RaizComponent, HojaComponent, FrutoComponent, TipoTilesComponent, CalendarioComponent, MacetaComponent, SolComponent, RiegoComponent, DatoTilesComponent, DistanciaComponent, SombraComponent, TemperaturaComponent, FecundacionComponent],
+  declarations: [LogoComponent, UserTileComponent, CalendarTilesComponent, TrasplanteComponent, AlmacigoComponent, CosechaComponent, SiembraComponent, FlorComponent, RaizComponent, HojaComponent, FrutoComponent, TipoTilesComponent, CalendarioComponent, MacetaComponent, SolComponent, RiegoComponent, DatoTilesComponent, DistanciaComponent, SombraComponent, TemperaturaComponent, FecundacionComponent, TutorComponent, TamanoComponent],
   imports: [
     CommonModule
   ],

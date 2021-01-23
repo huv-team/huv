@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-fecundacion',
+  selector: 'icon-fecundacion',
   templateUrl: './fecundacion.component.html',
   styleUrls: ['./fecundacion.component.scss']
 })

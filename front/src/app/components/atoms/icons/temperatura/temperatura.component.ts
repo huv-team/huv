@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-temperatura',
+  selector: 'icon-temperatura',
   templateUrl: './temperatura.component.html',
   styleUrls: ['./temperatura.component.scss']
 })

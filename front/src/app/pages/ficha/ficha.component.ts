@@ -39,4 +39,8 @@ export class FichaComponent implements OnInit {
     this.router.navigate([url]);
   }
 
+  warp(value) {
+    return value ? value : '?'
+  }
+
 }

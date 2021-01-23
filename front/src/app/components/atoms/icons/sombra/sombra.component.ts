@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-sombra',
+  selector: 'icon-sombra',
   templateUrl: './sombra.component.html',
   styleUrls: ['./sombra.component.scss']
 })

@@ -1,23 +1,58 @@
 <div class="container mb-5" *ngIf="ficha">
-    <div class="row">
+    <div class="row mb-2">
+        <div class="col-md-12 mb-3">
+            <h2>Planta</h2>
+        </div>
         <div class="col-md-12 mb-3">
             <app-planta-card [data]="ficha.planta"></app-planta-card>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-12 mb-3">
+            <h2>Dimensiones</h2>
+        </div>
+        <div class="col-md-12 mb-3">
+            <app-dato-card tipo="MA" title="Maceta" subtitle="volumen (ltr.) | profundidad (cm.)" [value]="warp(ficha.volumen_maceta_ltr) + ' | ' + warp(ficha.profundidad_cm)"></app-dato-card>
+        </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="TA" title="Tamaño" [value]="warp(ficha.tamano)"></app-dato-card>
+        </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="DI" title="Distancia" subtitle="min / max (cm.)" [value]="warp(ficha.distancia_min_cm) + ' / '+ warp(ficha.distancia_max_cm)"></app-dato-card>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-12 mb-3">
+            <h2>Cuidados</h2>
+        </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="SO" title="Luz del Sol" subtitle="min / max (hs.)" [value]="warp(ficha.horas_sol_min) + ' / '+ warp(ficha.horas_sol_max)"></app-dato-card>
+        </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="TM" title="Temperaturas" subtitle="min / max (°C)" [value]="warp(ficha.temperatura_min) + ' / '+ warp(ficha.temperatura_max)"></app-dato-card>
+        </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="RI" title="Riego" subtitle="frec." [value]="warp(ficha.riego)"></app-dato-card>
+        </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="BR" title="Sombra" subtitle="tolera" [value]="ficha.tolera_sombra? 'SÍ': 'NO'"></app-dato-card>
+        </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="TU" title="Tutorado" subtitle="necesita" [value]="ficha.tutorado? 'SÍ': 'NO'"></app-dato-card>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <h2>Cultivo</h2>
+        </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="CU" title="Tiempo de cultivo" subtitle="min / max (días)" [value]="warp(ficha.tiempo_cultivo_min_dias) + ' / '+ warp(ficha.tiempo_cultivo_max_dias)"></app-dato-card>
+        </div>
+        <div class="col-md-6 mb-3">
+            <app-dato-card tipo="FE" title="Fecundación" subtitle="tipo" [value]="warp(ficha.fecundacion)"></app-dato-card>
         </div>
         <div class="col-md-12 mb-3">
             <app-epocas-calendar [epocas]="ficha.epocas"></app-epocas-calendar>
         </div>
-        <div class="col-md-6 mb-3">
-            <app-dato-card tipo="MA" title="Volume" subtitle="ltr." [value]="ficha.volumen_maceta_ltr"></app-dato-card>
-        </div>
-        <div class="col-md-6 mb-3">
-            <app-dato-card tipo="MA" title="Profundidad" subtitle="cm." [value]="ficha.profundidad_cm"></app-dato-card>
-        </div>
-        <div class="col-md-6 mb-3">
-            <app-dato-card tipo="SO" title="Mínimo" subtitle="hs." [value]="ficha.horas_sol_min"></app-dato-card>
-        </div>
-        <div class="col-md-6 mb-3">
-            <app-dato-card tipo="SO" title="Máximo" subtitle="hs." [value]="ficha.horas_sol_max"></app-dato-card>
-        </div>
     </div>
-    <pre>{{ficha|json}}</pre>
 </div>

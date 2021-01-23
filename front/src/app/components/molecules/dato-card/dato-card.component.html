@@ -1,11 +1,7 @@
-<div class="card bg-transparent">
-    <div class="card-body">
-        <div class="d-flex justify-content-md-between align-items-center">
-            <app-dato-tiles class="mr-3" [tipo]="tipo"></app-dato-tiles>
-            <div class="flex-grow-1">
-                <h5 class="h3 card-title">{{title}} | <i><small>{{subtitle}}</small></i></h5>
-            </div>
-            <h1 class="h1">{{value}}</h1>
-        </div>
+<div class="bg-transparent d-flex justify-content-md-between align-items-center h-100 p-4 border rounded">
+    <app-dato-tiles [tipo]="tipo"></app-dato-tiles>
+    <div class="flex-grow-1 mx-3 d-flex align-items-center ">
+        <span class="h3 mb-0">{{title}}<br/><i><small>{{subtitle}}</small></i></span>
     </div>
+    <span class="h1 mb-0">{{value}}</span>
 </div>
