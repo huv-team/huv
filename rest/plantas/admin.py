@@ -14,6 +14,7 @@ class InteraccionInline(NestedTabularInline):
     can_delete = True
     search_fields = ['actor__familia', ]
     filter_horizontal = ('actor', )
+    classes = ('grp-collapse grp-closed',)
 
 
 class PlantaInline(NestedTabularInline):
@@ -26,18 +27,22 @@ class FuenteInline(NestedTabularInline):
     model = models.Ficha.fuentes.through
     extra = 0
     can_delete = False
+    classes = ('grp-collapse grp-closed',)
 
 
 class EpocaInline(NestedTabularInline):
     model = models.Ficha.epocas.through
     extra = 0
     can_delete = False
+    classes = ('grp-collapse grp-closed',)
 
 
 class TipInline(NestedTabularInline):
     model = models.Ficha.tips.through
     extra = 0
     can_delete = False
+    classes = ('grp-collapse grp-closed',)
+
 
 class FichaInline(NestedStackedInline):
     model = models.Ficha
@@ -58,6 +63,8 @@ class FichaInline(NestedStackedInline):
     autocomplete_fields = ['epocas', 'sustrato', 'tips', 'fuentes']
     show_change_link = True
     inlines = [EpocaInline, TipInline, FuenteInline]
+    classes = ('grp-collapse grp-open',)
+    inline_classes = ('grp-collapse grp-open',)
 
 
 class AutorInline(NestedTabularInline):

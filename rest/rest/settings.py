@@ -78,7 +78,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'rest.wsgi.application'
-
+GRAPPELLI_ADMIN_TITLE = 'HUV: administración'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
