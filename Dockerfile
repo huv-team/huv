@@ -26,8 +26,12 @@ RUN pip install mysqlclient==1.3.13
 
 RUN pip install gunicorn==19.9.0
 
-RUN pip install pandas==1.0.2
-RUN pip install rest-pandas==1.1.0
-RUN pip install pandas-profiling==2.9.0
+# RUN pip install pandas==1.0.2
+# RUN pip install rest-pandas==1.1.0
+# RUN pip install pandas-profiling==2.9.0
 
 RUN pip install seaborn==0.10.0
+
+# Pluguins
+RUN pip install django-nested-admin==3.3.3
+RUN pip install django-grappelli==2.13.4
