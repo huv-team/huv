@@ -17,11 +17,15 @@ import { MacetaComponent } from './icons/maceta/maceta.component';
 import { SolComponent } from './icons/sol/sol.component';
 import { RiegoComponent } from './icons/riego/riego.component';
 import { DatoTilesComponent } from './dato-tiles/dato-tiles.component';
+import { DistanciaComponent } from './icons/distancia/distancia.component';
+import { SombraComponent } from './icons/sombra/sombra.component';
+import { TemperaturaComponent } from './icons/temperatura/temperatura.component';
+import { FecundacionComponent } from './icons/fecundacion/fecundacion.component';
 
 
 
 @NgModule({
-  declarations: [LogoComponent, UserTileComponent, CalendarTilesComponent, TrasplanteComponent, AlmacigoComponent, CosechaComponent, SiembraComponent, FlorComponent, RaizComponent, HojaComponent, FrutoComponent, TipoTilesComponent, CalendarioComponent, MacetaComponent, SolComponent, RiegoComponent, DatoTilesComponent],
+  declarations: [LogoComponent, UserTileComponent, CalendarTilesComponent, TrasplanteComponent, AlmacigoComponent, CosechaComponent, SiembraComponent, FlorComponent, RaizComponent, HojaComponent, FrutoComponent, TipoTilesComponent, CalendarioComponent, MacetaComponent, SolComponent, RiegoComponent, DatoTilesComponent, DistanciaComponent, SombraComponent, TemperaturaComponent, FecundacionComponent],
   imports: [
     CommonModule
   ],
