@@ -57,7 +57,7 @@ class Tipo(models.Model):
 
 
 class Planta(models.Model):
-    nombre_popular = models.CharField(max_length=200, null=True, blank=True)
+    nombre_popular = models.CharField(max_length=200)
     nombre_cientifico = models.CharField(max_length=200, null=True, blank=True)
     variedad = models.CharField(max_length=200, null=True, blank=True)
     familia = models.ForeignKey(Familia, on_delete=models.SET_NULL, null=True,
@@ -65,17 +65,24 @@ class Planta(models.Model):
     tipo = models.ForeignKey(Tipo, on_delete=models.SET_NULL, null=True,
                              related_name='fichas')
 
-    def next(self):
+    def previous(self):
         try:
-            return Planta.objects.get(pk=self.pk+1)
+            return (Planta.objects
+                    .filter(nombre_popular__lt=self.nombre_popular)
+                    .last())
         except IndexError:
             return None
 
-    def previous(self):
+    def next(self):
         try:
-            return Planta.objects.get(pk=self.pk-1)
+            return (Planta.objects
+                    .filter(nombre_popular__gt=self.nombre_popular)
+                    .first())
         except IndexError:
             return None
+
+    class Meta:
+        ordering = ('nombre_popular', 'variedad')
 
     def __str__(self,):
         return get_name(self)
