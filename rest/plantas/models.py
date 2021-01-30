@@ -65,6 +65,18 @@ class Planta(models.Model):
     tipo = models.ForeignKey(Tipo, on_delete=models.SET_NULL, null=True,
                              related_name='fichas')
 
+    def next(self):
+        try:
+            return Planta.objects.get(pk=self.pk+1)
+        except IndexError:
+            return None
+
+    def previous(self):
+        try:
+            return Planta.objects.get(pk=self.pk-1)
+        except IndexError:
+            return None
+
     def __str__(self,):
         return get_name(self)
 
