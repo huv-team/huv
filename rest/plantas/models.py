@@ -122,11 +122,14 @@ class Epoca(models.Model):
 
     @property
     def titulo(self,):
-        return '{}: {} - {}'.format(self.get_tipo_display(),
-                                      get_fecha(self.desde_dia,
-                                                self.desde_mes),
-                                      get_fecha(self.hasta_dia,
-                                                self.hasta_mes))
+        tipo = self.get_tipo_display()
+        desde = get_fecha(self.desde_dia, self.desde_mes)
+        hasta = get_fecha(self.hasta_dia, self.hasta_mes)
+        if desde != hasta:
+            titulo = '{}: {} - {}'.format(tipo, desde, hasta)
+        else:
+            titulo = '{}: {}'.format(tipo, desde)
+        return titulo
 
     class Meta:
         app_label = 'plantas'
