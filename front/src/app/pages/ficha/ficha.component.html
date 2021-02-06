@@ -55,4 +55,12 @@
             <app-epocas-calendar [epocas]="ficha.epocas"></app-epocas-calendar>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <h2>Sabias que...</h2>
+        </div>
+        <div class="col-md-12 mb-3" *ngFor="let tip of ficha.tips">
+            <app-tip-card [title]="tip.titulo" [content]="tip.contenido"></app-tip-card>
+        </div>
+    </div>
 </div>
