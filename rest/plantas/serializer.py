@@ -32,9 +32,20 @@ class EpocaSerializer(serializers.ModelSerializer):
         model = models.Epoca
         fields = '__all__'
 
+class FuenteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Fuente
+        fields = '__all__'
+
+class TipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Tip
+        fields = '__all__'
+
 class FichaSerializer(serializers.ModelSerializer):
     planta = PlantaSerializer()
     epocas = EpocaSerializer(many=True)
+    tips = TipSerializer(many=True)
     class Meta:
         model = models.Ficha
         fields = '__all__'
