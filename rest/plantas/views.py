@@ -18,6 +18,7 @@ class PlantaViewSet(viewsets.ModelViewSet):
         queryset = models.Planta.objects.filter(query)
         return queryset
 
+
 class FichaViewSet(viewsets.ModelViewSet):
     serializer_class = serializer.FichaSerializer
     queryset = models.Ficha.objects.all()
