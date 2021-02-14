@@ -32,7 +32,19 @@ class EpocaSerializer(serializers.ModelSerializer):
         model = models.Epoca
         fields = '__all__'
 
+class AutorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Autor
+        fields = '__all__'
+
+class AutorOrdenSerializer(serializers.ModelSerializer):
+    autor = AutorSerializer()
+    class Meta:
+        model = models.AutorOrden
+        fields = '__all__'
+
 class FuenteSerializer(serializers.ModelSerializer):
+    autores_ordenados = AutorOrdenSerializer(many=True)
     class Meta:
         model = models.Fuente
         fields = '__all__'

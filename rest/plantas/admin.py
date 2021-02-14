@@ -131,7 +131,7 @@ class FuenteAdmin(NestedModelAdmin):
             out = ('tipo', 'anio', 'titulo', 'editorial', 'edicion',
                    'volumen', 'pag_inicio', 'pag_fin', 'url', 'otros')
         elif field_value == 'RE':
-            out = ('tipo', 'anio', 'articulo', 'titulo', 'volumen',
+            out = ('tipo', 'anio', 'titulo', 'nombre_revista', 'volumen',
                    'numero', 'pag_inicio', 'pag_fin', 'url', 'otros')
         elif field_value == 'PW':
             out = ('tipo', 'acceso', 'titulo', 'nombre_pag', 'url', 'otros')
