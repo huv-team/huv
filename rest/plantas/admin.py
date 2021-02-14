@@ -1,9 +1,11 @@
+from django import forms
 from django.contrib import admin
 from nested_admin import (NestedModelAdmin, NestedStackedInline,
                           NestedTabularInline)
 from plantas import models
 
 FUENTE = ('__str__', 'tipo', 'titulo', 'anio', 'acceso', 'url')
+
 
 # INLINES #####################################################################
 
@@ -12,7 +14,8 @@ class InteraccionInline(NestedTabularInline):
     model = models.Interaccion
     extra = 0
     can_delete = True
-    search_fields = ['actor__familia', ]
+    search_fields = ['actor', 'actor__tipo__nombre',
+                     'actor__familia__nombre_popular']
     filter_horizontal = ('actor', )
     classes = ('grp-collapse grp-closed',)
 
@@ -54,7 +57,8 @@ class FichaInline(NestedStackedInline):
            ('Cuidados', {'fields': [('horas_sol_min', 'horas_sol_max',
                                      'tolera_sombra'),
                                     ('temperatura_min', 'temperatura_max',
-                                     'tutorado'), ('riego', 'sustrato')]}),
+                                     'tutorado', 'aporque'),
+                                    ('riego', 'sustrato')]}),
            ('Cultivo', {'fields': [('epocas', 'tiempo_cultivo_min_dias',
                                     'tiempo_cultivo_max_dias'),
                                    ('fecundacion', 'tips')]}),
@@ -103,7 +107,17 @@ class RotacionAdmin(NestedModelAdmin):
 
 
 class EpocaAdmin(NestedModelAdmin):
-    search_fields = ['tipo']
+    search_fields = ['tipo', 'desde_dia', 'hasta_dia', 'desde_mes', 
+                     'hasta_mes']
+
+    def get_search_results(self, request, queryset, search_term):
+        queryset, use_distinct = super(EpocaAdmin, self)\
+            .get_search_results(request, queryset, search_term)
+
+        queryset |= self.model.objects.filter(
+            epocas_icontains=search_term
+        )
+        return queryset, use_distinct
 
 
 class AutorOrdenAdmin(NestedModelAdmin):
@@ -166,7 +180,8 @@ class FichaAdmin(NestedModelAdmin):
         ('Cuidados', {'fields': [('horas_sol_min', 'horas_sol_max',
                                   'tolera_sombra'),
                                  ('temperatura_min', 'temperatura_max',
-                                  'tutorado'), ('riego', 'sustrato')]}),
+                                  'tutorado', 'aporque'),
+                                 ('riego', 'sustrato')]}),
         ('Cultivo', {'fields': [('epocas', 'tiempo_cultivo_min_dias',
                                  'tiempo_cultivo_max_dias'),
                                 ('fecundacion', 'tips')]}),

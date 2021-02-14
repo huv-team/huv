@@ -120,8 +120,8 @@ class Epoca(models.Model):
                                  choices=MESES)
     # id_str = models.CharField(max_length=30)
 
-    @property
-    def titulo(self,):
+    #@property
+    def get_titulo(self,):
         tipo = self.get_tipo_display()
         desde = get_fecha(self.desde_dia, self.desde_mes)
         hasta = get_fecha(self.hasta_dia, self.hasta_mes)
@@ -130,6 +130,9 @@ class Epoca(models.Model):
         else:
             titulo = '{}: {}'.format(tipo, desde)
         return titulo
+    get_titulo.short_description = "Titulo del registro Epoca"
+    get_titulo.admin_order_field = 'tipo'
+    titulo = property(get_titulo)
 
     class Meta:
         app_label = 'plantas'
@@ -236,6 +239,7 @@ class Sustrato(models.Model):
 class Ficha(models.Model):
     planta = models.OneToOneField(Planta, on_delete=models.SET_NULL, null=True,
                                   related_name='ficha')
+    # Dimesión
     tamano = models.CharField(max_length=200, null=True, blank=True,
                               choices=[('S', 'Chico'),
                                        ('M', 'Mediano'),
@@ -245,25 +249,27 @@ class Ficha(models.Model):
     profundidad_cm = IntegerRangeField(null=True, blank=True, min_value=1)
     distancia_min_cm = IntegerRangeField(null=True, blank=True, min_value=1)
     distancia_max_cm = IntegerRangeField(null=True, blank=True, min_value=1)
-    temperatura_min = IntegerRangeField(null=True, blank=True, min_value=1)
-    temperatura_max = IntegerRangeField(null=True, blank=True, min_value=1)
+    # Cuidados
     horas_sol_min = IntegerRangeField(null=True, blank=True, min_value=1)
     horas_sol_max = IntegerRangeField(null=True, blank=True, min_value=1)
-    tolera_sombra = models.BooleanField(default=False)
-    tutorado = models.BooleanField(default=False)
+    temperatura_min = IntegerRangeField(null=True, blank=True, min_value=1)
+    temperatura_max = IntegerRangeField(null=True, blank=True, min_value=1)
     riego = models.CharField(max_length=200, null=True, blank=True, choices=[
         ('c15D', 'Cada 15 días'),
         ('1xS', 'Una vez por semana'),
         ('2xS', 'Dos veces por semana'),
         ('c2D', 'Cada dos días'),
         ('1xD', 'Una vez por día'),
-        ('2xD', 'Dos veces por día'),
-    ])
+        ('2xD', 'Dos veces por día'),])
+    tolera_sombra = models.BooleanField(default=False)
+    tutorado = models.BooleanField(default=False)
+    aporque = models.BooleanField(default=False)
+    # 
     tiempo_cultivo_min_dias = IntegerRangeField(null=True, blank=True,
                                                 min_value=1)
     tiempo_cultivo_max_dias = IntegerRangeField(null=True, blank=True,
                                                 min_value=1)
-    epocas = models.ManyToManyField(Epoca, blank=True, related_name='epocas')
+    epocas = models.ManyToManyField(Epoca, blank=True, related_name='fichas')
     sustrato = models.ManyToManyField(Sustrato, blank=True,
                                       related_name='Sutrato')
     fecundacion = models.CharField(max_length=20, null=True, blank=True, 
