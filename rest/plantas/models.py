@@ -173,7 +173,7 @@ class Autor(models.Model):
 
 class AutorOrden(models.Model):
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
-    fuente = models.ForeignKey('Fuente', on_delete=models.CASCADE)
+    fuente = models.ForeignKey('Fuente', on_delete=models.CASCADE, related_name='autores_ordenados')
     orden = models.IntegerField(default=1)
 
     class Meta:
@@ -198,7 +198,7 @@ class Fuente(models.Model):
     url = models.URLField(null=True, blank=True)
     numero = models.IntegerField(null=True, blank=True)
     nombre_pag = models.TextField(max_length=200, null=True, blank=True)
-    articulo = models.TextField(null=True, blank=True)
+    nombre_revista = models.TextField(null=True, blank=True)
     acceso = models.DateField(null=True, blank=True)
     contenido = models.TextField(null=True, blank=True)
     tipo_cont = models.TextField(null=True, blank=True)  # Foto, video, etc

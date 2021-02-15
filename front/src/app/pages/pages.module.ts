@@ -10,6 +10,7 @@ import { PlantasComponent } from './plantas/plantas.component';
 import { PlanificadorComponent } from './planificador/planificador.component';
 import { FichaComponent } from './ficha/ficha.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { FuentesComponent } from './fuentes/fuentes.component';
 
 const routes: Routes = [
   {path: '', component: BienvenidaComponent},
@@ -20,7 +21,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [BienvenidaComponent, PlantasComponent, PlanificadorComponent, FichaComponent, NotFoundComponent],
+  declarations: [BienvenidaComponent, PlantasComponent, PlanificadorComponent, FichaComponent, NotFoundComponent, FuentesComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

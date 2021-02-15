@@ -22,3 +22,7 @@ class PlantaViewSet(viewsets.ModelViewSet):
 class FichaViewSet(viewsets.ModelViewSet):
     serializer_class = serializer.FichaSerializer
     queryset = models.Ficha.objects.all()
+
+class FuenteViewSet(viewsets.ModelViewSet):
+    serializer_class = serializer.FuenteSerializer
+    queryset = models.Fuente.objects.all()
