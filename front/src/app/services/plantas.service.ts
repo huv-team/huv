@@ -22,4 +22,8 @@ export class PlantasService {
     return this.http.get<any>(`${urls.ficha}${pk}`, options);
   }
 
+  get_fuentes_list():Observable<any>{
+    return this.http.get<any>(urls.fuentes_list, options);
+  }
+
 }

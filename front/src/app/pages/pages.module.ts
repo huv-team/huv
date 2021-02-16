@@ -16,6 +16,7 @@ const routes: Routes = [
   {path: '', component: BienvenidaComponent},
   {path: 'plantas', component: PlantasComponent},
   {path: 'planificador', component: PlanificadorComponent},
+  {path: 'fuentes', component: FuentesComponent},
   {path: 'ficha', component: FichaComponent},
   {path: '404', component: NotFoundComponent},
 ]

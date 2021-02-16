@@ -1,1 +1,5 @@
-<p>fuentes works!</p>
+<div class="container mb-5" *ngIf="fuentes">
+    <div class="d-flex flex-column">
+        <app-fuente-card [fuente]="fuente" *ngFor="let fuente of fuentes"></app-fuente-card>
+    </div>
+</div>

@@ -6,13 +6,14 @@ import { EpocasCalendarComponent } from './epocas-calendar/epocas-calendar.compo
 import { PlantaCardComponent } from './planta-card/planta-card.component';
 import { DatoCardComponent } from './dato-card/dato-card.component';
 import { TipCardComponent } from './tip-card/tip-card.component';
+import { FuenteCardComponent } from './fuente-card/fuente-card.component';
 
 @NgModule({
-  declarations: [EpocasCalendarComponent, PlantaCardComponent, DatoCardComponent, TipCardComponent],
+  declarations: [EpocasCalendarComponent, PlantaCardComponent, DatoCardComponent, TipCardComponent, FuenteCardComponent],
   imports: [
     CommonModule,
     AtomsModule,
   ],
-  exports: [EpocasCalendarComponent, PlantaCardComponent, DatoCardComponent, TipCardComponent]
+  exports: [EpocasCalendarComponent, PlantaCardComponent, DatoCardComponent, TipCardComponent, FuenteCardComponent]
 })
 export class MoleculesModule { }

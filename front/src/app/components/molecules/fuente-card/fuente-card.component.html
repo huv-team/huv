@@ -1,0 +1,104 @@
+<div class="list-group-item rounded my-1">
+    <ng-container [ngSwitch]="fuente.tipo">
+        <ng-container *ngSwitchCase="'LI'">
+            <div class="d-flex w-100 justify-content-between">
+                <small class="mb-2">
+                    <strong>LIBRO</strong>
+                    <ng-container *ngIf="fuente.editorial"> | {{fuente.editorial}}</ng-container>
+                    <ng-container *ngIf="fuente.edicion"> | {{fuente.edicion}}° ed.</ng-container>
+                    <ng-container *ngIf="fuente.volumen"> | vol. {{fuente.volumen}}</ng-container>
+                    <ng-container *ngIf="fuente.pag_inicio||fuente.pag_fin"> | p
+                        <ng-container *ngIf="fuente.pag_inicio"> {{fuente.pag_inicio}} </ng-container>
+                        -
+                        <ng-container *ngIf="fuente.pag_fin"> {{fuente.anio}}</ng-container>
+                    </ng-container>
+                </small>
+                <span>{{fuente.anio}}</span>
+            </div>
+            <h4 class="mb-1">{{fuente.titulo}}</h4>
+            <p class="mb-1">
+                <span 
+                    *ngFor="let autor of fuente.autores_ordenados; let i = index">
+                    {{autor.autor.primer_nombre | titlecase}} {{autor.autor.apellido | titlecase}}<ng-container *ngIf="i < fuente.autores_ordenados.length-1">;</ng-container>
+                </span>
+            </p>
+            <small><a [href]="fuente.url">{{fuente.url}}</a></small>
+            <p *ngIf="fuente.otros">
+                <small class="mt-1">
+                    <i>{{fuente.otros}}</i>
+                </small>
+            </p>
+        </ng-container>
+        <ng-container *ngSwitchCase="'RE'">
+            <div class="d-flex w-100 justify-content-between">
+                <small class="mb-2">
+                    <strong>REVISTA</strong>
+                    <ng-container *ngIf="fuente.nombre_revista"> | {{fuente.nombre_revista}}</ng-container>
+                    <ng-container *ngIf="fuente.volumen"> | vol. {{fuente.volumen}}</ng-container>
+                    <ng-container *ngIf="fuente.numero"> | N° {{fuente.numero}}</ng-container>
+                    <ng-container *ngIf="fuente.pag_inicio||fuente.pag_fin"> | p
+                        <ng-container *ngIf="fuente.pag_inicio"> {{fuente.pag_inicio}} </ng-container>
+                        -
+                        <ng-container *ngIf="fuente.pag_fin"> {{fuente.anio}}</ng-container>
+                    </ng-container>
+                </small>
+                <span>{{fuente.anio}}</span>
+            </div>
+            <h4 class="mb-1">{{fuente.titulo}}</h4>
+            <p class="mb-1">
+                <span 
+                    *ngFor="let autor of fuente.autores_ordenados; let i = index">
+                    {{autor.autor.primer_nombre | titlecase}} {{autor.autor.apellido | titlecase}}<ng-container *ngIf="i < fuente.autores_ordenados.length-1">;</ng-container>
+                </span>
+            </p>
+            <small><a [href]="fuente.url">{{fuente.url}}</a></small>
+            <p *ngIf="fuente.otros">
+                <small class="mt-1">
+                    <i>{{fuente.otros}}</i>
+                </small>
+            </p>
+        </ng-container>
+        <ng-container *ngSwitchCase="'PW'">
+            <div class="d-flex w-100 justify-content-between">
+                <small class="mb-2">
+                    <strong>WEB</strong>
+                    <ng-container *ngIf="fuente.nombre_pag"> | {{fuente.nombre_pag}}</ng-container>
+                    <ng-container *ngIf="fuente.volumen"> | vol. {{fuente.volumen}}</ng-container>
+                </small>
+                <span>{{fuente.acceso | date: 'dd/mm/YYYY'}}</span>
+            </div>
+            <h4 class="mb-1">{{fuente.titulo}}</h4>
+            <p class="mb-1">
+                <span 
+                    *ngFor="let autor of fuente.autores_ordenados; let i = index">
+                    {{autor.autor.primer_nombre | titlecase}} {{autor.autor.apellido | titlecase}}<ng-container *ngIf="i < fuente.autores_ordenados.length-1">;</ng-container>
+                </span>
+            </p>
+            <small><a [href]="fuente.url">{{fuente.url}}</a></small>
+            <p *ngIf="fuente.otros">
+                <small class="mt-1">
+                    <i>{{fuente.otros}}</i>
+                </small>
+            </p>
+        </ng-container>
+        <ng-container *ngSwitchCase="'RS'">
+            <div class="d-flex w-100 justify-content-between">
+                <small class="mb-2">
+                    <strong>Red Social</strong>
+                    <ng-container *ngIf="fuente.red_social"> | {{fuente.red_social}}</ng-container>
+                </small>
+                <span>{{fuente.acceso | date: 'dd/mm/YYYY'}}</span>
+            </div>
+            <h4 class="mb-1">{{fuente.usuario}}</h4>
+            <p class="mb-1">
+                <span>{{fuente.contenido}}</span>
+            </p>
+            <small><a [href]="fuente.url">{{fuente.url}}</a></small>
+            <p *ngIf="fuente.otros">
+                <small class="mt-1">
+                    <i>{{fuente.otros}}</i>
+                </small>
+            </p>
+        </ng-container>
+    </ng-container>
+</div>
