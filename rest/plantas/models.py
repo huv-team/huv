@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Q
 
 MESES = [('1', 'Enero'), ('2', 'Febrero'), ('3', 'Marzo'),
          ('4', 'Abril'), ('5', 'Mayo'), ('6', 'Junio'),
@@ -9,6 +8,9 @@ MESES = [('1', 'Enero'), ('2', 'Febrero'), ('3', 'Marzo'),
 REFS = [('LI', 'Libro'), ('RE', 'Revista'), ('PE', 'Periódico'),
         ('PW', 'Pagina web'), ('DI', 'Diccionario'), ('RS', 'Red social'),
         ('WP', 'Wikipedia'), ('PP', 'Power point')]
+
+TIPOS_EP = [('AL', 'Almácigo'), ('SI', 'Siembra'),
+            ('TR', 'Trasplante'), ('CO', 'Cosecha')]
 
 
 class IntegerRangeField(models.IntegerField):
@@ -107,9 +109,8 @@ class Rotacion(models.Model):
 
 
 class Epoca(models.Model):
-    tipo = models.CharField(max_length=20, default='AL',
-                            choices=[('AL', 'Almácigo'), ('SI', 'Siembra'),
-                                     ('TR', 'Trasplante'), ('CO', 'Cosecha')])
+    tipo = models.CharField(max_length=20, default=TIPOS_EP[0],
+                            choices=TIPOS_EP)
     desde_dia = IntegerRangeField(default=0,
                                   min_value=0, max_value=31)
     desde_mes = models.CharField(max_length=20, default=MESES[0][0],
@@ -136,6 +137,7 @@ class Epoca(models.Model):
 
     class Meta:
         app_label = 'plantas'
+        ordering = ["tipo"]
         constraints = [
             models.UniqueConstraint(fields=['tipo', 'desde_dia', 'desde_mes',
                                             'hasta_dia', 'hasta_mes'],
@@ -264,7 +266,7 @@ class Ficha(models.Model):
     tolera_sombra = models.BooleanField(default=False)
     tutorado = models.BooleanField(default=False)
     aporque = models.BooleanField(default=False)
-    # 
+    # Cultivo
     tiempo_cultivo_min_dias = IntegerRangeField(null=True, blank=True,
                                                 min_value=1)
     tiempo_cultivo_max_dias = IntegerRangeField(null=True, blank=True,
@@ -276,6 +278,7 @@ class Ficha(models.Model):
                                    choices=[('AU', 'Autofecundación'),
                                             ('CR', 'cruzada')])
     tips = models.ManyToManyField(Tip, blank=True)
+    # Referencia
     fuentes = models.ManyToManyField(Fuente, blank=True)
 
     def __str__(self,):

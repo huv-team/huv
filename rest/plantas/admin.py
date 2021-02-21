@@ -3,9 +3,15 @@ from django.contrib import admin
 from nested_admin import (NestedModelAdmin, NestedStackedInline,
                           NestedTabularInline)
 from plantas import models
+from django.db.models import Q
+import re, unicodedata, itertools
 
 FUENTE = ('__str__', 'tipo', 'titulo', 'anio', 'acceso', 'url')
 
+def normalize(text):
+    text = unicodedata.normalize('NFD', text)\
+        .encode('ascii', 'ignore').decode("utf-8").lower()
+    return text
 
 # INLINES #####################################################################
 
@@ -107,16 +113,31 @@ class RotacionAdmin(NestedModelAdmin):
 
 
 class EpocaAdmin(NestedModelAdmin):
-    search_fields = ['tipo', 'desde_dia', 'hasta_dia', 'desde_mes', 
+    search_fields = ['tipo', 'desde_dia', 'desde_mes', 'hasta_dia',
                      'hasta_mes']
 
     def get_search_results(self, request, queryset, search_term):
         queryset, use_distinct = super(EpocaAdmin, self)\
             .get_search_results(request, queryset, search_term)
 
-        queryset |= self.model.objects.filter(
-            epocas_icontains=search_term
-        )
+        meses = dict(models.MESES)
+        tipos = dict(models.TIPOS_EP)
+        search_term = normalize(search_term)
+        print(search_term)
+        terms = [s for s in re.split("[ :-]+", search_term)]
+        mes_keys = list()
+        tipo_keys = list()
+        for term in terms:
+            mes_keys.append([k for (k, v) in meses.items()
+                            if normalize(v).startswith(term)])
+            tipo_keys.append([k for (k, v) in tipos.items()
+                             if normalize(v).startswith(term)])
+        mes_keys = list(itertools.chain.from_iterable(mes_keys))
+        tipo_keys = list(itertools.chain.from_iterable(tipo_keys))
+
+        queryset |= self.model.objects.filter(tipo__in=tipo_keys)
+        queryset |= self.model.objects.filter(desde_mes__in=mes_keys)
+        queryset |= self.model.objects.filter(hasta_mes__in=mes_keys)
         return queryset, use_distinct
 
 
