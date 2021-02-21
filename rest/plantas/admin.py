@@ -117,28 +117,24 @@ class EpocaAdmin(NestedModelAdmin):
                      'hasta_mes']
 
     def get_search_results(self, request, queryset, search_term):
-        queryset, use_distinct = super(EpocaAdmin, self)\
-            .get_search_results(request, queryset, search_term)
 
         meses = dict(models.MESES)
         tipos = dict(models.TIPOS_EP)
         search_term = normalize(search_term)
-        print(search_term)
-        terms = [s for s in re.split("[ :-]+", search_term)]
+        terms = [s for s in re.split(r"[\s:-]+", search_term) if s]
         mes_keys = list()
         tipo_keys = list()
         for term in terms:
-            mes_keys.append([k for (k, v) in meses.items()
+            mes_keys.extend([k for (k, v) in meses.items()
                             if normalize(v).startswith(term)])
-            tipo_keys.append([k for (k, v) in tipos.items()
+            tipo_keys.extend([k for (k, v) in tipos.items()
                              if normalize(v).startswith(term)])
-        mes_keys = list(itertools.chain.from_iterable(mes_keys))
-        tipo_keys = list(itertools.chain.from_iterable(tipo_keys))
 
-        queryset |= self.model.objects.filter(tipo__in=tipo_keys)
-        queryset |= self.model.objects.filter(desde_mes__in=mes_keys)
-        queryset |= self.model.objects.filter(hasta_mes__in=mes_keys)
-        return queryset, use_distinct
+        query = Q()
+        if tipo_keys: query &= Q(tipo__in=tipo_keys)
+        if len(mes_keys) == 1: query &= Q(Q(desde_mes__in=mes_keys) | Q(hasta_mes__in=mes_keys))
+        if len(mes_keys) > 1: query &= Q(Q(desde_mes__in=mes_keys) & Q(hasta_mes__in=mes_keys))
+        return self.model.objects.filter(query), False
 
 
 class AutorOrdenAdmin(NestedModelAdmin):
