@@ -183,7 +183,7 @@ class AutorOrden(models.Model):
 
 
 class Fuente(models.Model):
-    tipo = models.CharField(max_length=20, default=None, null=True, 
+    tipo = models.CharField(max_length=20, default=None, null=True,
                             blank=True, choices=REFS)
     autores = models.ManyToManyField(Autor, blank=True, through=AutorOrden,
                                      through_fields=('fuente', 'autor'))
