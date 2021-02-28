@@ -61,3 +61,9 @@ class FichaSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Ficha
         fields = '__all__'
+
+class TipoSerializer(serializers.ModelSerializer):
+    nombre = serializers.CharField(source='get_nombre_display')
+    class Meta:
+        model = models.Tipo
+        fields = '__all__'

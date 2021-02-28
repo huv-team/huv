@@ -6,6 +6,8 @@ export const planta:string = server + 'planta'
 
 export const plantas_list:string = planta + 's'
 
+export const tipos_list:string = planta + '/tipos'
+
 export const ficha:string = planta + '/ficha/'
 
 export const fuentes_list:string = planta + '/fuentes'

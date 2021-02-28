@@ -12,4 +12,8 @@ export class PlanificadorComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  print(val) {
+    console.log(val)
+  }
+
 }

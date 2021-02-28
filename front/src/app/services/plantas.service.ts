@@ -18,6 +18,10 @@ export class PlantasService {
     return this.http.get<any>(`${urls.plantas_list}?${query}`, options);
   }
 
+  get_tipos_list(query:string=''):Observable<any>{
+    return this.http.get<any>(`${urls.tipos_list}?${query}`, options);
+  }
+
   get_ficha(pk:number):Observable<any>{
     return this.http.get<any>(`${urls.ficha}${pk}`, options);
   }

@@ -26,3 +26,7 @@ class FichaViewSet(viewsets.ModelViewSet):
 class FuenteViewSet(viewsets.ModelViewSet):
     serializer_class = serializer.FuenteSerializer
     queryset = models.Fuente.objects.all()
+
+class TipoViewSet(viewsets.ModelViewSet):
+    serializer_class = serializer.TipoSerializer
+    queryset = models.Tipo.objects.all()

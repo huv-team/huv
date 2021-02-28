@@ -1,5 +1,5 @@
 <div class="container mt-3">
-    <div class="row justify-content-md-center align-items-center mb-5">
+    <!--div class="row justify-content-md-center align-items-center mb-5">
         <div class="col-md-12 text-center">
             <h1>Primero, elijamos una de estas opciones</h1>
         </div>
@@ -19,32 +19,14 @@
                 <button class="btn btn-primary mx-1 flex-fill">Trasplante</button>
             </div>
         </div>
-    </div>
+    </div-->
     <form class="row">
+        <div class="col-md-12 mb-3">
+            <app-tipo-select multi=true (selectionChange)="print($event)"></app-tipo-select>
+        </div>
         <div class="form-group col-md-12 mb-3">
             <label class="form-label">Planta</label>
             <input type="text" placeholder="Buscar planta por nombre" class="form-control"/>
-        </div>
-        <div class="form-group col-md-12 mb-3">
-            <label class="form-label">Tipo</label>
-            <div class="d-md-flex">
-                <div class="flex-fill d-flex justify-content-between align-items-center border rounded mx-1 py-2 px-4">
-                    <span class="h2 mb-0">Fruto</span>
-                    <app-tipo-tiles tipo="1"></app-tipo-tiles>
-                </div>
-                <div class="flex-fill d-flex justify-content-between align-items-center border rounded mx-1 py-2 px-4">
-                    <span class="h2 mb-0">Flor</span>
-                    <app-tipo-tiles tipo="2"></app-tipo-tiles>
-                </div>
-                <div class="flex-fill d-flex justify-content-between align-items-center border rounded mx-1 py-2 px-4">
-                    <span class="h2 mb-0">Hoja</span>
-                    <app-tipo-tiles tipo="3"></app-tipo-tiles>
-                </div>
-                <div class="flex-fill d-flex justify-content-between align-items-center border rounded mx-1 py-2 px-4">
-                    <span class="h2 mb-0">Raíz</span>
-                    <app-tipo-tiles tipo="4"></app-tipo-tiles>
-                </div>
-            </div>
         </div>
     </form>
 </div>
