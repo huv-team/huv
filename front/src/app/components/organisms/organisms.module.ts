@@ -6,12 +6,22 @@ import { AtomsModule } from "src/app/components/atoms/atoms.module";
 import { MoleculesModule } from "src/app/components/molecules/molecules.module";
 import { FooterComponent } from './footer/footer.component';
 
+import { MacetasGroupComponent } from './macetas-group/macetas-group.component';
+
 @NgModule({
-  declarations: [NavBarComponent, FooterComponent],
-  imports: [
+  declarations: [
+    NavBarComponent,
+    FooterComponent,
+    MacetasGroupComponent,
+  ],
+    imports: [
     CommonModule,
     AtomsModule,MoleculesModule,
   ],
-  exports: [NavBarComponent, FooterComponent]
+  exports: [
+    NavBarComponent,
+    FooterComponent,
+    MacetasGroupComponent,
+  ]
 })
 export class OrganismsModule { }
