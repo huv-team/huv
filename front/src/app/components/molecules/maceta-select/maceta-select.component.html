@@ -1,0 +1,14 @@
+<div class="border rounded py-2 px-3">
+    <label>Maceta</label>
+    <div class="d-md-flex justify-content-center align-items-center">
+        <div class="d-none d-md-flex flex-column mr-4">
+            <app-dato-tiles [tipo]="'MA'"></app-dato-tiles>
+        </div>
+        <div class="flex-grow-1 d-flex flex-column">
+            <span class="mb-1">Volumen ({{volumen}} ltr.)</span>
+            <input #volRange type="range" class="custom-range" min="0" [max]="volumenes.length-1" step="1" (change)="volumenChange(volRange.value)">
+            <span class="mb-1">Produndidad ({{profundidad}} cm.)</span>
+            <input #profRange type="range" class="custom-range" min="0" [max]="profundidades.length-1" step="1" (change)="profundidadChange(profRange.value)">
+        </div>
+    </div>
+</div>
