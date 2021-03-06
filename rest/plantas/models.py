@@ -183,7 +183,7 @@ class AutorOrden(models.Model):
 
 
 class Fuente(models.Model):
-    tipo = models.CharField(max_length=20, default=None, null=True, 
+    tipo = models.CharField(max_length=20, default=None, null=True,
                             blank=True, choices=REFS)
     autores = models.ManyToManyField(Autor, blank=True, through=AutorOrden,
                                      through_fields=('fuente', 'autor'))
@@ -213,9 +213,22 @@ class Fuente(models.Model):
     def get_tipo(self, ):
         return self.get_tipo_display()
 
+    def get_ref(self, ):
+        pri_autor = self.autores.filter(autororden__orden=1)[0].get_nombre()\
+            if self.autores.all() else None
+        if pri_autor and self.titulo:
+            ref = "{}, {}".format(pri_autor, self.titulo)
+        elif pri_autor:
+            ref = pri_autor
+        elif self.titulo:
+            ref = self.titulo
+        else:
+            ref = None
+
+        return ref
+
     def __str__(self,):
-        return self.autores.filter(autororden__orden=1)[0].get_nombre()\
-            if self.autores.all() else 'None'
+        return self.get_ref()
 
 
 class Tip(models.Model):

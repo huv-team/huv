@@ -4,9 +4,10 @@ from nested_admin import (NestedModelAdmin, NestedStackedInline,
                           NestedTabularInline)
 from plantas import models
 from django.db.models import Q
-import re, unicodedata, itertools
+import re, unicodedata
 
 FUENTE = ('__str__', 'tipo', 'titulo', 'anio', 'acceso', 'url')
+
 
 def normalize(text):
     text = unicodedata.normalize('NFD', text)\
@@ -131,9 +132,12 @@ class EpocaAdmin(NestedModelAdmin):
                              if normalize(v).startswith(term)])
 
         query = Q()
-        if tipo_keys: query &= Q(tipo__in=tipo_keys)
-        if len(mes_keys) == 1: query &= Q(Q(desde_mes__in=mes_keys) | Q(hasta_mes__in=mes_keys))
-        if len(mes_keys) > 1: query &= Q(Q(desde_mes__in=mes_keys) & Q(hasta_mes__in=mes_keys))
+        if tipo_keys:
+            query &= Q(tipo__in=tipo_keys)
+        if len(mes_keys) == 1:
+            query &= Q(Q(desde_mes__in=mes_keys) | Q(hasta_mes__in=mes_keys))
+        if len(mes_keys) > 1:
+            query &= Q(Q(desde_mes__in=mes_keys) & Q(hasta_mes__in=mes_keys))
         return self.model.objects.filter(query), False
 
 
