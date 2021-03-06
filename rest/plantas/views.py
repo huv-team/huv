@@ -1,4 +1,6 @@
-from rest_framework import viewsets
+import pandas as pd
+
+from rest_framework import viewsets,views
 from rest_framework.response import Response
 
 from django.db.models import Q
@@ -30,3 +32,15 @@ class FuenteViewSet(viewsets.ModelViewSet):
 class TipoViewSet(viewsets.ModelViewSet):
     serializer_class = serializer.TipoSerializer
     queryset = models.Tipo.objects.all()
+
+class ListMeses(views.APIView):
+    def get(self, request):
+        return Response([{'id':M[0],'nombre':M[-1]} for M in models.MESES])
+
+class ListMacetas(views.APIView):
+    def get(self, request):
+        macetas_data = pd.DataFrame(models.Ficha.objects.all().values('volumen_maceta_ltr','profundidad_cm'))
+        return Response({
+            'volumenes': macetas_data.volumen_maceta_ltr.dropna().unique().tolist(),
+            'profundidades': macetas_data.profundidad_cm.dropna().unique().tolist(),
+        })

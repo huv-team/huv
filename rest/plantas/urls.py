@@ -10,6 +10,10 @@ urlpatterns = [
 
      path('/tipos', views.TipoViewSet.as_view({'get': 'list'}), name='tipos-list'),
      
+     path('/meses', views.ListMeses.as_view(), name='meses-list'),
+
+     path('/macetas', views.ListMacetas.as_view(), name='macetas-list'),
+     
      path('/fichas', views.FichaViewSet.as_view({'get': 'list'}), name='fichas-list'),
      path('/ficha/', views.FichaViewSet.as_view({'post': 'create'}), name='ficha-new'),
      path('/ficha/<int:pk>', views.FichaViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='ficha-detail'),
