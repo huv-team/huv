@@ -12,13 +12,15 @@ import { FichaComponent } from './ficha/ficha.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { FuentesComponent } from './fuentes/fuentes.component';
 
+import { SitePage } from "src/app/redux/site/site.model";
+
 const routes: Routes = [
-  {path: '', component: BienvenidaComponent},
-  {path: 'plantas', component: PlantasComponent},
-  {path: 'planificador', component: PlanificadorComponent},
-  {path: 'fuentes', component: FuentesComponent},
-  {path: 'ficha', component: FichaComponent},
-  {path: '404', component: NotFoundComponent},
+  {path: SitePage.bienvenida, component: BienvenidaComponent},
+  {path: SitePage.plantas, component: PlantasComponent},
+  {path: SitePage.planificador, component: PlanificadorComponent},
+  {path: SitePage.fuentes, component: FuentesComponent},
+  {path: SitePage.ficha, component: FichaComponent},
+  {path: SitePage.not_found, component: NotFoundComponent},
 ]
 
 @NgModule({
