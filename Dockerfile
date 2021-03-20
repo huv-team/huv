@@ -35,3 +35,4 @@ RUN pip install seaborn==0.10.0
 # Pluguins
 RUN pip install django-nested-admin==3.3.3
 RUN pip install django-grappelli==2.13.4
+RUN pip install -U ipython
