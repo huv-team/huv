@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { RouterModule } from "@angular/router";
 
 import { AtomsModule } from "src/app/components/atoms/atoms.module";
 import { MoleculesModule } from "src/app/components/molecules/molecules.module";
-import { FooterComponent } from './footer/footer.component';
 
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { FooterComponent } from './footer/footer.component';
 import { MacetasGroupComponent } from './macetas-group/macetas-group.component';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { MacetasGroupComponent } from './macetas-group/macetas-group.component';
   ],
     imports: [
     CommonModule,
+    RouterModule,
     AtomsModule,MoleculesModule,
   ],
   exports: [
