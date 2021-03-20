@@ -40,15 +40,23 @@ export class PlanificadorComponent implements OnInit {
   }
   
   set tipos(data:any) {
-    this.query['tipos'] = data;
+    this.query['tipos'] = data.map( el => el.nombre );
   }
 
   set meses(data:any) {
-    this.query['meses'] = data;
+    this.query['meses'] = data.map( el => el.id );
   }
 
   set macetas(data:any){
     this.query['macetas'] = data;
+  }
+
+  search(){
+    console.log('searching...',this.query)
+    this.plantasSrv.search_plantas(this.query).subscribe(
+      res => console.log(res)
+
+    )
   }
 
 }

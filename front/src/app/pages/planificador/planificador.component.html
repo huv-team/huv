@@ -32,8 +32,7 @@
             [volumenes]="volumenesMaceta" [profundidades]="profundidadesMaceta"></app-macetas-group>
         </div>
         <div class="form-group col-md-12 mb-3">
-            <button class="btn btn-primary btn-block">Buscar</button>
+            <button class="btn btn-primary btn-block" (click)="search()">Buscar</button>
         </div>
     </form>
 </div>
-<pre>{{query|json}}</pre>

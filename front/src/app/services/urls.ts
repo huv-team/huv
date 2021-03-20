@@ -6,6 +6,8 @@ export const planta:string = server + 'planta'
 
 export const plantas_list:string = planta + 's'
 
+export const plantas_search:string = plantas_list + '/search'
+
 export const tipos_list:string = planta + '/tipos'
 
 export const meses_list:string = planta + '/meses'

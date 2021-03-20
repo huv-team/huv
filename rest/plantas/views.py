@@ -1,6 +1,7 @@
 import pandas as pd
 
 from rest_framework import viewsets,views
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from django.db.models import Q
@@ -19,6 +20,11 @@ class PlantaViewSet(viewsets.ModelViewSet):
                        Q(nombre_popular__icontains=nombre))
         queryset = models.Planta.objects.filter(query)
         return queryset
+
+    @action(detail=False, methods=['get'])
+    def search(self, request,):
+        print(self.request.query_params)
+        return Response()
 
 
 class FichaViewSet(viewsets.ModelViewSet):

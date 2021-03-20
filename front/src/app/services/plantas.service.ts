@@ -38,4 +38,8 @@ export class PlantasService {
     return this.http.get<any>(urls.fuentes_list, options);
   }
 
+  search_plantas(query):Observable<any>{
+    return this.http.get<any>(urls.plantas_search, {params:query})
+  }
+
 }
