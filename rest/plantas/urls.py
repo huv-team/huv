@@ -8,6 +8,8 @@ urlpatterns = [
      path('/', views.PlantaViewSet.as_view({'post': 'create'}), name='planta-new'),
      path('/<int:pk>', views.PlantaViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='plantas-detail'),
 
+     path('s/search', views.PlantaViewSet.as_view({'get': 'search'}), name='plantas-search'),
+
      path('/tipos', views.TipoViewSet.as_view({'get': 'list'}), name='tipos-list'),
      
      path('/meses', views.ListMeses.as_view(), name='meses-list'),
