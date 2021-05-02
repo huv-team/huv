@@ -41,6 +41,7 @@ services:
       dockerfile: Dockerfile-php
     volumes:
       - ./php/huv:/var/www
+      - ./front/dist/front:/var/www/webroot/dist
       - ./php/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
     links:
       - db:mysql
