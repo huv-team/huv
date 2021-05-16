@@ -57,6 +57,9 @@ $routes->scope('/', function (RouteBuilder $builder) {
      */
     $builder->connect('/pages/*', 'Pages::display');
 
+    $builder->setExtensions(['json']);
+    $builder->resources('Plants');
+
     /*
      * Connect catchall routes for all controllers.
      *
