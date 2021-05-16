@@ -121,7 +121,7 @@ class Epoca(models.Model):
                                  choices=MESES)
     # id_str = models.CharField(max_length=30)
 
-    #@property
+    # @property
     def get_titulo(self,):
         tipo = self.get_tipo_display()
         desde = get_fecha(self.desde_dia, self.desde_mes)
@@ -173,7 +173,8 @@ class Autor(models.Model):
 
 class AutorOrden(models.Model):
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
-    fuente = models.ForeignKey('Fuente', on_delete=models.CASCADE, related_name='autores_ordenados')
+    fuente = models.ForeignKey('Fuente', on_delete=models.CASCADE,
+                               related_name='autores_ordenados')
     orden = models.IntegerField(default=1)
 
     class Meta:
@@ -275,7 +276,7 @@ class Ficha(models.Model):
         ('2xS', 'Dos veces por semana'),
         ('c2D', 'Cada dos días'),
         ('1xD', 'Una vez por día'),
-        ('2xD', 'Dos veces por día'),])
+        ('2xD', 'Dos veces por día')])
     tolera_sombra = models.BooleanField(default=False)
     tutorado = models.BooleanField(default=False)
     aporque = models.BooleanField(default=False)
@@ -299,18 +300,17 @@ class Ficha(models.Model):
 
 
 class Interaccion(models.Model):
-    target = models.ForeignKey(Planta, on_delete=models.SET_NULL, null=True,
-                               related_name='interaciones')
-    tipo = models.CharField(max_length=10, default='B', choices=[
-         ('B', 'Benéfica'),
-         ('P', 'Perjudicial'),
-     ])
-    actor = models.ManyToManyField(Planta)
-    relacion = models.TextField(max_length=15, null=True, blank=True)
+    actor = models.ForeignKey(Planta, on_delete=models.SET_NULL, null=True,
+                              related_name='interaciones')
+    tipo = models.CharField(max_length=10, default='F', choices=[
+         ('F', 'Favorable'),
+         ('P', 'Perjudicial')])
+    objetivos = models.ManyToManyField(Planta)
+    observaciones = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Interacción"
         verbose_name_plural = "Interacciones"
 
     def __str__(self,):
-        return get_name(self.target)
+        return get_name(self.actor)

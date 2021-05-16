@@ -21,9 +21,9 @@ class InteraccionInline(NestedTabularInline):
     model = models.Interaccion
     extra = 0
     can_delete = True
-    search_fields = ['actor', 'actor__tipo__nombre',
-                     'actor__familia__nombre_popular']
-    filter_horizontal = ('actor', )
+    search_fields = ['objetivos', 'objetivos__tipo__nombre',
+                     'objetivos__familia__nombre_popular']
+    filter_horizontal = ('objetivos', )
     classes = ('grp-collapse grp-closed',)
 
 
@@ -215,7 +215,7 @@ class FichaAdmin(NestedModelAdmin):
 
 
 class InteraccionAdmin(NestedModelAdmin):
-    filter_horizontal = ('actor',)
+    filter_horizontal = ('objetivos',)
 
 
 admin.site.register(models.Planta, PlantaAdmin)
