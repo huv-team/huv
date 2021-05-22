@@ -134,6 +134,13 @@ if ($isCli) {
     require __DIR__ . '/bootstrap_cli.php';
 }
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, PUT, PATCH, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: *');
+if (!empty($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0);
+}
+
 /*
  * Set the full base URL.
  * This URL is used as the base of all absolute links.
