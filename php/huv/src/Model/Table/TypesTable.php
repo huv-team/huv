@@ -40,6 +40,10 @@ class TypesTable extends Table
         $this->setTable('types');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->hasMany('Plants', [
+            'foreignKey' => 'type_id',
+        ]);
     }
 
     /**

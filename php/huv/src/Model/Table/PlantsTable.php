@@ -13,6 +13,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\FamiliesTable&\Cake\ORM\Association\BelongsTo $Families
  * @property \App\Model\Table\TypesTable&\Cake\ORM\Association\BelongsTo $Types
+ * @property \App\Model\Table\DataSheetsTable&\Cake\ORM\Association\HasMany $DataSheets
  * @property \App\Model\Table\InteractionsTable&\Cake\ORM\Association\BelongsToMany $Interactions
  *
  * @method \App\Model\Entity\Plant newEmptyEntity()
@@ -46,10 +47,13 @@ class PlantsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Families', [
-            'foreignKey' => 'familia_id',
+            'foreignKey' => 'family_id',
         ]);
         $this->belongsTo('Types', [
-            'foreignKey' => 'tipo_id',
+            'foreignKey' => 'type_id',
+        ]);
+        $this->hasMany('DataSheets', [
+            'foreignKey' => 'plant_id',
         ]);
         $this->belongsToMany('Interactions', [
             'foreignKey' => 'plant_id',
@@ -98,8 +102,8 @@ class PlantsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['familia_id'], 'Families'), ['errorField' => 'familia_id']);
-        $rules->add($rules->existsIn(['tipo_id'], 'Types'), ['errorField' => 'tipo_id']);
+        $rules->add($rules->existsIn(['family_id'], 'Families'), ['errorField' => 'family_id']);
+        $rules->add($rules->existsIn(['type_id'], 'Types'), ['errorField' => 'type_id']);
 
         return $rules;
     }

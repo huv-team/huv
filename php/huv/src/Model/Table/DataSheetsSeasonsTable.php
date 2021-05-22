@@ -45,11 +45,11 @@ class DataSheetsSeasonsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('DataSheets', [
-            'foreignKey' => 'ficha_id',
+            'foreignKey' => 'data_sheet_id',
             'joinType' => 'INNER',
         ]);
         $this->belongsTo('Seasons', [
-            'foreignKey' => 'epoca_id',
+            'foreignKey' => 'season_id',
             'joinType' => 'INNER',
         ]);
     }
@@ -78,8 +78,8 @@ class DataSheetsSeasonsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['ficha_id'], 'DataSheets'), ['errorField' => 'ficha_id']);
-        $rules->add($rules->existsIn(['epoca_id'], 'Seasons'), ['errorField' => 'epoca_id']);
+        $rules->add($rules->existsIn(['data_sheet_id'], 'DataSheets'), ['errorField' => 'data_sheet_id']);
+        $rules->add($rules->existsIn(['season_id'], 'Seasons'), ['errorField' => 'season_id']);
 
         return $rules;
     }

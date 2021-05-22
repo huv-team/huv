@@ -40,6 +40,25 @@ class FamiliesTable extends Table
         $this->setTable('families');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->hasMany('Plants', [
+            'foreignKey' => 'family_id',
+        ]);
+
+        $this->hasMany('PreviousInRotations', [
+            'className' => 'Rotations',
+            'foreignKey' => 'anterior_id',
+        ]);
+
+        $this->hasMany('PosteriorInRotations', [
+            'className' => 'Rotations',
+            'foreignKey' => 'posterior_id',
+        ]);
+
+        $this->hasMany('CurrentInRotations', [
+            'className' => 'Rotations',
+            'foreignKey' => 'actual_id',
+        ]);
     }
 
     /**

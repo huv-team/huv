@@ -44,6 +44,9 @@ class SourcesTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->hasMany('Tips', [
+            'foreignKey' => 'source_id',
+        ]);
         $this->belongsToMany('Authors', [
             'foreignKey' => 'source_id',
             'targetForeignKey' => 'author_id',

@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string|null $contenido
- * @property int|null $fuente_id
+ * @property int|null $source_id
  * @property string|null $titulo
  *
  * @property \App\Model\Entity\Source $source
@@ -29,7 +29,7 @@ class Tip extends Entity
      */
     protected $_accessible = [
         'contenido' => true,
-        'fuente_id' => true,
+        'source_id' => true,
         'titulo' => true,
         'source' => true,
         'data_sheets' => true,

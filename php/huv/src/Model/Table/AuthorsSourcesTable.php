@@ -45,11 +45,11 @@ class AuthorsSourcesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Authors', [
-            'foreignKey' => 'autor_id',
+            'foreignKey' => 'author_id',
             'joinType' => 'INNER',
         ]);
         $this->belongsTo('Sources', [
-            'foreignKey' => 'fuente_id',
+            'foreignKey' => 'source_id',
             'joinType' => 'INNER',
         ]);
     }
@@ -83,8 +83,8 @@ class AuthorsSourcesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['autor_id'], 'Authors'), ['errorField' => 'autor_id']);
-        $rules->add($rules->existsIn(['fuente_id'], 'Sources'), ['errorField' => 'fuente_id']);
+        $rules->add($rules->existsIn(['author_id'], 'Authors'), ['errorField' => 'author_id']);
+        $rules->add($rules->existsIn(['source_id'], 'Sources'), ['errorField' => 'source_id']);
 
         return $rules;
     }

@@ -45,7 +45,7 @@ class TipsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Sources', [
-            'foreignKey' => 'fuente_id',
+            'foreignKey' => 'source_id',
         ]);
         $this->belongsToMany('DataSheets', [
             'foreignKey' => 'tip_id',
@@ -88,7 +88,7 @@ class TipsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['fuente_id'], 'Sources'), ['errorField' => 'fuente_id']);
+        $rules->add($rules->existsIn(['source_id'], 'Sources'), ['errorField' => 'source_id']);
 
         return $rules;
     }

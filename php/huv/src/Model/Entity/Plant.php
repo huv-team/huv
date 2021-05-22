@@ -11,12 +11,13 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $nombre_popular
  * @property string|null $nombre_cientifico
- * @property int|null $familia_id
+ * @property int|null $family_id
  * @property string|null $variedad
- * @property int|null $tipo_id
+ * @property int|null $type_id
  *
  * @property \App\Model\Entity\Family $family
  * @property \App\Model\Entity\Type $type
+ * @property \App\Model\Entity\DataSheet[] $data_sheets
  * @property \App\Model\Entity\Interaction[] $interactions
  */
 class Plant extends Entity
@@ -33,11 +34,12 @@ class Plant extends Entity
     protected $_accessible = [
         'nombre_popular' => true,
         'nombre_cientifico' => true,
-        'familia_id' => true,
+        'family_id' => true,
         'variedad' => true,
-        'tipo_id' => true,
+        'type_id' => true,
         'family' => true,
         'type' => true,
+        'data_sheets' => true,
         'interactions' => true,
     ];
 }

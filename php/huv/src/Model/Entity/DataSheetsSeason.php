@@ -9,8 +9,8 @@ use Cake\ORM\Entity;
  * DataSheetsSeason Entity
  *
  * @property int $id
- * @property int $ficha_id
- * @property int $epoca_id
+ * @property int $data_sheet_id
+ * @property int $season_id
  *
  * @property \App\Model\Entity\DataSheet $data_sheet
  * @property \App\Model\Entity\Season $season
@@ -27,8 +27,8 @@ class DataSheetsSeason extends Entity
      * @var array
      */
     protected $_accessible = [
-        'ficha_id' => true,
-        'epoca_id' => true,
+        'data_sheet_id' => true,
+        'season_id' => true,
         'data_sheet' => true,
         'season' => true,
     ];

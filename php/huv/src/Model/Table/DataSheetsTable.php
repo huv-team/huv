@@ -48,7 +48,7 @@ class DataSheetsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Plants', [
-            'foreignKey' => 'planta_id',
+            'foreignKey' => 'plant_id',
         ]);
         $this->belongsToMany('Seasons', [
             'foreignKey' => 'data_sheet_id',
@@ -166,7 +166,7 @@ class DataSheetsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['planta_id'], 'Plants'), ['errorField' => 'planta_id']);
+        $rules->add($rules->existsIn(['plant_id'], 'Plants'), ['errorField' => 'plant_id']);
 
         return $rules;
     }

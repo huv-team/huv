@@ -9,8 +9,8 @@ use Cake\ORM\Entity;
  * DataSheetsSource Entity
  *
  * @property int $id
- * @property int $ficha_id
- * @property int $fuente_id
+ * @property int $data_sheet_id
+ * @property int $source_id
  *
  * @property \App\Model\Entity\DataSheet $data_sheet
  * @property \App\Model\Entity\Source $source
@@ -27,8 +27,8 @@ class DataSheetsSource extends Entity
      * @var array
      */
     protected $_accessible = [
-        'ficha_id' => true,
-        'fuente_id' => true,
+        'data_sheet_id' => true,
+        'source_id' => true,
         'data_sheet' => true,
         'source' => true,
     ];

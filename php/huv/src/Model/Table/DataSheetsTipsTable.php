@@ -45,7 +45,7 @@ class DataSheetsTipsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('DataSheets', [
-            'foreignKey' => 'ficha_id',
+            'foreignKey' => 'data_sheet_id',
             'joinType' => 'INNER',
         ]);
         $this->belongsTo('Tips', [
@@ -78,7 +78,7 @@ class DataSheetsTipsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['ficha_id'], 'DataSheets'), ['errorField' => 'ficha_id']);
+        $rules->add($rules->existsIn(['data_sheet_id'], 'DataSheets'), ['errorField' => 'data_sheet_id']);
         $rules->add($rules->existsIn(['tip_id'], 'Tips'), ['errorField' => 'tip_id']);
 
         return $rules;

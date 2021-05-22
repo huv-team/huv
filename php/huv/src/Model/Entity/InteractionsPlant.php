@@ -9,8 +9,8 @@ use Cake\ORM\Entity;
  * InteractionsPlant Entity
  *
  * @property int $id
- * @property int $interaccion_id
- * @property int $planta_id
+ * @property int $interaction_id
+ * @property int $plant_id
  * @property string|null $type
  *
  * @property \App\Model\Entity\Interaction $interaction
@@ -28,8 +28,8 @@ class InteractionsPlant extends Entity
      * @var array
      */
     protected $_accessible = [
-        'interaccion_id' => true,
-        'planta_id' => true,
+        'interaction_id' => true,
+        'plant_id' => true,
         'type' => true,
         'interaction' => true,
         'plant' => true,

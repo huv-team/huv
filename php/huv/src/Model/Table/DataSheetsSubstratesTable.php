@@ -45,11 +45,11 @@ class DataSheetsSubstratesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('DataSheets', [
-            'foreignKey' => 'ficha_id',
+            'foreignKey' => 'data_sheet_id',
             'joinType' => 'INNER',
         ]);
         $this->belongsTo('Substrates', [
-            'foreignKey' => 'sustrato_id',
+            'foreignKey' => 'substrate_id',
             'joinType' => 'INNER',
         ]);
     }
@@ -78,8 +78,8 @@ class DataSheetsSubstratesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['ficha_id'], 'DataSheets'), ['errorField' => 'ficha_id']);
-        $rules->add($rules->existsIn(['sustrato_id'], 'Substrates'), ['errorField' => 'sustrato_id']);
+        $rules->add($rules->existsIn(['data_sheet_id'], 'DataSheets'), ['errorField' => 'data_sheet_id']);
+        $rules->add($rules->existsIn(['substrate_id'], 'Substrates'), ['errorField' => 'substrate_id']);
 
         return $rules;
     }

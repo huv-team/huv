@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * DataSheetsTip Entity
  *
  * @property int $id
- * @property int $ficha_id
+ * @property int $data_sheet_id
  * @property int $tip_id
  *
  * @property \App\Model\Entity\DataSheet $data_sheet
@@ -27,7 +27,7 @@ class DataSheetsTip extends Entity
      * @var array
      */
     protected $_accessible = [
-        'ficha_id' => true,
+        'data_sheet_id' => true,
         'tip_id' => true,
         'data_sheet' => true,
         'tip' => true,

@@ -26,5 +26,8 @@ class Family extends Entity
     protected $_accessible = [
         'nombre_popular' => true,
         'nombre_cientifico' => true,
+        'previous_in_rotations' => true,
+        'posterior_in_rotations' => true,
+        'current_in_rotations' => true,
     ];
 }

@@ -9,8 +9,8 @@ use Cake\ORM\Entity;
  * DataSheetsSubstrate Entity
  *
  * @property int $id
- * @property int $ficha_id
- * @property int $sustrato_id
+ * @property int $data_sheet_id
+ * @property int $substrate_id
  *
  * @property \App\Model\Entity\DataSheet $data_sheet
  * @property \App\Model\Entity\Substrate $substrate
@@ -27,8 +27,8 @@ class DataSheetsSubstrate extends Entity
      * @var array
      */
     protected $_accessible = [
-        'ficha_id' => true,
-        'sustrato_id' => true,
+        'data_sheet_id' => true,
+        'substrate_id' => true,
         'data_sheet' => true,
         'substrate' => true,
     ];

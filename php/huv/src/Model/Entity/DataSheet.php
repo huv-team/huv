@@ -16,7 +16,7 @@ use Cake\ORM\Entity;
  * @property int|null $horas_sol_max
  * @property string|null $riego
  * @property bool $tutorado
- * @property int|null $planta_id
+ * @property int|null $plant_id
  * @property int|null $distancia_max_cm
  * @property int|null $temperatura_max
  * @property int|null $temperatura_min
@@ -52,7 +52,7 @@ class DataSheet extends Entity
         'horas_sol_max' => true,
         'riego' => true,
         'tutorado' => true,
-        'planta_id' => true,
+        'plant_id' => true,
         'distancia_max_cm' => true,
         'temperatura_max' => true,
         'temperatura_min' => true,

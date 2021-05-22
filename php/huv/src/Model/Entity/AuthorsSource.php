@@ -10,8 +10,8 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $orden
- * @property int $autor_id
- * @property int $fuente_id
+ * @property int $author_id
+ * @property int $source_id
  *
  * @property \App\Model\Entity\Author $author
  * @property \App\Model\Entity\Source $source
@@ -29,8 +29,8 @@ class AuthorsSource extends Entity
      */
     protected $_accessible = [
         'orden' => true,
-        'autor_id' => true,
-        'fuente_id' => true,
+        'author_id' => true,
+        'source_id' => true,
         'author' => true,
         'source' => true,
     ];
