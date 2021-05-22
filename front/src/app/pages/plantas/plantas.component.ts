@@ -22,8 +22,8 @@ export class PlantasComponent implements OnInit {
   ngOnInit(): void {
     this.plantasSrv.get_plantas_list().subscribe(
       res => {
-        console.log(res.length)
-        this.plantasList = res;
+        console.log(res)
+        this.plantasList = res['plants'];
       },
       err => {
         console.log(err);

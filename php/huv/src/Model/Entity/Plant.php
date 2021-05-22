@@ -17,7 +17,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Family $family
  * @property \App\Model\Entity\Type $type
- * @property \App\Model\Entity\DataSheet[] $data_sheets
+ * @property \App\Model\Entity\DataSheet $data_sheet
  * @property \App\Model\Entity\Interaction[] $interactions
  */
 class Plant extends Entity
@@ -39,7 +39,7 @@ class Plant extends Entity
         'type_id' => true,
         'family' => true,
         'type' => true,
-        'data_sheets' => true,
+        'data_sheet' => true,
         'interactions' => true,
     ];
 }

@@ -52,7 +52,7 @@ class PlantsTable extends Table
         $this->belongsTo('Types', [
             'foreignKey' => 'type_id',
         ]);
-        $this->hasMany('DataSheets', [
+        $this->hasOne('DataSheets', [
             'foreignKey' => 'plant_id',
         ]);
         $this->belongsToMany('Interactions', [

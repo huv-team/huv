@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 import * as urls from "./urls"
-const options:any = { headers: { 'Content-Type': 'application/json' } };
+const options:any = { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } };
 
 @Injectable({
   providedIn: 'root'

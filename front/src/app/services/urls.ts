@@ -1,10 +1,10 @@
-export const server:string = 'http://localhost:8033/'
+export const server:string = 'http://localhost:8091/'
 
 //Plantas
 
-export const planta:string = server + 'planta'
+export const planta:string = server + 'plant'
 
-export const plantas_list:string = planta + 's'
+export const plantas_list:string = planta + 's/'
 
 export const plantas_search:string = plantas_list + '/search'
 

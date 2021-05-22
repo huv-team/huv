@@ -26,92 +26,14 @@ class PlantsController extends AppController
                 "DataSheets"
             ],
         ];
-        $plants = $this->paginate($this->Plants);
+        $plants = $this->paginate($this->Plants)->toArray();
+        array_walk($plants, function ($plant) {
+            unset($plant->family_id);
+            unset($plant->type_id);
+            $plant->data_sheet_id = !empty($plant->data_sheet) ? $plant->data_sheet->id : null;
+            unset($plant->data_sheet);
+        });
         $this->set('plants', $plants);
         $this->viewBuilder()->setOption('serialize', ['plants']);
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Plant id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $plant = $this->Plants->get($id, [
-            'contain' => [],
-        ]);
-
-        $this->set('plant', $plant);
-        $this->viewBuilder()->setOption('serialize', ['plant']);
-    }
-
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $this->request->allowMethod(['post']);
-        $plant = $this->Plants->newEntity($this->request->getData());
-        if ($this->Plants->save($plant)) {
-            $message = 'Saved';
-        } else {
-            $message = 'Error';
-        }
-        $this->set([
-            'message' => $message,
-            'plant' => $plant,
-        ]);
-        $this->viewBuilder()->setOption('serialize', []);
-        
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Plant id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $this->request->allowMethod(['patch', 'put']);
-        $plant = $this->Plants->get($id);
-        $plant = $this->Plants->patchEntity($plant, $this->request->getData());
-        if ($this->Plants->save($plant)) {
-            $message = 'Saved';
-        } else {
-            $message = 'Error';
-        }
-        $this->set([
-            'message' => $message,
-            'plant' => $plant,
-        ]);
-        $this->viewBuilder()->setOption('serialize', ['plant', 'message']);
-
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Plant id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['delete']);
-        $plant = $this->Plants->get($id);
-        $message = 'Deleted';
-        if (!$this->Plants->delete($plant)) {
-            $message = 'Error';
-        }
-        $this->set('message', $message);
-        $this->viewBuilder()->setOption('serialize', ['message']);
-
     }
 }

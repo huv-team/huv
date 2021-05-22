@@ -24,8 +24,8 @@
                         <th scope="row">{{planta.id}}</th>
                         <td>{{planta.nombre_popular}} (<i>{{planta.nombre_cientifico}}</i>)</td>
                         <td>{{planta.variedad}}</td>
-                        <td>{{planta.familia?.nombre_popular}} (<i>{{planta.familia?.nombre_cientifico}}</i>)</td>
-                        <td>{{planta.tipo?.nombre}}</td>
+                        <td>{{planta.family?.nombre_popular}} (<i>{{planta.family?.nombre_cientifico}}</i>)</td>
+                        <td>{{planta.type?.nombre}}</td>
                         <ng-container *ngIf="planta.ficha else noFicha">
                           <td>
                               <button class="btn btn-outline-success btn-sm" (click)="navigate2ficha(planta.ficha)">Ficha</button>
