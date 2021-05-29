@@ -12,7 +12,7 @@
                 style="cursor:pointer;cursor: hand;"
                 [ngClass]="{'bg-primary':isSelected(i)}"
                 (click)="changeSelected(i)">
-                <span class="h5 mb-0">{{mes.nombre.substring(0,3) | titlecase}}</span>
+                <span class="h5 mb-0">{{mes.substring(0,3) | titlecase}}</span>
             </div>
         </ng-container>
     </div>

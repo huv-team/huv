@@ -23,8 +23,8 @@ export class PlanificadorComponent implements OnInit {
     this.loading = true;
     this.plantasSrv.get_maseta_data().subscribe(
       res => {
-        this.volumenesMaceta = res['volumenes'];
-        this.profundidadesMaceta = res['profundidades'];
+        this.volumenesMaceta = res.pots_sizes['volumenes'];
+        this.profundidadesMaceta = res.pots_sizes['profundidades'];
       },
       err => {
         console.log(err);

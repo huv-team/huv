@@ -26,7 +26,7 @@ export class TipoSelectComponent implements OnInit {
     this.loading = true;
     this.plantasSrv.get_tipos_list().subscribe(
       res => {
-        this.types = res;
+        this.types = res.types;
       },
       err => {
         console.log(err);

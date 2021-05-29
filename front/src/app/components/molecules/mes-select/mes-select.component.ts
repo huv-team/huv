@@ -13,7 +13,11 @@ export class MesSelectComponent implements OnInit {
 
   selected:Set<number> = new Set<number>([1]);
 
-  meses:any[] = [];
+  meses:string[] = [
+    'ENERO','FEBRERO','MARZO','ABRIL',
+    'MAYO','JUNIO','JULIO','AGOSTO',
+    'SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'
+  ];
   loading:boolean;
 
   @Output() selectionChange = new EventEmitter<any>(true);
@@ -22,20 +26,7 @@ export class MesSelectComponent implements OnInit {
     private plantasSrv:PlantasService,
   ) { }
 
-  ngOnInit(): void {
-    this.loading = true;
-    this.plantasSrv.get_meses_list().subscribe(
-      res => {
-        this.meses = res;
-      },
-      err => {
-        console.log(err);
-      },
-      () => {
-        this.loading = false;
-      }
-    )
-  }
+  ngOnInit(): void { }
 
   get selection(){
     return this.multi ? this.selected : this.selected[0]

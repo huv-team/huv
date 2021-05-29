@@ -58,6 +58,26 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->connect('/pages/*', 'Pages::display');
 
     $builder->setExtensions(['json']);
+    $builder->resources('Constants', [
+        'map' => [
+            'plants-types' => [
+                'action' => 'getPlantsTypes',
+                'method' => 'GET'
+            ],
+            'epochs-types' => [
+                'action' => 'getEpochsTypes',
+                'method' => 'GET'
+            ],
+        ]
+    ]);
+    $builder->resources('Dynamics', [
+        'map' => [
+            'pots-sizes' => [
+                'action' => 'getPotsSize',
+                'method' => 'GET'
+            ],
+        ]
+    ]);
     $builder->resources('Plants');
 
     /*
