@@ -16,9 +16,9 @@ class PlantsController extends AppController
         parent::initialize();
 
         $this->loadComponent('Paginator');
-        $this->loadComponent('Flash'); // Include the FlashComponent
+        $this->loadComponent('Flash');
     }
-    
+
     /**
      * Index method
      *
@@ -34,9 +34,8 @@ class PlantsController extends AppController
                 "DataSheets"
             ],
         ];
-        $plants = $this->paginate($this->Plants)->toArray();
-        $this->set('plants', $plants);
-        $this->viewBuilder()->setOption('serialize', ['plants']);
+        $plants = $this->Paginator->paginate($this->Plants->find());
+        $this->set(compact('plants'));
     }
 
     /**
@@ -82,12 +81,36 @@ class PlantsController extends AppController
      */
     public function view($id = null)
     {
-        $Plant = $this->plants->get($id, [
+        $plant = $this->Plants->get($id, [
             'contain' => 
                 ['Families',
                  'Types'],
         ]);
 
-        $this->set(compact('Plant'));
+        $this->set(compact('plant'));
     }
+
+
+    /**
+     * Add method
+     *
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     */
+    public function add()
+    {
+        $plant = $this->plants->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $plant = $this->Plants->patchEntity($plant, $this->request->getData());
+            if ($this->Plants->save($plant)) {
+                $this->Flash->success(__('The plant has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Unable to add the plant.'));
+        }
+        $plantFamily = $this->Plants->Families->find('list', ['limit' => 200]);
+        $plantType = $this->Plants->Types->find('list', ['limit' => 200]);
+        $this->set(compact('plant', 'plantFamily', 'plantType'));
+    }
+
 }
