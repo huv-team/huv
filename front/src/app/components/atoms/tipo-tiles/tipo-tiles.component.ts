@@ -7,8 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TipoTilesComponent implements OnInit {
 
-  @Input() tipo:number;
-  
+  @Input() tipo:string;
+
+  types:any = { fruto: 'FR', flor: 'FL', hola: 'HO', raiz: 'RA' };
+
   constructor() { }
 
   ngOnInit(): void {

@@ -26,6 +26,7 @@ class PlantsController extends AppController
      */
     public function index()
     {
+        
         $this->paginate = [
             'contain' => [
                 "Families",
@@ -34,12 +35,40 @@ class PlantsController extends AppController
             ],
         ];
         $plants = $this->paginate($this->Plants)->toArray();
-        array_walk($plants, function ($plant) {
-            unset($plant->family_id);
-            unset($plant->type_id);
-            $plant->data_sheet_id = !empty($plant->data_sheet) ? $plant->data_sheet->id : null;
-            unset($plant->data_sheet);
-        });
+        $this->set('plants', $plants);
+        $this->viewBuilder()->setOption('serialize', ['plants']);
+    }
+
+    /**
+     * Search method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function search()
+    {
+        $conditions = [];
+        $joins = [];
+        
+        $query = $this->request->getQuery();
+        if( !isset($query['nombre_popular']) ) {
+            $conditions['Plants.nombre_popular'] = $query['nombre_popular'];
+        }
+        if( !isset($query['nombre_cientifico']) ) {
+            $conditions['Plants.nombre_popular'] = $query['nombre_cientifico'];
+        }
+        if( !isset($query['type']) ) {}
+        if( !isset($query['family']) ) {}
+
+
+        
+        $this->paginate = [
+            'contain' => [
+                "Families",
+                "Types",
+                "DataSheets"
+            ],
+        ];
+        $plants = $this->paginate($this->Plants)->toArray();
         $this->set('plants', $plants);
         $this->viewBuilder()->setOption('serialize', ['plants']);
     }

@@ -21,9 +21,11 @@ export class MacetaSelectComponent implements OnInit {
   ngOnInit(): void {
     this.volumen = this.volumenes[0];
     this.profundidad = this.profundidades[0];
+    console.log(this.volumenes, this.profundidades);
   }
 
   volumenChange(value:number){
+    console.log(value);
     this.volumen = this.volumenes[value];
     this.valueChange.emit({volumen:this.volumen,profundidad:this.profundidad});
   }

@@ -1,15 +1,15 @@
 <div class="rounded-circle border p-2 d-flex" id="tile-container">
     <ng-container [ngSwitch]="tipo">
-        <ng-container *ngSwitchCase=1>
+        <ng-container *ngSwitchCase="types.fruto">
             <icon-fruto class="mx-auto"></icon-fruto>
         </ng-container>
-        <ng-container *ngSwitchCase=2>
+        <ng-container *ngSwitchCase="types.flor">
             <icon-flor class="mx-auto"></icon-flor>
         </ng-container>
-        <ng-container *ngSwitchCase=3>
+        <ng-container *ngSwitchCase="types.hoja">
             <icon-hoja class="mx-auto"></icon-hoja>
         </ng-container>
-        <ng-container *ngSwitchCase=4>
+        <ng-container *ngSwitchCase="types.raiz">
             <icon-raiz class="mx-auto"></icon-raiz>
         </ng-container>
         <ng-container *ngSwitchDefault>
