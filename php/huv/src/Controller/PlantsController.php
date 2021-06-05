@@ -11,6 +11,13 @@ namespace App\Controller;
  */
 class PlantsController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        $this->loadComponent('Paginator');
+        $this->loadComponent('Flash'); // Include the FlashComponent
+    }
     
     /**
      * Index method
@@ -35,5 +42,23 @@ class PlantsController extends AppController
         });
         $this->set('plants', $plants);
         $this->viewBuilder()->setOption('serialize', ['plants']);
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Plants id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        $Plant = $this->plants->get($id, [
+            'contain' => 
+                ['Families',
+                 'Types'],
+        ]);
+
+        $this->set(compact('Plant'));
     }
 }
