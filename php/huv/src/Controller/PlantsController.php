@@ -98,7 +98,7 @@ class PlantsController extends AppController
      */
     public function add()
     {
-        $plant = $this->plants->newEmptyEntity();
+        $plant = $this->Plants->newEmptyEntity();
         if ($this->request->is('post')) {
             $plant = $this->Plants->patchEntity($plant, $this->request->getData());
             if ($this->Plants->save($plant)) {

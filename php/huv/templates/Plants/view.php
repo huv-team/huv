@@ -3,7 +3,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\PlantasPlantum $plantasPlantum
+ * @var \App\Model\Entity\Plant $plant
  */
 ?>
 <div class="row">
@@ -18,19 +18,11 @@
     </aside>
     <div class="column-responsive column-80">
         <div class="plant view content">
-            <h3><?= h($plant->id) ?></h3>
+            <h3><?= h($plant->nombre_popular), ' (', h($plant->nombre_cientifico), ')'?></h3>
             <table>
                 <tr>
-                    <th><?= __('Nombre Popular') ?></th>
-                    <td><?= h($plant->nombre_popular) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Nombre Cientifico') ?></th>
-                    <td><?= h($plant->nombre_cientifico) ?></td>
-                </tr>
-                <tr>
                     <th><?= __('Familia') ?></th>
-                    <td><?= $plant->has('plantas_familia') ? $this->Html->link($plant->plantas_familia->id, ['controller' => 'PlantasFamilia', 'action' => 'view', $plant->plantas_familia->id]) : '' ?></td>
+                    <td><?= $this->Html->link($plant->family->nombre_popular, ['controller' => 'Families', 'action' => 'view', $plant->family_id]) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Variedad') ?></th>
@@ -38,7 +30,7 @@
                 </tr>
                 <tr>
                     <th><?= __('Tipo') ?></th>
-                    <td><?= $plant->has('plantas_tipo') ? $this->Html->link($plant->plantas_tipo->id, ['controller' => 'PlantasTipo', 'action' => 'view', $plant->plantas_tipo->id]) : '' ?></td>
+                    <td><?= $this->Html->link($plant->type->nombre, ['controller' => 'Types', 'action' => 'view', $plant->type->nombre]) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Id') ?></th>
