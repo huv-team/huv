@@ -418,4 +418,58 @@ return [
     'Session' => [
         'defaults' => 'php',
     ],
+
+    /**
+     * Constantes del sistema
+     */
+    'Constants' => [
+        'appName' => 'huv',
+        'host' => 'http://localhost:8091',
+        'plantsTypes' => [
+            'FR' => 'Fruto',
+            'FL' => 'Flor',
+            'HO' => 'Hoja',
+            'RA' => 'Raiz',
+        ],
+        'epochsTypes' => [
+            'AL' => 'Almácigo',
+            'SI' => 'Siembra',
+            'TR' => 'Trasplante',
+            'CO' => 'Cosecha',
+        ],
+        'sourcesTypes' => [
+            'LI' => 'Libro',
+            'RE' => 'Revista',
+            'PE' => 'Periódico',
+            'PW' => 'Pagina web',
+            'DI' => 'Diccionario',
+            'RS' => 'Red social',
+            'WP' => 'Wikipedia',
+            'PP' => 'Power point',
+        ],
+        'socialNetTypes' => [
+            'YT' => 'Youtube',
+            'TW' => 'Twitter',
+            'IN' => 'Instagram',
+            'FB' => 'Facebook'
+        ],
+        'plantsSizes' => [
+            'S' => 'Chico',
+            'M' => 'Mediano',
+            'L' => 'Grande',
+            'XL' => 'Extra Grande',
+        ],
+        'irrigationFrequency' => [
+            'c15D' => 'Cada 15 días',
+            '1xS' => 'Una vez por semana',
+            '2xS' => 'Dos veces por semana',
+            'c2D' => 'Cada dos días',
+            '1xD' => 'Una vez por día',
+            '2xD' => 'Dos veces por día',
+        ],
+        'fertilizationTypes' => [
+            'AU' => 'Autofecundación',
+            'CR' => 'cruzada',
+        ]
+    ],
 ];
