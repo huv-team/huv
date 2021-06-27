@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Core\Configure;
+
 /**
  * Plants Controller
  *
@@ -25,8 +27,7 @@ class PlantsController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index()
-    {
-        
+    {   
         $this->paginate = [
             'contain' => [
                 "Families",
@@ -34,8 +35,9 @@ class PlantsController extends AppController
                 "DataSheets"
             ],
         ];
-        $plants = $this->Paginator->paginate($this->Plants->find());
-        $this->set(compact('plants'));
+        $plants = $this->paginate($this->Plants);
+        $this->set('plants', $plants);
+        $this->set('types', Configure::read('Constants.plantsTypes'));
     }
 
     /**
@@ -87,7 +89,8 @@ class PlantsController extends AppController
                  'Types'],
         ]);
 
-        $this->set(compact('plant'));
+        $this->set('plant', $plant);
+        $this->set('types', Configure::read('Constants.plantsTypes'));
     }
 
 

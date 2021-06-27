@@ -16,15 +16,15 @@
         </thead>
 
         <!-- Here is where we iterate through our $articles query object, printing out article info -->
-
+        
         <?php foreach ($plants as $plant): ?>
         <tr>
             <td><?= $this->Number->format($plant->id) ?></td>
             <td><?= h($plant->nombre_popular) ?></td>
             <td><?= h($plant->nombre_cientifico) ?></td>
-            <td><?= $this->Html->link($plant->family_id, ['controller' => 'Families', 'action' => 'view', $plant->family_id]) ?></td>
+            <td><?= $this->Html->link($plant->family->nombre_popular, ['controller' => 'Families', 'action' => 'view', $plant->family]) ?></td>
             <td><?= h($plant->variedad) ?></td>
-            <td><?= $this->Html->link($plant->type_id, ['controller' => 'Types', 'action' => 'view', $plant->type_id])?></td>
+            <td><?= $this->Html->link($types[$plant->type->nombre], ['controller' => 'Types', 'action' => 'view', $plant->type_id])?></td>
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $plant->id]) ?>
                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $plant->id]) ?>
