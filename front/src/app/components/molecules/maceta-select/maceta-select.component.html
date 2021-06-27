@@ -12,11 +12,11 @@
                     </td>
                     <td>
                     </td>
-                    <td><button class="btn">-</button></td>
+                    <td><button class="btn" (click)="cangeVolumen(-1)">-</button></td>
                     <td>
                         <span>{{volumen}}</span>
                     </td>
-                    <td><button class="btn">+</button></td>
+                    <td><button class="btn" (click)="cangeVolumen(1)">+</button></td>
                 </tr>
                 <tr>
                     <td>
@@ -24,11 +24,11 @@
                     </td>
                     <td>
                     </td>
-                    <td><button class="btn">-</button></td>
+                    <td><button class="btn" (click)="changeProfundidad(-1)">-</button></td>
                     <td>
                         <span>{{profundidad}}</span>
                     </td>
-                    <td><button class="btn">+</button></td>
+                    <td><button class="btn" (click)="changeProfundidad(1)">+</button></td>
                 </tr>
             </table>
         </div>

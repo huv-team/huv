@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { MacetasGroupComponent } from "src/app/components/organisms/macetas-group/macetas-group.component";
+import { TipoSelectComponent } from "src/app/components/molecules/tipo-select/tipo-select.component";
+import { MesSelectComponent } from "src/app/components/molecules/mes-select/mes-select.component";
 import { PlantasService } from 'src/app/services/plantas.service';
 
 @Component({
@@ -9,6 +11,9 @@ import { PlantasService } from 'src/app/services/plantas.service';
 })
 export class PlanificadorComponent implements OnInit {
 
+  @ViewChild(MacetasGroupComponent) macetas: MacetasGroupComponent;
+  @ViewChild(TipoSelectComponent) tipos: TipoSelectComponent;
+  @ViewChild(MesSelectComponent) meses: MesSelectComponent;
   query:any = {};
   
   volumenesMaceta:number[] = [];
@@ -38,24 +43,16 @@ export class PlanificadorComponent implements OnInit {
   set actividad(data:string) {
     this.query['actividad'] = data;
   }
-  
-  set tipos(data:any) {
-    this.query['tipos'] = data.map( el => el.nombre );
-  }
-
-  set meses(data:any) {
-    this.query['meses'] = data.map( el => el.id );
-  }
-
-  set macetas(data:any){
-    this.query['macetas'] = data;
-  }
 
   search(){
-    console.log('searching...',this.query)
-    this.plantasSrv.search_plantas(this.query).subscribe(
+    const query = {
+      ...this.query,
+      tipos: this.tipos.selection,
+      meses: this.meses.selection,
+      macetas: this.macetas.values
+    }
+    this.plantasSrv.search_plantas(query).subscribe(
       res => console.log(res)
-
     )
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PlantasService } from 'src/app/services/plantas.service';
 
 @Component({
@@ -19,8 +19,6 @@ export class MesSelectComponent implements OnInit {
     'SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'
   ];
   loading:boolean;
-
-  @Output() selectionChange = new EventEmitter<any>(true);
   
   constructor(
     private plantasSrv:PlantasService,
@@ -29,7 +27,7 @@ export class MesSelectComponent implements OnInit {
   ngOnInit(): void { }
 
   get selection(){
-    return this.multi ? this.selected : this.selected[0]
+    return this.selected;
   }
 
   isSelected(idx:number):boolean {
@@ -47,7 +45,6 @@ export class MesSelectComponent implements OnInit {
       this.selected.clear();
       this.selected.add(idx);
     }
-    this.selectionChange.emit(Array.from(this.selected, el => this.meses[el]));
   }
 
 }

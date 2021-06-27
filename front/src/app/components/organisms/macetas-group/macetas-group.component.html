@@ -4,8 +4,7 @@
 </div>
 <div class="d-flex justify-content-start flex-wrap">
     <div class="d-flex flex-column align-items-center" *ngFor="let maceta of macetas; let i = index">
-        <app-maceta-select class="flex-fill mx-3" (valueChange)="actualizar(i,$event)"
-        [volumenes]="volumenes" [profundidades]="profundidades"></app-maceta-select>
+        <app-maceta-select class="flex-fill mx-3" [volumenes]="volumenes" [profundidades]="profundidades"></app-maceta-select>
         <button class="btn btn-link" (click)="quitar(i)">Quitar</button>
     </div>
 </div>

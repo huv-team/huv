@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core';
+import { MacetaSelectComponent } from "src/app/components/molecules/maceta-select/maceta-select.component";
 
 @Component({
   selector: 'app-macetas-group',
@@ -12,7 +13,7 @@ export class MacetasGroupComponent implements OnInit {
   @Input() volumenes:number[];
   @Input() profundidades:number[];
 
-  @Output() groupChange = new EventEmitter<any>(true);  
+  @ViewChildren(MacetaSelectComponent) children:QueryList<any>;
   macetas:any[];
   
   constructor() { }
@@ -21,22 +22,16 @@ export class MacetasGroupComponent implements OnInit {
     this.macetas = [];
   }
 
-  emit() {
-    this.groupChange.emit(this.macetas.filter( el => el.volumen && el.profundidad ));
-  }
-
   agregar() {
-    this.macetas.push({volumen:null,profundidad:null});
-  }
-
-  actualizar(idx:number,$event:any){
-    this.macetas[idx] = $event;
-    this.emit();
+    this.macetas.push({});
   }
 
   quitar(idx:number) {
     this.macetas.splice(idx,1);
-    this.emit();
+  }
+
+  get values(){
+    return this.children.map( child => child.values );
   }
 
 }

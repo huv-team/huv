@@ -10,11 +10,17 @@
         <ng-container *ngFor="let type of types | keyvalue; let i = index">
             <div class="flex-fill d-flex justify-content-between align-items-center border rounded mx-1 py-2 px-4"
                 style="cursor:pointer;cursor: hand;"
-                [ngClass]="{'bg-primary':isSelected(i)}"
-                (click)="changeSelected(i)">
+                [ngClass]="{'bg-primary':isSelected(type.key)}"
+                (click)="changeSelected(type.key)">
                 <span class="h2 mb-0">{{type.value | titlecase}}</span>
                 <app-tipo-tiles [tipo]="type.key"></app-tipo-tiles>
             </div>
         </ng-container>
     </div>
+    <pre>
+        {{types|json}}
+    </pre>
+    <pre>
+        {{selection}}
+    </pre>
 </ng-template>

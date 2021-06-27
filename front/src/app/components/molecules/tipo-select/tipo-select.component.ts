@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PlantasService } from 'src/app/services/plantas.service';
 
 @Component({
@@ -11,12 +11,10 @@ export class TipoSelectComponent implements OnInit {
   @Input() multi:boolean = false;
   @Input() label:string = 'Selecciona un tipo:';
 
-  selected:Set<number> = new Set<number>([1]);
+  selected:Set<string> = new Set<string>(['FR']);
 
   types:any[] = [];
   loading:boolean;
-
-  @Output() selectionChange = new EventEmitter<any>(true);
   
   constructor(
     private plantasSrv:PlantasService,
@@ -38,25 +36,24 @@ export class TipoSelectComponent implements OnInit {
   }
 
   get selection(){
-    return this.multi ? this.selected : this.selected[0]
+    return Array.from(this.selected);
   }
 
-  isSelected(idx:number):boolean {
-    return this.selected.has(idx);
+  isSelected(key:string):boolean {
+    return this.selected.has(key);
   }
 
-  changeSelected(idx:number) {
+  changeSelected(key:string) {
     if (this.multi){
-      if (this.isSelected(idx)){
-        this.selected.delete(idx);
+      if (this.isSelected(key)){
+        this.selected.delete(key);
       }else{
-        this.selected.add(idx);
+        this.selected.add(key);
       }
     }else{
       this.selected.clear();
-      this.selected.add(idx);
+      this.selected.add(key);
     }
-    this.selectionChange.emit(Array.from(this.selected, el => this.types[el]));
   }
 
 }

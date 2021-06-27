@@ -18,7 +18,7 @@ export const planta:string = server + 'plant'
 
 export const plantas_list:string = planta + 's/'
 
-export const plantas_search:string = plantas_list + '/search'
+export const plantas_search:string = plantas_list + 'search'
 
 export const meses_list:string = planta + '/meses'
 

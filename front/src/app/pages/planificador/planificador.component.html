@@ -22,14 +22,13 @@
     </div>
     <form class="row collapse" [ngClass]="{'show':query.actividad}">
         <div class="col-md-12 mb-3" *ngIf="query.actividad!='trasplante'">
-            <app-tipo-select multi=true (selectionChange)="tipos=$event"></app-tipo-select>
+            <app-tipo-select multi=true></app-tipo-select>
         </div>
         <div class="col-md-12 mb-3">
-            <app-mes-select multi=true (selectionChange)="meses=$event"></app-mes-select>
+            <app-mes-select multi=true></app-mes-select>
         </div>
         <div class="col-md-12 mb-3" *ngIf="query.actividad=='directa'">
-            <app-macetas-group (groupChange)="macetas=$event"
-            [volumenes]="volumenesMaceta" [profundidades]="profundidadesMaceta"></app-macetas-group>
+            <app-macetas-group #macetasGroup [volumenes]="volumenesMaceta" [profundidades]="profundidadesMaceta"></app-macetas-group>
         </div>
         <div class="form-group col-md-12 mb-3">
             <button class="btn btn-primary btn-block" (click)="search()">Buscar</button>
