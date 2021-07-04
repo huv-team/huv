@@ -40,10 +40,7 @@ export class PlantasService {
 
   search_plantas(query):Observable<any>{
     console.log(query);
-    return this.http.get<any>(urls.plantas_search, {
-      ...options,
-      params: new HttpParams(query)
-    });
+    return this.http.post<any>(urls.plantas_search, query, options);
   }
 
 }

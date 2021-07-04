@@ -11,7 +11,7 @@ export class TipoSelectComponent implements OnInit {
   @Input() multi:boolean = false;
   @Input() label:string = 'Selecciona un tipo:';
 
-  selected:Set<string> = new Set<string>(['FR']);
+  selected:Set<string> = new Set<string>([]);
 
   types:any[] = [];
   loading:boolean;

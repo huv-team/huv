@@ -11,7 +11,7 @@ export class MesSelectComponent implements OnInit {
   @Input() multi:boolean = false;
   @Input() label:string = 'Selecciona un mes:';
 
-  selected:Set<number> = new Set<number>([1]);
+  selected:Set<number> = new Set<number>([]);
 
   meses:string[] = [
     'ENERO','FEBRERO','MARZO','ABRIL',
