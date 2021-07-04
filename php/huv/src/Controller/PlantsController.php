@@ -105,11 +105,11 @@ class PlantsController extends AppController
         if ($this->request->is('post')) {
             $plant = $this->Plants->patchEntity($plant, $this->request->getData());
             if ($this->Plants->save($plant)) {
-                $this->Flash->success(__('The plant has been saved.'));
+                $this->Flash->success(__('The {0} has been saved.', $plant->nombre_popular));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Unable to add the plant.'));
+            $this->Flash->error(__('Unable to add {0}.', $plant->nombre_popular));
         }
         $plantFamily = $this->Plants->Families->find('list', ['limit' => 200]);
         $plantType = $this->Plants->Types->find('list', ['limit' => 200]);
@@ -132,15 +132,34 @@ class PlantsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $plant = $this->Plants->patchEntity($plant, $this->request->getData());
             if ($this->Plants->save($plant)) {
-                $this->Flash->success(__('The plant has been updated.'));
+                $this->Flash->success(__('The {0} has been updated.', $plant->nombre_popular));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Unable to update your plant.'));
+            $this->Flash->error(__('Unable to update {0}.', $plant->nombre_popular));
         }
         $plantFamily = $this->Plants->Families->find('list', ['limit' => 200]);
         $plantType = $this->Plants->Types->find('list', ['limit' => 200]);
         $this->set(compact('plant', 'plantFamily', 'plantType'));
     }
     
+    /**
+     * Delete method
+     *
+     * @param string|null $id Planta id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $plant = $this->Plants->get($id);
+        if ($this->Plants->delete($plant)) {
+            $this->Flash->success(__('The {0} plant has been deleted.', $plant->nombre_popular));
+        } else {
+            $this->Flash->error(__('The {0} plant could not be deleted.', $plant->nombre_popular));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
 }

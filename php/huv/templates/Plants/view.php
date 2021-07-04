@@ -11,7 +11,7 @@
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?= $this->Html->link(__('Edit Plant'), ['action' => 'edit', $plant->id], ['class' => 'side-nav-item']) ?>
-            <?= $this->Form->postLink(__('Delete Plant'), ['action' => 'delete', $plant->id], ['confirm' => __('Are you sure you want to delete # {0}?', $plant->id), 'class' => 'side-nav-item']) ?>
+            <?= $this->Form->postLink(__('Delete Plant'), ['action' => 'delete', $plant->id], ['confirm' => __('Are you sure you want to delete {0}?', $plant->nombre_popular), 'class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('List Plant'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('New Plant'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
         </div>
