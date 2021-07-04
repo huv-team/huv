@@ -1,6 +1,7 @@
 <!-- File: templates/Plants/index.php -->
 
 <h1>Plantas</h1>
+<?= $this->Html->link('Add Plant', ['action' => 'add']) ?>
 <div class="table-responsive">
     <table>
         <thead>
@@ -24,7 +25,7 @@
             <td><?= h($plant->nombre_cientifico) ?></td>
             <td><?= $plant->has('family') ? $this->Html->link($plant->family->nombre_popular, ['controller' => 'Families', 'action' => 'view', $plant->family]) : "" ?></td>
             <td><?= h($plant->variedad) ?></td>
-            <td><?= $this->Html->link($types[$plant->type->nombre], ['controller' => 'Types', 'action' => 'view', $plant->type_id])?></td>
+            <td><?= $plant->has('type') ? $this->Html->link($types[$plant->type->nombre], ['controller' => 'Types', 'action' => 'view', $plant->type_id]) : '' ?></td>
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $plant->id]) ?>
                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $plant->id]) ?>

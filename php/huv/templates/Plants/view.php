@@ -30,7 +30,7 @@
                 </tr>
                 <tr>
                     <th><?= __('Tipo') ?></th>
-                    <td><?= $this->Html->link($types[$plant->type->nombre], ['controller' => 'Types', 'action' => 'view', $plant->type_id]) ?></td>
+                    <td><?= $plant->has('type') ? $this->Html->link($types[$plant->type->nombre], ['controller' => 'Types', 'action' => 'view', $plant->type_id]) : '' ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Id') ?></th>
