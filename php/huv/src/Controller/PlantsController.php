@@ -114,6 +114,33 @@ class PlantsController extends AppController
         $plantFamily = $this->Plants->Families->find('list', ['limit' => 200]);
         $plantType = $this->Plants->Types->find('list', ['limit' => 200]);
         $this->set(compact('plant', 'plantFamily', 'plantType'));
+        $this->set('types', Configure::read('Constants.plantsTypes'));
     }
 
+    /**
+     * Edit method
+     *
+     * @param string|null $id Plants id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $plant = $this->Plants->get($id, [
+            'contain' => [],
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $plant = $this->Plants->patchEntity($plant, $this->request->getData());
+            if ($this->Plants->save($plant)) {
+                $this->Flash->success(__('The plant has been updated.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Unable to update your plant.'));
+        }
+        $plantFamily = $this->Plants->Families->find('list', ['limit' => 200]);
+        $plantType = $this->Plants->Types->find('list', ['limit' => 200]);
+        $this->set(compact('plant', 'plantFamily', 'plantType'));
+    }
+    
 }
