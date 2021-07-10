@@ -1,6 +1,7 @@
 <!-- File: templates/Plants/index.php -->
 
 <h1>Plantas</h1>
+<?= $this->Html->link('Add Plant', ['action' => 'add']) ?>
 <div class="table-responsive">
     <table>
         <thead>
@@ -16,19 +17,19 @@
         </thead>
 
         <!-- Here is where we iterate through our $articles query object, printing out article info -->
-
+        
         <?php foreach ($plants as $plant): ?>
         <tr>
             <td><?= $this->Number->format($plant->id) ?></td>
             <td><?= h($plant->nombre_popular) ?></td>
             <td><?= h($plant->nombre_cientifico) ?></td>
-            <td><?= $this->Html->link($plant->family_id, ['controller' => 'Families', 'action' => 'view', $plant->family_id]) ?></td>
+            <td><?= $plant->has('family') ? $this->Html->link($plant->family->nombre_popular, ['controller' => 'Families', 'action' => 'view', $plant->family]) : "" ?></td>
             <td><?= h($plant->variedad) ?></td>
-            <td><?= $this->Html->link($plant->type_id, ['controller' => 'Types', 'action' => 'view', $plant->type_id])?></td>
+            <td><?= $plant->has('type') ? $this->Html->link($types[$plant->type->nombre], ['controller' => 'Types', 'action' => 'view', $plant->type_id]) : '' ?></td>
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $plant->id]) ?>
                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $plant->id]) ?>
-                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $plant->id], ['confirm' => __('Are you sure you want to delete # {0}?', $plant->id)]) ?>
+                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $plant->id], ['confirm' => __('Are you sure you want to delete {0}?', $plant->nombre_popular)]) ?>
             </td>
         </tr>
         <?php endforeach; ?>

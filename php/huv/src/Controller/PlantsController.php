@@ -5,7 +5,6 @@ namespace App\Controller;
 
 use Cake\Core\Configure;
 use Cake\Http\Exception\BadRequestException;
-use Cake\Log\Log;
 use Cake\Validation\Validator;
 
 /**
@@ -30,17 +29,7 @@ class PlantsController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index()
-    {
-        //$query = $this->request->getQuery();
-        //if( !isset($query['nombre_popular']) ) {
-        //    $conditions['Plants.nombre_popular'] = $query['nombre_popular'];
-        //}
-        //if( !isset($query['nombre_cientifico']) ) {
-        //    $conditions['Plants.nombre_popular'] = $query['nombre_cientifico'];
-        //}
-        //if( !isset($query['type']) ) {}
-        //if( !isset($query['family']) ) {}
-
+    {   
         $this->paginate = [
             'contain' => [
                 "Families",
@@ -48,8 +37,9 @@ class PlantsController extends AppController
                 "DataSheets"
             ],
         ];
-        $plants = $this->Paginator->paginate($this->Plants->find());
-        $this->set(compact('plants'));
+        $plants = $this->paginate($this->Plants);
+        $this->set('plants', $plants);
+        $this->set('types', Configure::read('Constants.plantsTypes'));
     }
 
     /**
@@ -175,7 +165,8 @@ class PlantsController extends AppController
                  'Types'],
         ]);
 
-        $this->set(compact('plant'));
+        $this->set('plant', $plant);
+        $this->set('types', Configure::read('Constants.plantsTypes'));
     }
 
 
@@ -190,15 +181,61 @@ class PlantsController extends AppController
         if ($this->request->is('post')) {
             $plant = $this->Plants->patchEntity($plant, $this->request->getData());
             if ($this->Plants->save($plant)) {
-                $this->Flash->success(__('The plant has been saved.'));
+                $this->Flash->success(__('The {0} has been saved.', $plant->nombre_popular));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Unable to add the plant.'));
+            $this->Flash->error(__('Unable to add {0}.', $plant->nombre_popular));
+        }
+        $plantFamily = $this->Plants->Families->find('list', ['limit' => 200]);
+        $plantType = $this->Plants->Types->find('list', ['limit' => 200]);
+        $this->set(compact('plant', 'plantFamily', 'plantType'));
+        $this->set('types', Configure::read('Constants.plantsTypes'));
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Plants id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $plant = $this->Plants->get($id, [
+            'contain' => [],
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $plant = $this->Plants->patchEntity($plant, $this->request->getData());
+            if ($this->Plants->save($plant)) {
+                $this->Flash->success(__('The {0} has been updated.', $plant->nombre_popular));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Unable to update {0}.', $plant->nombre_popular));
         }
         $plantFamily = $this->Plants->Families->find('list', ['limit' => 200]);
         $plantType = $this->Plants->Types->find('list', ['limit' => 200]);
         $this->set(compact('plant', 'plantFamily', 'plantType'));
     }
+    
+    /**
+     * Delete method
+     *
+     * @param string|null $id Planta id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $plant = $this->Plants->get($id);
+        if ($this->Plants->delete($plant)) {
+            $this->Flash->success(__('The {0} plant has been deleted.', $plant->nombre_popular));
+        } else {
+            $this->Flash->error(__('The {0} plant could not be deleted.', $plant->nombre_popular));
+        }
 
+        return $this->redirect(['action' => 'index']);
+    }
 }
