@@ -3,6 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Core\Configure;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Log\Log;
+use Cake\Validation\Validator;
+
 /**
  * Plants Controller
  *
@@ -26,7 +31,16 @@ class PlantsController extends AppController
      */
     public function index()
     {
-        
+        //$query = $this->request->getQuery();
+        //if( !isset($query['nombre_popular']) ) {
+        //    $conditions['Plants.nombre_popular'] = $query['nombre_popular'];
+        //}
+        //if( !isset($query['nombre_cientifico']) ) {
+        //    $conditions['Plants.nombre_popular'] = $query['nombre_cientifico'];
+        //}
+        //if( !isset($query['type']) ) {}
+        //if( !isset($query['family']) ) {}
+
         $this->paginate = [
             'contain' => [
                 "Families",
@@ -45,20 +59,94 @@ class PlantsController extends AppController
      */
     public function search()
     {
-        $conditions = [];
-        $joins = [];
+        $this->request->allowMethod(['post']);
+        $data = $this->request->getData();
+
+        $_types = Configure::read('Constants.plantsTypes');
+
+        $validator = new Validator();
+        $validator->add('tipo', 'inList', [
+            'rule' => ['inList', array_keys($_types)],
+            'message' => "Elija un tipo de estos: ".json_encode($_types)
+        ]);
+        $validator->add('macetas', 'isArray', [
+            'rule' => ['isArray'],
+            'message' => "Macetas tiene que ser una lista"
+        ]);
+        $validator->add('meses', 'isArray', [
+            'rule' => ['isArray'],
+            'message' => "Meses tiene que ser una lista"
+        ]);
+
+        $pots_validator = new Validator();
+        $pots_validator->scalar('volumen')->requirePresence('volumen');
+        $pots_validator->scalar('profundidad')->requirePresence('profundidad');
+
+        $validator->add('macetas', 'custom', [
+            'rule' => function ($values, $context) use ($pots_validator) {
+                if( empty($values) ) {
+                    return "No hay macetas en la lista";
+                }
+                else {
+                    if (array_reduce(
+                        $values,
+                        function ($res,$pot) use ($pots_validator) {
+                            if( is_array($pot) ) {
+                                $pots_errors = $pots_validator->validate($pot);
+                                return $res && empty($pots_errors);
+                            }
+                            else {
+                                return false;
+                            }
+                        },
+                        true
+                    )){
+                        return true;
+                    }
+                    else {
+                        return "Cada maceta debe respetar el formato {volumen:number;profundidad:number}";
+                    }
+                }
+            },
+        ]);
+
+        $validator->add('meses', 'custom', [
+            'rule' => function ($values, $context) {
+                if( empty($values) ) {
+                    return "No hay meses en la lista";
+                }
+                else {
+                    if (array_reduce(
+                        $values,
+                        function ($res,$mes) {
+                            return $res && in_array($mes, [1,2,3,4,5,6,7,8,9,10,11,12]);
+                        },
+                        true
+                    )){
+                        return true;
+                    }
+                    else {
+                        return "Mes tiene que ser un entero en el rango [1,12]";
+                    }
+                }
+            },
+        ]);
         
-        $query = $this->request->getQuery();
-        if( !isset($query['nombre_popular']) ) {
-            $conditions['Plants.nombre_popular'] = $query['nombre_popular'];
+        $errors = $validator->validate($data);
+        if (!empty($errors)) {
+            throw new BadRequestException(json_encode($errors,JSON_PRETTY_PRINT));
         }
-        if( !isset($query['nombre_cientifico']) ) {
-            $conditions['Plants.nombre_popular'] = $query['nombre_cientifico'];
-        }
-        if( !isset($query['type']) ) {}
-        if( !isset($query['family']) ) {}
-
-
+        exit;
+        
+        $joins = [];
+        if( isset($data['type']) ){ $joins[] = "Types"; }
+        if( isset($data['pots']) ){ $joins[] = "DataSheets"; }
+        if( isset($data['seasons']) ){ $joins[] = "DataSheets.Seasons"; }
+        
+        $conditions = [];
+        if( isset($data['type']) ){ $conditions["Types.nombre"] = $data['type']; }
+        if( isset($data['seasons']) ){ $conditions[] = "DataSheets.Seasons"; }
+        if( isset($data['pots']) ){ $conditions[] = "DataSheets"; }
         
         $this->paginate = [
             'contain' => [
