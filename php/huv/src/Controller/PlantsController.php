@@ -52,12 +52,19 @@ class PlantsController extends AppController
         $this->request->allowMethod(['post']);
         $data = $this->request->getData();
 
-        $_types = Configure::read('Constants.plantsTypes');
+        $epochs_types = Configure::read('Constants.epochsTypes');
+        $plants_types = Configure::read('Constants.plantsTypes');
 
         $validator = new Validator();
+
+        $validator->requirePresence('actividad')->add('actividad', 'inList', [
+            'rule' => ['inList', array_keys($epochs_types)],
+            'message' => "Elija un tipo de estos: ".json_encode($epochs_types)
+        ]);
+
         $validator->add('tipo', 'inList', [
-            'rule' => ['inList', array_keys($_types)],
-            'message' => "Elija un tipo de estos: ".json_encode($_types)
+            'rule' => ['inList', array_keys($plants_types)],
+            'message' => "Elija un tipo de estos: ".json_encode($plants_types)
         ]);
         $validator->add('macetas', 'isArray', [
             'rule' => ['isArray'],
@@ -121,31 +128,66 @@ class PlantsController extends AppController
                 }
             },
         ]);
-        
+
         $errors = $validator->validate($data);
         if (!empty($errors)) {
             throw new BadRequestException(json_encode($errors,JSON_PRETTY_PRINT));
         }
-        exit;
-        
-        $joins = [];
-        if( isset($data['type']) ){ $joins[] = "Types"; }
-        if( isset($data['pots']) ){ $joins[] = "DataSheets"; }
-        if( isset($data['seasons']) ){ $joins[] = "DataSheets.Seasons"; }
         
         $conditions = [];
-        if( isset($data['type']) ){ $conditions["Types.nombre"] = $data['type']; }
-        if( isset($data['seasons']) ){ $conditions[] = "DataSheets.Seasons"; }
-        if( isset($data['pots']) ){ $conditions[] = "DataSheets"; }
+        if( isset($data['tipo']) ){
+            $conditions[] = [
+                "Types.nombre" => $data['tipo'],
+            ];
+        }
+
+        if( isset($data['meses']) ){
+            $conditions[] = [
+                'or' => array_map(
+                    function ($mes) use ($data) {
+                        return [
+                            "Seasons.tipo" => $data['actividad'],
+                            "or" => [
+                                "Seasons.desde_mes <=" => $mes,
+                                "Seasons.hasta_mes >=" => $mes,
+                            ]
+                        ];
+                    },
+                    $data['meses']
+                )
+            ];
+        }
+
+        if( isset($data['macetas']) ){
+            $conditions[] = [
+                'or' => array_map(
+                    function ($maceta) use ($data) {
+                        return [
+                            'or' => [
+                                "DataSheets.volumen_maceta_ltr <=" => $maceta['volumen'],
+                                "DataSheets.volumen_maceta_ltr IS" => null,
+                            ],
+                            'or' => [
+                                "DataSheets.profundidad_cm <=" => $maceta['profundidad'],
+                                "DataSheets.profundidad_cm IS" => null,
+                            ],
+                        ];
+                    },
+                    $data['macetas']
+                )
+            ];
+        }
         
-        $this->paginate = [
+        $plants = $this->Plants->find('all', [
             'contain' => [
                 "Families",
                 "Types",
-                "DataSheets"
+                "DataSheets.Seasons"
             ],
-        ];
-        $plants = $this->paginate($this->Plants)->toArray();
+            'conditions' => $conditions,
+        ])->leftJoinWith("DataSheets.Seasons");
+        
+        $plants = $this->paginate($plants);
         $this->set('plants', $plants);
         $this->viewBuilder()->setOption('serialize', ['plants']);
     }
@@ -180,6 +222,7 @@ class PlantsController extends AppController
         $plant = $this->Plants->newEmptyEntity();
         if ($this->request->is('post')) {
             $plant = $this->Plants->patchEntity($plant, $this->request->getData());
+            debug($plant);exit;
             if ($this->Plants->save($plant)) {
                 $this->Flash->success(__('The {0} has been saved.', $plant->nombre_popular));
 

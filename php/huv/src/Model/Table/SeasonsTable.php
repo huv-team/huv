@@ -69,14 +69,12 @@ class SeasonsTable extends Table
             ->notEmptyString('tipo');
 
         $validator
-            ->scalar('desde_mes')
-            ->maxLength('desde_mes', 20)
+            ->integer('desde_mes')
             ->requirePresence('desde_mes', 'create')
             ->notEmptyString('desde_mes');
 
         $validator
-            ->scalar('hasta_mes')
-            ->maxLength('hasta_mes', 20)
+            ->integer('hasta_mes')
             ->requirePresence('hasta_mes', 'create')
             ->notEmptyString('hasta_mes');
 

@@ -10,8 +10,8 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $tipo
- * @property string $desde_mes
- * @property string $hasta_mes
+ * @property int $desde_mes
+ * @property int $hasta_mes
  * @property int $desde_dia
  * @property int $hasta_dia
  *
