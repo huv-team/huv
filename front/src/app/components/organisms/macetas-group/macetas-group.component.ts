@@ -19,7 +19,7 @@ export class MacetasGroupComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.macetas = [];
+    this.macetas = [{}];
   }
 
   agregar() {

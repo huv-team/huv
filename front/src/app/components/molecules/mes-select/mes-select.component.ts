@@ -27,7 +27,7 @@ export class MesSelectComponent implements OnInit {
   ngOnInit(): void { }
 
   get selection(){
-    return this.selected;
+    return Array.from(this.selected);
   }
 
   isSelected(idx:number):boolean {
