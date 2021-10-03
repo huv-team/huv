@@ -209,6 +209,7 @@ class PlantsController extends AppController
 
         $this->set('plant', $plant);
         $this->set('types', Configure::read('Constants.plantsTypes'));
+        $this->viewBuilder()->setOption('serialize', ['plant']);
     }
 
 
@@ -219,21 +220,34 @@ class PlantsController extends AppController
      */
     public function add()
     {
+        $this->request->allowMethod(['get', 'post', 'put']);
         $plant = $this->Plants->newEmptyEntity();
+        $api = $this->request->getHeader('Accept') == 'application/json';
+        debug($api);exit;
         if ($this->request->is('post')) {
             $plant = $this->Plants->patchEntity($plant, $this->request->getData());
-            debug($plant);exit;
+            //debug($plant);exit;
             if ($this->Plants->save($plant)) {
-                $this->Flash->success(__('The {0} has been saved.', $plant->nombre_popular));
-
-                return $this->redirect(['action' => 'index']);
+                if ($api) {
+                    $message = __('The {0} has been saved.', $plant->nombre_popular);
+                }
+                else {
+                    $this->Flash->success(__('The {0} has been saved.', $plant->nombre_popular));
+                    return $this->redirect(['action' => 'index']);
+                }
+            } else {
+                $message = __('Unable to add {0}.', $plant->nombre_popular);
             }
             $this->Flash->error(__('Unable to add {0}.', $plant->nombre_popular));
         }
         $plantFamily = $this->Plants->Families->find('list', ['limit' => 200]);
         $plantType = $this->Plants->Types->find('list', ['limit' => 200]);
         $this->set(compact('plant', 'plantFamily', 'plantType'));
+        $this->set([
+            'message' => $message
+        ]);
         $this->set('types', Configure::read('Constants.plantsTypes'));
+        $this->viewBuilder()->setOption('serialize', ['plant', 'message']);
     }
 
     /**
@@ -245,21 +259,29 @@ class PlantsController extends AppController
      */
     public function edit($id = null)
     {
+        $this->request->allowMethod(['get', 'patch', 'post', 'put']);
         $plant = $this->Plants->get($id, [
             'contain' => [],
         ]);
+        $message = '';
         if ($this->request->is(['patch', 'post', 'put'])) {
             $plant = $this->Plants->patchEntity($plant, $this->request->getData());
             if ($this->Plants->save($plant)) {
                 $this->Flash->success(__('The {0} has been updated.', $plant->nombre_popular));
-
+                $message = __('The {0} has been updated.', $plant->nombre_popular);
                 return $this->redirect(['action' => 'index']);
+            } else{
+                $message = __('Unable to update {0}.', $plant->nombre_popular);
             }
             $this->Flash->error(__('Unable to update {0}.', $plant->nombre_popular));
         }
         $plantFamily = $this->Plants->Families->find('list', ['limit' => 200]);
         $plantType = $this->Plants->Types->find('list', ['limit' => 200]);
         $this->set(compact('plant', 'plantFamily', 'plantType'));
+        $this->set([
+            'message' => $message,
+        ]);
+        $this->viewBuilder()->setOption('serialize', ['plant', 'message']);
     }
     
     /**
@@ -271,14 +293,17 @@ class PlantsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(['get', 'post', 'delete']);
         $plant = $this->Plants->get($id);
         if ($this->Plants->delete($plant)) {
+            $message = __('The {0} plant has been deleted.', $plant->nombre_popular);
             $this->Flash->success(__('The {0} plant has been deleted.', $plant->nombre_popular));
         } else {
             $this->Flash->error(__('The {0} plant could not be deleted.', $plant->nombre_popular));
+            $message = __('The {0} plant could not be deleted.', $plant->nombre_popular);
         }
-
+        $this->set('message', $message);
+        $this->viewBuilder()->setOption('serialize', ['message']);
         return $this->redirect(['action' => 'index']);
     }
 }
