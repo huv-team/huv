@@ -38,7 +38,7 @@ class FamiliesTable extends Table
         parent::initialize($config);
 
         $this->setTable('families');
-        $this->setDisplayField('id');
+        $this->setDisplayField('nombre_popular');
         $this->setPrimaryKey('id');
 
         $this->hasMany('Plants', [
