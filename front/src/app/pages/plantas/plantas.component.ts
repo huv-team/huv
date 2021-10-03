@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from "@angular/forms";
 
+
 import { PlantasService } from "src/app/services/plantas.service";
 import { Router } from '@angular/router';
 
@@ -13,6 +14,8 @@ export class PlantasComponent implements OnInit {
 
   plantasList:any;
   plantasQueryForm:FormGroup;
+
+  searching:boolean = false;
   
   constructor(
     private plantasSrv:PlantasService,
@@ -20,9 +23,8 @@ export class PlantasComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.plantasSrv.get_plantas_list().subscribe(
+    this.plantasSrv.search_plantas().subscribe(
       res => {
-        console.log(res)
         this.plantasList = res['plants'];
       },
       err => {
@@ -31,16 +33,17 @@ export class PlantasComponent implements OnInit {
     );
 
     this.plantasQueryForm = new FormGroup({
-      nombre: new FormControl(''),
+      name: new FormControl(''),
     })
 
   }
 
   buscar() {
-    const query = 'nombre=' + this.plantasQueryForm.value.nombre
-    this.plantasSrv.get_plantas_list(query).subscribe(
+    this.searching = true
+    this.plantasSrv.search_plantas(this.query).subscribe(
       res => {
-        this.plantasList = res;
+        this.plantasList = res['plants'];
+        this.searching =false;
       },
       err => {
         console.log(err);
@@ -48,8 +51,10 @@ export class PlantasComponent implements OnInit {
     );
   }
 
-  navigate2ficha(pk:number) {
-    this.router.navigate(['ficha'], { queryParams: { pk:pk } });
+  get query(){
+    return {
+      ...Object.entries(this.plantasQueryForm.value).filter( ([_, v]) => v != null ).reduce( (a,k) => ({...a, [k[0]]:k[1]}), {}),
+    };
   }
 
 }

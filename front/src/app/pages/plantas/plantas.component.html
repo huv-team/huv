@@ -1,9 +1,12 @@
 <div class="container-fluid my-2">
     <div class="row">
         <div class="col-md-12 mb-3">
-          <form class="d-flex" [formGroup]="plantasQueryForm">
-              <input class="form-control me-2" type="text" placeholder="Nombre" aria-label="Nombre" formControlName="nombre">
-              <button class="btn btn-outline-success ml-1" type="submit" (click)="buscar()">Buscar</button>
+          <form class="d-flex justify-content-md-beatween align-items-center" [formGroup]="plantasQueryForm">
+              <input class="flex-shrink-1 form-control" type="text" placeholder="Nombre" aria-label="Nombre" formControlName="name">
+              <button class="btn btn-outline-primary mx-2" type="submit" (click)="buscar()">
+                Buscar
+              </button>
+              <span *ngIf="searching" class="flex-shrink-0 spinner-border text-primary" role="status" aria-hidden="true"></span>
           </form>
         </div>
         <div class="col-md-12 table-responsive">
@@ -28,7 +31,7 @@
                         <td>{{planta.type?.nombre}}</td>
                         <ng-container *ngIf="planta.ficha else noFicha">
                           <td>
-                              <button class="btn btn-outline-success btn-sm" (click)="navigate2ficha(planta.ficha)">Ficha</button>
+                              <button class="btn btn-outline-success btn-sm">Ficha</button>
                           </td>
                         </ng-container>
                         <ng-template #noFicha>

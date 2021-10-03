@@ -14,8 +14,12 @@ export class PlantasService {
     private http:HttpClient,
   ) { }
 
-  get_plantas_list(query:string=''):Observable<any>{
-    return this.http.get<any>(`${urls.plantas_list}?${query}`, options);
+  get_plantas_list(query:any={}):Observable<any>{
+    return this.http.get<any>(urls.plantas_list, {...options , params: query });
+  }
+
+  search_plantas(query = {}):Observable<any>{
+    return this.http.post<any>(urls.plantas_search, query, options);
   }
 
   get_tipos_list(query:string=''):Observable<any>{
@@ -36,11 +40,6 @@ export class PlantasService {
 
   get_fuentes_list():Observable<any>{
     return this.http.get<any>(urls.fuentes_list, options);
-  }
-
-  search_plantas(query):Observable<any>{
-    console.log(query);
-    return this.http.post<any>(urls.plantas_search, query, options);
   }
 
 }
