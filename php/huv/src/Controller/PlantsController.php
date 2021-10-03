@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use Cake\Core\Configure;
 use Cake\Http\Exception\BadRequestException;
+use Cake\Log\Log;
 use Cake\Validation\Validator;
 
 /**
@@ -57,7 +58,7 @@ class PlantsController extends AppController
 
         $validator = new Validator();
 
-        $validator->requirePresence('actividad')->add('actividad', 'inList', [
+        $validator->add('actividad', 'inList', [
             'rule' => ['inList', array_keys($epochs_types)],
             'message' => "Elija un tipo de estos: ".json_encode($epochs_types)
         ]);
@@ -123,7 +124,7 @@ class PlantsController extends AppController
                         return true;
                     }
                     else {
-                        return "Mes tiene que ser un entero en el rango [1,12]";
+                        return "Mes tiene que ser un entero en el rango [1;12]";
                     }
                 }
             },
@@ -133,8 +134,20 @@ class PlantsController extends AppController
         if (!empty($errors)) {
             throw new BadRequestException(json_encode($errors,JSON_PRETTY_PRINT));
         }
-        
+
         $conditions = [];
+        
+        if( isset($data['name']) ){
+            $conditions[] = [
+                "or" => [
+                    "Plants.nombre_popular LIKE" => "%{$data['name']}%",
+                    "Plants.nombre_cientifico LIKE" => "%{$data['name']}%",
+                    "Families.nombre_popular LIKE" => "%{$data['name']}%",
+                    "Families.nombre_cientifico LIKE" => "%{$data['name']}%",
+                ]
+            ];
+        }
+        
         if( isset($data['tipo']) ){
             $conditions[] = [
                 "Types.nombre" => $data['tipo'],
