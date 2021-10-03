@@ -7,12 +7,14 @@ import { MoleculesModule } from "src/app/components/molecules/molecules.module";
 import { FooterComponent } from './footer/footer.component';
 
 import { MacetasGroupComponent } from './macetas-group/macetas-group.component';
+import { PlanificadorComponent } from './planificador/planificador.component';
 
 @NgModule({
   declarations: [
     NavBarComponent,
     FooterComponent,
     MacetasGroupComponent,
+    PlanificadorComponent,
   ],
     imports: [
     CommonModule,
@@ -22,6 +24,7 @@ import { MacetasGroupComponent } from './macetas-group/macetas-group.component';
     NavBarComponent,
     FooterComponent,
     MacetasGroupComponent,
+    PlanificadorComponent,
   ]
 })
 export class OrganismsModule { }

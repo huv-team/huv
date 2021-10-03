@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { MacetasGroupComponent } from "src/app/components/organisms/macetas-group/macetas-group.component";
 import { TipoSelectComponent } from "src/app/components/molecules/tipo-select/tipo-select.component";
 import { MesSelectComponent } from "src/app/components/molecules/mes-select/mes-select.component";
@@ -10,7 +11,7 @@ import { PlantasService } from 'src/app/services/plantas.service';
   styleUrls: ['./planificador.component.scss']
 })
 export class PlanificadorComponent implements OnInit {
-
+  
   @ViewChild(MacetasGroupComponent) macetas: MacetasGroupComponent;
   @ViewChild(TipoSelectComponent) tipos: TipoSelectComponent;
   @ViewChild(MesSelectComponent) meses: MesSelectComponent;
@@ -44,16 +45,32 @@ export class PlanificadorComponent implements OnInit {
     this.query['actividad'] = data;
   }
 
-  search(){
-    const query = {
-      ...this.query,
-      tipos: this.tipos.selection,
-      meses: this.meses.selection,
-      macetas: this.macetas.values
+  get data():any {
+    let query = {...this.query};
+    switch(this.query['actividad']){
+      case 'AL':
+        query = {
+          ...query,
+          tipos: this.tipos.selection,
+          meses: Array.from(this.meses.selection),
+        }
+        break;
+      case 'SI':
+        query = {
+          ...query,
+          tipos: this.tipos.selection,
+          meses: Array.from(this.meses.selection),
+          macetas: this.macetas.values
+        }
+        break;
+      case 'TR':
+        query = {
+          ...query,
+          meses: Array.from(this.meses.selection),
+        }
+        break;
     }
-    this.plantasSrv.search_plantas(query).subscribe(
-      res => console.log(res)
-    )
+    return query;
   }
 
 }
