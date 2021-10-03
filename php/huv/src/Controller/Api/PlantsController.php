@@ -238,7 +238,7 @@ class PlantsController extends AppController
     {
         $this->request->allowMethod(['post']);
         
-        $plant = $this->Plants->newEntity($plant, $this->request->getData());
+        $plant = $this->Plants->newEntity($this->request->getData());
         if ($this->Plants->save($plant)) {
             $this->set('plant', $plant);
             $this->viewBuilder()->setOption('serialize', ['plant']);

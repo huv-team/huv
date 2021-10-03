@@ -222,7 +222,6 @@ class PlantsController extends AppController
 
         $this->set('plant', $plant);
         $this->set('types', Configure::read('Constants.plantsTypes'));
-        $this->viewBuilder()->setOption('serialize', ['plant']);
     }
 
 
