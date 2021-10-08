@@ -15,8 +15,4 @@ export class NavBarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  navigate2(url:string) {
-    this.router.navigate([url]);
-  }
-
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from "@angular/forms";
 
+import { PlanificadorComponent } from "src/app/components/organisms/planificador/planificador.component";
 
 import { PlantasService } from "src/app/services/plantas.service";
 import { Router } from '@angular/router';
@@ -15,6 +16,7 @@ export class PlantasComponent implements OnInit {
   plantasList:any;
   plantasQueryForm:FormGroup;
 
+  @ViewChild(PlanificadorComponent) planificador: PlanificadorComponent;
   searching:boolean = false;
   
   constructor(
@@ -23,9 +25,11 @@ export class PlantasComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.searching = true;
     this.plantasSrv.search_plantas().subscribe(
       res => {
         this.plantasList = res['plants'];
+        this.searching = false;
       },
       err => {
         console.log(err);
@@ -53,6 +57,7 @@ export class PlantasComponent implements OnInit {
 
   get query(){
     return {
+      ...this.planificador ? this.planificador.data : {},
       ...Object.entries(this.plantasQueryForm.value).filter( ([_, v]) => v != null ).reduce( (a,k) => ({...a, [k[0]]:k[1]}), {}),
     };
   }
