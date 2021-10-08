@@ -1,4 +1,4 @@
-export const server:string = 'http://localhost:8091/'
+export const server:string = 'http://localhost:8091/api/'
 
 // Constantes
 

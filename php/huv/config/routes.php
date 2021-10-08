@@ -102,7 +102,14 @@ $routes->prefix('api', function (RouteBuilder $builder) {
             ],
         ]
     ]);
-    $builder->resources('Plants');
+    $builder->resources('Plants', [
+        'map' => [
+            'search' => [
+                'action' => 'search',
+                'method' => 'POST'
+            ],
+        ]
+    ]);
     $builder->resources('Types');
 
 });
