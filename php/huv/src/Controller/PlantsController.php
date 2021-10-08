@@ -242,9 +242,9 @@ class PlantsController extends AppController
             }
             $this->Flash->error(__('Unable to add {0}.', $plant->nombre_popular));
         }
-        $plantFamily = $this->Plants->Families->find('list', ['limit' => 200]);
-        $plantType = $this->Plants->Types->find('list', ['limit' => 200]);
-        $this->set(compact('plant', 'plantFamily', 'plantType'));
+        $plantFamilies = $this->Plants->Families->find('list', ['limit' => 200]);
+        $plantTypes = $this->Plants->Types->find('list', ['limit' => 200]);
+        $this->set(compact('plant', 'plantFamilies', 'plantTypes'));
         $this->set('types', Configure::read('Constants.plantsTypes'));
     }
 
