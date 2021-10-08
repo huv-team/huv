@@ -234,18 +234,21 @@ class PlantsController extends AppController
     {
         $plant = $this->Plants->newEmptyEntity();
         if ($this->request->is('post')) {
+            debug($this->request->getData());exit;
             $plant = $this->Plants->patchEntity($plant, $this->request->getData());
-            //debug($plant);exit;
             if ($this->Plants->save($plant)) {
                 $this->Flash->success(__('The {0} has been saved.', $plant->nombre_popular));
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('Unable to add {0}.', $plant->nombre_popular));
         }
-        $plantFamilies = $this->Plants->Families->find('list', ['limit' => 200]);
-        $plantTypes = $this->Plants->Types->find('list', ['limit' => 200]);
-        $this->set(compact('plant', 'plantFamilies', 'plantTypes'));
-        $this->set('types', Configure::read('Constants.plantsTypes'));
+        $plantFamily = $this->Plants->Families->find('list', ['limit' => 200]);
+        $_type_names = Configure::read('Constants.plantsTypes');
+        $plantType = array_map(
+            fn($ty) => $_type_names[$ty],
+            $this->Plants->Types->find('list', ['limit' => 200])->toArray(),
+        );
+        $this->set(compact('plant', 'plantFamily', 'plantType'));
     }
 
     /**
