@@ -21,8 +21,6 @@ class PlantsController extends AppController
     {
         parent::initialize();
 
-        $this->loadComponent('Paginator');
-        $this->loadComponent('Flash');
     }
 
     /**
@@ -32,7 +30,6 @@ class PlantsController extends AppController
      */
     public function index()
     {   
-        $this->request->allowMethod(['get']);
         
         $this->paginate = [
             'contain' => [
@@ -280,7 +277,7 @@ class PlantsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(['delete']);
         $plant = $this->Plants->get($id);
         if ($this->Plants->delete($plant)) {
             $this->viewBuilder()->setOption('serialize', []);

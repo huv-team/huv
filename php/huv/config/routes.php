@@ -111,6 +111,7 @@ $routes->prefix('api', function (RouteBuilder $builder) {
         ]
     ]);
     $builder->resources('Types');
+    $builder->resources('Families');
 
 });
  
