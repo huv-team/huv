@@ -234,9 +234,32 @@ class PlantsController extends AppController
     public function add()
     {
         $this->request->allowMethod(['post']);
+
+        $data = $this->request->getData();
+        $this->loadModel("Families");
+        $family = $this->Families->newEntity($data['family']);
+        $result = $this->Families->find()->where([
+            "or" => [
+                "nombre_cientifico" => $family->nombre_cientifico,
+                "and" => [
+                    "nombre_cientifico IS" => null,
+                    "nombre_popular" => $family->nombre_popular,
+                ]
+
+            ]
+        ])->first();
+        if( !empty($result) ) {
+            unset($data['family']);
+            $data['family_id'] = $result->id;
+        }
         
-        $plant = $this->Plants->newEntity($this->request->getData());
+        $plant = $this->Plants->newEntity($data, [
+            'associated' => ['Families'],
+        ]);
         if ($this->Plants->save($plant)) {
+            $plant = $this->Plants->get($plant->id, [
+                'contain' => ['Families'],
+            ]);
             $this->set('plant', $plant);
             $this->viewBuilder()->setOption('serialize', ['plant']);
         }
