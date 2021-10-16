@@ -40,16 +40,35 @@ class FamiliesController extends AppController
     {
         $this->request->allowMethod(['post', 'put']);
         $family = $this->Families->newEntity($this->request->getData());
-        if ($this->Families->save($family)) {
-            $message = 'Saved';
-        } else {
-            $message = 'Error';
+
+        $result = $this->Families->find()->where([
+            "or" => [
+                "nombre_cientifico" => $family->nombre_cientifico,
+                "and" => [
+                    "nombre_cientifico IS" => null,
+                    "nombre_popular" => $family->nombre_popular,
+                ]
+
+            ]
+        ])->first();
+        if( empty($result) ) {
+            if ($this->Families->save($family)) {
+                $message = 'Saved';
+            } else {
+                $message = 'Error';
+            }
         }
+        else {
+            $message = 'La familia ya existe';
+            $family = $result;
+        }
+        
         $this->set([
             'message' => $message,
             'family' => $family,
         ]);
         $this->viewBuilder()->setOption('serialize', ['family', 'message']);
+
     }
 
     public function edit($id)
