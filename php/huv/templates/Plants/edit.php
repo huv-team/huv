@@ -25,8 +25,8 @@
                     echo $this->Form->control('nombre_popular');
                     echo $this->Form->control('nombre_cientifico');
                     echo $this->Form->control('variedad');
-                    echo $this->Form->control('family_id', ['label' => 'Familia', 'options' => $plantFamilies, 'empty' => true]);
-                    echo $this->Form->control('type_id', ['label' => 'Tipo', 'options' => $plantTypes, 'empty' => true]);
+                    echo $this->Form->control('family_id', ['label' => 'Familia', 'options' => $plantsFamilies, 'empty' => true]);
+                    echo $this->Form->control('type_id', ['label' => 'Tipo', 'options' => $plantsTypes, 'empty' => true]);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>
