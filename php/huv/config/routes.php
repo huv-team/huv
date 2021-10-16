@@ -104,6 +104,7 @@ $routes->prefix('api', function (RouteBuilder $builder) {
     ]);
     $builder->resources('Plants');
     $builder->resources('Types');
+    $builder->resources('Families');
 
 });
  
