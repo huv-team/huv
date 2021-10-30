@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\Core\Configure;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -43,6 +44,10 @@ class InteractionsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('Plants', [
+            'foreignKey' => 'plant_id',
+        ]);
+        
         $this->belongsToMany('Plants', [
             'foreignKey' => 'interaction_id',
             'targetForeignKey' => 'plant_id',
@@ -71,8 +76,23 @@ class InteractionsTable extends Table
             ->scalar('type')
             ->maxLength('type', 255)
             ->requirePresence('type', 'create')
-            ->notEmptyString('type');
+            ->notEmptyString('type')
+            ->inList('type', array_keys(Configure::read("Constants.interactionTypes")));
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn(['plant_id'], 'Plants'), ['errorField' => 'plant_id']);
+
+        return $rules;
     }
 }

@@ -470,6 +470,10 @@ return [
         'fertilizationTypes' => [
             'AU' => 'Autofecundación',
             'CR' => 'cruzada',
+        ],
+        'interactionTypes' => [
+            'F' => 'Favorable',
+            'P' => 'Perjudicial'
         ]
     ],
 ];
