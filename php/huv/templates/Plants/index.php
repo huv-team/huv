@@ -1,6 +1,64 @@
 <!-- File: templates/Plants/index.php -->
 
-<h1>Plantas</h1>
+<div class="flex">
+
+    <div class="flex-auto flex flex-col">
+        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Planta
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Familia
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Variedad
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Tipo
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <?php foreach ($plants as $plant) : ?>
+                                <tr>
+                                    <td class="px-6 py-2 whitespace-nowrap">
+                                        <div class="text-sm text-green-500 hover:text-green-900">
+                                            <?= $this->Html->link($plant->family->nombre_popular, ['controller' => 'Plants', 'action' => 'view', $plant->id]) ?>
+                                        </div>
+                                        <div class="text-sm text-gray-500">
+                                            <?= h($plant->nombre_cientifico) ?>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-2 whitespace-nowrap">
+                                        <div class="text-sm text-green-500 hover:text-green-900">
+                                            <?= $plant->has('family') ? $this->Html->link($plant->family->nombre_popular, ['controller' => 'Families', 'action' => 'view', $plant->family]) : "" ?>
+                                        </div>
+                                        <div class="text-sm text-gray-500">
+                                            <?= $plant->has('family') ? $plant->family->nombre_cientifico : '' ?>
+                                        </div>
+                                    </td>
+                                    <td class="text-center px-6 py-2 whitespace-nowrap text-sm text-gray-500">
+                                        <?= $plant->variedad ? h($plant->variedad) : '<i class="far fa-frown"></i>' ?>
+                                    </td>
+                                    <td class="text-center px-6 py-2 whitespace-nowrap text-sm text-gray-500">
+                                        <?= $plant->has('type') ? $types[$plant->type->nombre] : '' ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--h1>Plantas</h1>
 <?= $this->Html->link('Add Plant', ['action' => 'add']) ?>
 <div class="table-responsive">
     <table>
@@ -16,23 +74,7 @@
             </tr>
         </thead>
 
-        <!-- Here is where we iterate through our $articles query object, printing out article info -->
         
-        <?php foreach ($plants as $plant): ?>
-        <tr>
-            <td><?= $this->Number->format($plant->id) ?></td>
-            <td><?= h($plant->nombre_popular) ?></td>
-            <td><?= h($plant->nombre_cientifico) ?></td>
-            <td><?= $plant->has('family') ? $this->Html->link($plant->family->nombre_popular, ['controller' => 'Families', 'action' => 'view', $plant->family]) : "" ?></td>
-            <td><?= h($plant->variedad) ?></td>
-            <td><?= $plant->has('type') ? $this->Html->link($types[$plant->type->nombre], ['controller' => 'Types', 'action' => 'view', $plant->type_id]) : '' ?></td>
-            <td class="actions">
-                <?= $this->Html->link(__('View'), ['action' => 'view', $plant->id]) ?>
-                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $plant->id]) ?>
-                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $plant->id], ['confirm' => __('Are you sure you want to delete {0}?', $plant->nombre_popular)]) ?>
-            </td>
-        </tr>
-        <?php endforeach; ?>
     </table>
 </div>
 
@@ -45,4 +87,4 @@
         <?= $this->Paginator->last(__('last') . ' >>') ?>
     </ul>
     <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-</div>
+</div> -->
