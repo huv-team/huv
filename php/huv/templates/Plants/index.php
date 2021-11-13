@@ -23,7 +23,7 @@
             <td><?= $this->Number->format($plant->id) ?></td>
             <td><?= h($plant->nombre_popular) ?></td>
             <td><?= h($plant->nombre_cientifico) ?></td>
-            <td><?= $plant->has('family') ? $this->Html->link($plant->family->nombre_popular, ['controller' => 'Families', 'action' => 'view', $plant->family]) : "" ?></td>
+            <td><?= $plant->has('family') ? $this->Html->link($plant->family->nombre_cientifico, ['controller' => 'Families', 'action' => 'view', $plant->family]) : "" ?></td>
             <td><?= h($plant->variedad) ?></td>
             <td><?= $plant->has('type') ? $this->Html->link($types[$plant->type->nombre], ['controller' => 'Types', 'action' => 'view', $plant->type_id]) : '' ?></td>
             <td class="actions">

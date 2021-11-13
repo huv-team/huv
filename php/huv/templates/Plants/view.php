@@ -22,7 +22,7 @@
             <table>
                 <tr>
                     <th><?= __('Familia') ?></th>
-                    <td><?= $plant->has('family') ? $this->Html->link($plant->family->nombre_popular, ['controller' => 'Families', 'action' => 'view', $plant->family]) : '' ?></td>
+                    <td><?= $plant->has('family') ? $this->Html->link($plant->family->nombre_cientifico, ['controller' => 'Families', 'action' => 'view', $plant->family]) : '' ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Variedad') ?></th>

@@ -81,7 +81,8 @@ class FamiliesTable extends Table
         $validator
             ->scalar('nombre_cientifico')
             ->maxLength('nombre_cientifico', 200)
-            ->allowEmptyString('nombre_cientifico');
+            ->requirePresence('nombre_cientifico', 'create')
+            ->notEmptyString('nombre_cientifico');
 
         return $validator;
     }

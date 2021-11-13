@@ -239,14 +239,13 @@ class PlantsController extends AppController
         $this->loadModel("Families");
         $family = $this->Families->newEntity($data['family']);
         $result = $this->Families->find()->where([
-            "or" => [
-                "nombre_cientifico" => $family->nombre_cientifico,
-                "and" => [
-                    "nombre_cientifico IS" => null,
-                    "nombre_popular" => $family->nombre_popular,
-                ]
-
-            ]
+            #"or" => [
+            "nombre_cientifico" => $family->nombre_cientifico,
+                #"and" => [
+                #    "nombre_cientifico IS" => null,
+                #    "nombre_popular" => $family->nombre_popular,
+                #]
+            #]
         ])->first();
         if( !empty($result) ) {
             unset($data['family']);
