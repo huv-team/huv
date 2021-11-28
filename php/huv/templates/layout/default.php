@@ -43,15 +43,8 @@ $cakeDescription = 'HUV: huerto urbano virtual';
 </head>
 
 <body>
-    <nav">
-        <div class="flex items-center space-x-4 px-4 py-2 mb-3 bg-gradient-to-r from-green-50 to-green-500">
-            <a href="<?= $this->Url->build('/') ?>" class="w-20">
-                <?= $this->Html->image('v1.svg', ['alt' => 'Huerto urbano virtua']) ?>
-            </a>
-            <?= $this->element('navbar-items') ?>
-        </div>
-    </nav>
-    <main class="container mx-auto">
+    <?= $this->element('navbar') ?>
+    <main class="container mx-auto p-6">
         <?= $this->Flash->render() ?>
         <?= $this->fetch('content') ?>
     </main>
