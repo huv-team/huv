@@ -13,8 +13,8 @@ use Cake\ORM\Entity;
  * @property string $type
  * @property int $plant_id
  *
- * @property \App\Model\Entity\Plant $origin
- * @property \App\Model\Entity\Plant[] $targets
+ * @property \App\Model\Entity\Plant $target
+ * @property \App\Model\Entity\Plant[] $actors
  */
 class Interaction extends Entity
 {
@@ -31,7 +31,7 @@ class Interaction extends Entity
         'description' => true,
         'type' => true,
         'plant_id' => true,
-        'origin' => true,
-        'targets' => true,
+        'target' => true,
+        'actors' => true,
     ];
 }
