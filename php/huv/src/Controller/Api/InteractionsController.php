@@ -26,7 +26,7 @@ class InteractionsController extends AppController
     {
         $interactions = $this->Interactions->find('all');
         $interactions ->contain([
-            'Origin','Targets',
+            'Actors','Target',
         ]);
         $this->set('interactions', $interactions);
         $this->viewBuilder()->setOption('serialize', ['interactions']);
