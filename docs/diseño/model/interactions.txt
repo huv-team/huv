@@ -1,0 +1,2 @@
+Sobre cada planta target interaccionan varios actors que pueden ser:
+ - Faborables (F) o Perjudiciales (P) 
