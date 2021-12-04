@@ -11,8 +11,10 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string|null $description
  * @property string $type
+ * @property int $plant_id
  *
- * @property \App\Model\Entity\Plant[] $plants
+ * @property \App\Model\Entity\Plant $origin
+ * @property \App\Model\Entity\Plant[] $targets
  */
 class Interaction extends Entity
 {
@@ -28,6 +30,8 @@ class Interaction extends Entity
     protected $_accessible = [
         'description' => true,
         'type' => true,
-        'plants' => true,
+        'plant_id' => true,
+        'origin' => true,
+        'targets' => true,
     ];
 }

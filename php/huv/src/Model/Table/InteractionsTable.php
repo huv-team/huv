@@ -44,11 +44,13 @@ class InteractionsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Plants', [
+        $this->belongsTo('Origin', [
+            'className' => 'Plants',
             'foreignKey' => 'plant_id',
         ]);
         
-        $this->belongsToMany('Plants', [
+        $this->belongsToMany('Targets', [
+            'className' => 'Plants',
             'foreignKey' => 'interaction_id',
             'targetForeignKey' => 'plant_id',
             'joinTable' => 'interactions_plants',
@@ -91,7 +93,7 @@ class InteractionsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['plant_id'], 'Plants'), ['errorField' => 'plant_id']);
+        $rules->add($rules->existsIn(['plant_id'], 'Origin'), ['errorField' => 'plant_id']);
 
         return $rules;
     }
