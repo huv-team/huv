@@ -27,16 +27,22 @@
                             <?php foreach ($plants as $plant) : ?>
                                 <tr>
                                     <td class="px-6 py-2 whitespace-nowrap">
-                                        <div class="text-sm text-green-500 hover:text-green-900">
-                                            <?= $this->Html->link($plant->family->nombre_popular, ['controller' => 'Plants', 'action' => 'view', $plant->id]) ?>
-                                        </div>
+                                        <?php if ($plant->data_sheet) : ?>
+                                            <div class="text-sm text-green-500 hover:text-green-900">
+                                                <?= $this->Html->link($plant->family->nombre_popular, ['controller' => 'DataSheets', 'action' => 'view', $plant->data_sheet->id]) ?>
+                                            </div>
+                                        <?php else : ?>
+                                            <div class="text-sm text-green-500">
+                                                <?= h($plant->family->nombre_popular) ?>
+                                            </div>
+                                        <?php endif; ?>
                                         <div class="text-sm text-gray-500">
                                             <?= h($plant->nombre_cientifico) ?>
                                         </div>
                                     </td>
                                     <td class="px-6 py-2 whitespace-nowrap">
                                         <div class="text-sm text-green-500 hover:text-green-900">
-                                            <?= $plant->has('family') ? $this->Html->link($plant->family->nombre_popular, ['controller' => 'Families', 'action' => 'view', $plant->family]) : "" ?>
+                                            <?= $plant->has('family') ? $this->Html->link($plant->family->nombre_popular, ['controller' => 'Families', 'action' => 'view', $plant->family_id]) : "" ?>
                                         </div>
                                         <div class="text-sm text-gray-500">
                                             <?= $plant->has('family') ? $plant->family->nombre_cientifico : '' ?>

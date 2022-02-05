@@ -1,5 +1,6 @@
 api.env
 
 *.pyc
+*.directory
 
 front/src/assets/svg
